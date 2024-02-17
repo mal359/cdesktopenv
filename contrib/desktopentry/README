@@ -1,0 +1,12 @@
+This is an entry for the style of session files used by gdm/kdm/lightdm for
+the CDE desktop.
+
+https://standards.freedesktop.org/desktop-entry-spec/latest
+
+It is the opposite style to contrib/desktop2dt that takes desktop files and
+converts them for use with dtlogin.
+
+Language selection is the job of the login manager (xdm, dtlogin, kdm,
+etc).
+
+

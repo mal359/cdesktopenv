@@ -1,0 +1,29 @@
+# build a guide
+
+INFOAPGUIDE_SRCS = \
+    infoAPg/BEntity.sgm   infoAPg/ch04.sgm      infoAPg/ch09.sgm \
+    infoAPg/book.sgm      infoAPg/ch05.sgm      infoAPg/ch10.sgm \
+    infoAPg/ch01.sgm      infoAPg/ch06.sgm      infoAPg/ch11.sgm \
+    infoAPg/ch02.sgm      infoAPg/ch07.sgm      infoAPg/glossary.sgm \
+    infoAPg/ch03.sgm      infoAPg/ch08.sgm      infoAPg/preface.sgm
+
+INFOAPGUIDE_GRS = \
+    infoAPg/graphics/addbkcas.cgm  infoAPg/graphics/infostr.cgm \
+    infoAPg/graphics/bkcase.cgm    infoAPg/graphics/multss.cgm \
+    infoAPg/graphics/blddir.cgm    infoAPg/graphics/newlib.cgm \
+    infoAPg/graphics/docsrc.cgm    infoAPg/graphics/repbkcas.cgm \
+    infoAPg/graphics/docuhier.cgm  infoAPg/graphics/tlkitmod.cgm
+
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(INFOAPGUIDE_GRS)
+
+INFOAPGUIDE_ID = cde.infoAPGuide.toc
+include infoAPg/Title.am
+
+INFOAPGUIDE_TOC = infoAPg/TOC.sgm
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(INFOAPGUIDE_TOC)
+
+$(INFOAPGUIDE_TOC): $(INFOAPGUIDE_SRCS)
+	$(DGENV) $(DTINFOGEN) tocgen -T $(DTINFOGENTMPDIR) $(DTINFOGENOPTIONS) -f $(INFOAPGUIDE_TOC) -id $(INFOAPGUIDE_ID) -title $(INFOAPGUIDE_TITLE) infoAPg/book.sgm
+
+BUILT_SOURCES += $(INFOAPGUIDE_TOC)
+CLEANFILES += $(INFOAPGUIDE_TOC)

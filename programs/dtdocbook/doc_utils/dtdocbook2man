@@ -1,0 +1,2 @@
+#!/bin/sh
+dtdcbk_libexecdir=/home/matt/cdesktopenv-code/cde/programs/dtdocbook 	dtdcbk_datarootdir=/home/matt/cdesktopenv-code/cde/programs/dtdocbook 	sh /home/matt/cdesktopenv-code/cde/programs/dtdocbook/doc_utils/../dtdocbook2man $@

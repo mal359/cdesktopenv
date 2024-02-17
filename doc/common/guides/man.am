@@ -1,0 +1,364 @@
+# build a guide
+
+MAN_SRCS1 = \
+    man/SEntity.sgm   man/book.sgm \
+    man/ref1.sgm      man/ref5.sgm      man/refDtWid.sgm \
+    man/ref1m.sgm     man/ref6.sgm      man/refcsa.sgm \
+    man/ref4.sgm      man/refDtFcn.sgm  man/reftt.sgm \
+    common/ManLinks.sgm \
+    ../../../doc/en_US.UTF-8/guides/common/ManLinks.sgm
+
+MAN_SRCS2 = \
+    man/m3_Dt/ActionCa.sgm  man/m3_Dt/MmdbBGST.sgm \
+    man/m3_Dt/ActionDe.sgm  man/m3_Dt/MmdbBGTL.sgm \
+    man/m3_Dt/ActionEx.sgm  man/m3_Dt/MmdbBGTO.sgm \
+    man/m3_Dt/ActionIc.sgm  man/m3_Dt/MmdbBkGL.sgm \
+    man/m3_Dt/ActionIn.sgm  man/m3_Dt/MmdbClIL.sgm \
+    man/m3_Dt/ActionLa.sgm  man/m3_Dt/MmdbDGNS.sgm \
+    man/m3_Dt/ComboAdd.sgm  man/m3_Dt/MmdbDGPS.sgm \
+    man/m3_Dt/ComboBox.sgm  man/m3_Dt/MmdbFrGI.sgm \
+    man/m3_Dt/ComboDel.sgm  man/m3_Dt/MmdbFrHL.sgm \
+    man/m3_Dt/ComboSel.sgm  man/m3_Dt/MmdbFrHn.sgm \
+    man/m3_Dt/ComboSet.sgm  man/m3_Dt/MmdbGBBI.sgm \
+    man/m3_Dt/CreCombo.sgm  man/m3_Dt/MmdbGBBL.sgm \
+    man/m3_Dt/CreEdito.sgm  man/m3_Dt/MmdbGBBN.sgm \
+    man/m3_Dt/CreHelpD.sgm  man/m3_Dt/MmdbGBLs.sgm \
+    man/m3_Dt/CreHelpQ.sgm  man/m3_Dt/MmdbGrGD.sgm \
+    man/m3_Dt/CreMenuB.sgm  man/m3_Dt/MmdbGrGI.sgm \
+    man/m3_Dt/CreSpinB.sgm  man/m3_Dt/MmdbILFI.sgm \
+    man/m3_Dt/CreTerm.sgm   man/m3_Dt/MmdbILGI.sgm \
+    man/m3_Dt/CreatePr.sgm  man/m3_Dt/MmdbInit.sgm \
+    man/m3_Dt/DbLoad.sgm    man/m3_Dt/MmdbLGSL.sgm \
+    man/m3_Dt/DbReload.sgm  man/m3_Dt/MmdbLGSO.sgm \
+    man/m3_Dt/DndCreSI.sgm  man/m3_Dt/MmdbOpIL.sgm \
+    man/m3_Dt/DndDragS.sgm  man/m3_Dt/MmdbQuit.sgm \
+    man/m3_Dt/DndDropR.sgm  man/m3_Dt/MmdbSGBI.sgm
+
+MAN_SRCS3 = \
+    man/m3_Dt/DndDropU.sgm  man/m3_Dt/MmdbSGDS.sgm \
+    man/m3_Dt/EdAppFF.sgm   man/m3_Dt/MmdbSGLT.sgm \
+    man/m3_Dt/EdAppend.sgm  man/m3_Dt/MmdbSGSS.sgm \
+    man/m3_Dt/EdChange.sgm  man/m3_Dt/MmdbSGST.sgm \
+    man/m3_Dt/EdCheckF.sgm  man/m3_Dt/MmdbSGTL.sgm \
+    man/m3_Dt/EdClearS.sgm  man/m3_Dt/MmdbSeGD.sgm \
+    man/m3_Dt/EdCopyTo.sgm  man/m3_Dt/MmdbSeGL.sgm \
+    man/m3_Dt/EdCutToC.sgm  man/m3_Dt/MmdbSsGD.sgm \
+    man/m3_Dt/EdDelete.sgm  man/m3_Dt/MmdbSsGN.sgm \
+    man/m3_Dt/EdDesele.sgm  man/m3_Dt/MmdbTGCI.sgm \
+    man/m3_Dt/EdDisabl.sgm  man/m3_Dt/MmdbTGNC.sgm \
+    man/m3_Dt/EdEnable.sgm  man/m3_Dt/MmdbTGPI.sgm \
+    man/m3_Dt/EdFind.sgm    man/m3_Dt/MrmInit.sgm \
+    man/m3_Dt/EdFormat.sgm  man/m3_Dt/MsgLogM.sgm \
+    man/m3_Dt/EdGetCon.sgm  man/m3_Dt/MsgLogO.sgm \
+    man/m3_Dt/EdGetIns.sgm  man/m3_Dt/MsgLogS.sgm \
+    man/m3_Dt/EdGetLas.sgm  man/m3_Dt/PrSetupP.sgm \
+    man/m3_Dt/EdGetMes.sgm  man/m3_Dt/PrintCop.sgm \
+    man/m3_Dt/EdGetSiz.sgm  man/m3_Dt/PrintFil.sgm \
+    man/m3_Dt/EdGoToLi.sgm  man/m3_Dt/PrintFre.sgm \
+    man/m3_Dt/EdInsFF.sgm   man/m3_Dt/PrintRes.sgm \
+    man/m3_Dt/EdInsert.sgm  man/m3_Dt/PrintSet.sgm \
+    man/m3_Dt/EdInvFin.sgm  man/m3_Dt/SaverGet.sgm \
+    man/m3_Dt/EdInvFor.sgm  man/m3_Dt/SessionR.sgm \
+    man/m3_Dt/EdInvSpe.sgm  man/m3_Dt/SessionS.sgm
+
+MAN_SRCS4 = \
+    man/m3_Dt/EdPasteF.sgm  man/m3_Dt/SpinBox.sgm \
+    man/m3_Dt/EdReplFF.sgm  man/m3_Dt/SpinBoxA.sgm \
+    man/m3_Dt/EdReplac.sgm  man/m3_Dt/SpinBoxD.sgm \
+    man/m3_Dt/EdReset.sgm   man/m3_Dt/SpinBoxS.sgm \
+    man/m3_Dt/EdSaveCo.sgm  man/m3_Dt/SrAPI.sgm \
+    man/m3_Dt/EdSelect.sgm  man/m3_Dt/SrchExit.sgm \
+    man/m3_Dt/EdSetCFF.sgm  man/m3_Dt/SrchFree.sgm \
+    man/m3_Dt/EdSetCon.sgm  man/m3_Dt/SrchGetK.sgm \
+    man/m3_Dt/EdSetIns.sgm  man/m3_Dt/SrchGetM.sgm \
+    man/m3_Dt/EdTraver.sgm  man/m3_Dt/SrchHigh.sgm \
+    man/m3_Dt/EdUndoEd.sgm  man/m3_Dt/SrchInit.sgm \
+    man/m3_Dt/Editor.sgm    man/m3_Dt/SrchMrge.sgm \
+    man/m3_Dt/HelpDial.sgm  man/m3_Dt/SrchMsgs.sgm \
+    man/m3_Dt/HelpQDGC.sgm  man/m3_Dt/SrchQery.sgm \
+    man/m3_Dt/HelpQDia.sgm  man/m3_Dt/SrchRein.sgm \
+    man/m3_Dt/HelpRetu.sgm  man/m3_Dt/SrchRetr.sgm \
+    man/m3_Dt/HelpSetC.sgm  man/m3_Dt/SrchSetM.sgm \
+    man/m3_Dt/InfoShow.sgm  man/m3_Dt/SrchSort.sgm \
+    man/m3_Dt/Initiali.sgm  man/m3_Dt/SrchVali.sgm \
+    man/m3_Dt/MenuButt.sgm  man/m3_Dt/Term.sgm \
+    man/m3_Dt/MmdbBCFI.sgm  man/m3_Dt/TermDisp.sgm \
+    man/m3_Dt/MmdbBCGI.sgm  man/m3_Dt/TermInit.sgm \
+    man/m3_Dt/MmdbBGLT.sgm  man/m3_Dt/TermSubR.sgm \
+    man/m3_Dt/MmdbBGSN.sgm  man/m3_Dt/TermSubS.sgm
+
+MAN_SRCS5 = \
+    man/m3_DtDts/BufToAtL.sgm  man/m3_DtDts/FilToDaT.sgm \
+    man/m3_DtDts/BufToAtV.sgm  man/m3_DtDts/FindAttr.sgm \
+    man/m3_DtDts/BufToDaT.sgm  man/m3_DtDts/FreeAtL.sgm \
+    man/m3_DtDts/DaTIsAct.sgm  man/m3_DtDts/FreeAtV.sgm \
+    man/m3_DtDts/DaTNames.sgm  man/m3_DtDts/FreeDaT.sgm \
+    man/m3_DtDts/DaTToAtL.sgm  man/m3_DtDts/FreeDaTN.sgm \
+    man/m3_DtDts/DaTToAtV.sgm  man/m3_DtDts/IsTrue.sgm \
+    man/m3_DtDts/DatToDaT.sgm  man/m3_DtDts/LoadDaTs.sgm \
+    man/m3_DtDts/FilToAtL.sgm  man/m3_DtDts/Release.sgm \
+    man/m3_DtDts/FilToAtV.sgm  man/m3_DtDts/SetDaT.sgm \
+    man/m3_DtWsm/AddCWsCb.sgm  man/m3_DtWsm/GetWsInf.sgm \
+    man/m3_DtWsm/AddWs.sgm     man/m3_DtWsm/GetWsLis.sgm \
+    man/m3_DtWsm/AddWsFun.sgm  man/m3_DtWsm/GetWsOcc.sgm \
+    man/m3_DtWsm/AddWsMCb.sgm  man/m3_DtWsm/OccAllWs.sgm \
+    man/m3_DtWsm/ChBackDr.sgm  man/m3_DtWsm/RemWsCb.sgm \
+    man/m3_DtWsm/DelWs.sgm     man/m3_DtWsm/RemWsFun.sgm \
+    man/m3_DtWsm/FreeWsIn.sgm  man/m3_DtWsm/SetCurWs.sgm \
+    man/m3_DtWsm/GetCurBW.sgm  man/m3_DtWsm/SetWsOcc.sgm \
+    man/m3_DtWsm/GetCurWs.sgm  man/m3_DtWsm/SetWsTi.sgm
+
+MAN_SRCS6 = \
+    man/m3_csa/add_cale.sgm  man/m3_csa/logon.sgm \
+    man/m3_csa/add_entr.sgm  man/m3_csa/look_up.sgm \
+    man/m3_csa/call_cal.sgm  man/m3_csa/query_co.sgm \
+    man/m3_csa/del_cale.sgm  man/m3_csa/read_cal.sgm \
+    man/m3_csa/del_entr.sgm  man/m3_csa/read_ent.sgm \
+    man/m3_csa/free.sgm      man/m3_csa/read_nex.sgm \
+    man/m3_csa/free_tim.sgm  man/m3_csa/register.sgm \
+    man/m3_csa/list_caa.sgm  man/m3_csa/restore.sgm \
+    man/m3_csa/list_cal.sgm  man/m3_csa/save.sgm \
+    man/m3_csa/list_ena.sgm  man/m3_csa/unregist.sgm \
+    man/m3_csa/list_ens.sgm  man/m3_csa/update_c.sgm \
+    man/m3_csa/list_ent.sgm  man/m3_csa/update_e.sgm \
+    man/m3_csa/logoff.sgm    man/m3_csa/x_proces.sgm
+
+MAN_SRCS7 = \
+    man/m3_tt/X_sessio.sgm  man/m3_tt/ico_join.sgm \
+    man/m3_tt/bco_join.sgm  man/m3_tt/ico_quit.sgm \
+    man/m3_tt/bco_quit.sgm  man/m3_tt/init_ses.sgm \
+    man/m3_tt/close.sgm     man/m3_tt/int_err.sgm \
+    man/m3_tt/con_join.sgm  man/m3_tt/is_err.sgm \
+    man/m3_tt/con_quit.sgm  man/m3_tt/malloc.sgm \
+    man/m3_tt/def_fi_s.sgm  man/m3_tt/mark.sgm \
+    man/m3_tt/def_file.sgm  man/m3_tt/netf_fil.sgm \
+    man/m3_tt/def_pr_s.sgm  man/m3_tt/objid_eq.sgm \
+    man/m3_tt/def_proc.sgm  man/m3_tt/objid_ob.sgm \
+    man/m3_tt/def_pt_s.sgm  man/m3_tt/onot_cre.sgm \
+    man/m3_tt/def_ptyp.sgm  man/m3_tt/open.sgm \
+    man/m3_tt/def_se_s.sgm  man/m3_tt/oreq_cre.sgm \
+    man/m3_tt/def_sess.sgm  man/m3_tt/pnot_cre.sgm \
+    man/m3_tt/err_int.sgm   man/m3_tt/poin_err.sgm \
+    man/m3_tt/err_poin.sgm  man/m3_tt/pr_sess.sgm \
+    man/m3_tt/error.sgm     man/m3_tt/preq_cre.sgm \
+    man/m3_tt/fd.sgm        man/m3_tt/pt_o_c_a.sgm \
+    man/m3_tt/feat_ena.sgm  man/m3_tt/ptr_err.sgm \
+    man/m3_tt/feat_req.sgm  man/m3_tt/pty_decl.sgm \
+    man/m3_tt/fil_copy.sgm  man/m3_tt/pty_exis.sgm \
+    man/m3_tt/fil_dest.sgm  man/m3_tt/pty_unde.sgm \
+    man/m3_tt/fil_join.sgm  man/m3_tt/release.sgm \
+    man/m3_tt/fil_move.sgm  man/m3_tt/status_m.sgm \
+    man/m3_tt/fil_netf.sgm  man/m3_tt/thr_pr_s.sgm \
+    man/m3_tt/fil_ob_q.sgm  man/m3_tt/thr_proc.sgm \
+    man/m3_tt/fil_quit.sgm  man/m3_tt/thr_se_s.sgm \
+    man/m3_tt/free.sgm      man/m3_tt/thr_sess.sgm \
+    man/m3_tt/h_f_netf.sgm  man/m3_tt/trace_co.sgm \
+    man/m3_tt/h_netf_f.sgm  man/m3_tt/xco_join.sgm \
+    man/m3_tt/xco_quit.sgm
+
+MAN_SRCS8 = \
+    man/m3_tt_message/abstai_c.sgm    man/m3_tt_message/abstain.sgm \
+    man/m3_tt_message/accepter.sgm    man/m3_tt_message/accept_c.sgm \
+    man/m3_tt_message/accept.sgm    man/m3_tt_message/han_set.sgm \
+    man/m3_tt_message/addr_set.sgm  man/m3_tt_message/handler.sgm \
+    man/m3_tt_message/address.sgm   man/m3_tt_message/iarg_add.sgm \
+    man/m3_tt_message/arg_add.sgm   man/m3_tt_message/ico_set.sgm \
+    man/m3_tt_message/arg_bv_s.sgm  man/m3_tt_message/id.sgm \
+    man/m3_tt_message/arg_bval.sgm  man/m3_tt_message/object.sgm \
+    man/m3_tt_message/arg_iv_s.sgm  man/m3_tt_message/object_s.sgm \
+    man/m3_tt_message/arg_ival.sgm  man/m3_tt_message/op.sgm \
+    man/m3_tt_message/arg_mode.sgm  man/m3_tt_message/op_set.sgm \
+    man/m3_tt_message/arg_type.sgm  man/m3_tt_message/opnum.sgm \
+    man/m3_tt_message/arg_va_s.sgm  man/m3_tt_message/otype.sgm \
+    man/m3_tt_message/arg_val.sgm   man/m3_tt_message/otype_s.sgm \
+    man/m3_tt_message/arg_xv_s.sgm  man/m3_tt_message/pattern.sgm \
+    man/m3_tt_message/arg_xval.sgm  man/m3_tt_message/print.sgm \
+    man/m3_tt_message/args_cnt.sgm  man/m3_tt_message/receive.sgm \
+    man/m3_tt_message/rejecter.sgm  man/m3_tt_message/reject_c.sgm \
+    man/m3_tt_message/barg_add.sgm  man/m3_tt_message/reject.sgm \
+    man/m3_tt_message/bcon_set.sgm  man/m3_tt_message/reply.sgm \
+    man/m3_tt_message/call_add.sgm  man/m3_tt_message/scope.sgm \
+    man/m3_tt_message/class.sgm     man/m3_tt_message/scope_s.sgm \
+    man/m3_tt_message/class_s.sgm   man/m3_tt_message/send.sgm \
+    man/m3_tt_message/con_bval.sgm  man/m3_tt_message/sender.sgm \
+    man/m3_tt_message/con_ival.sgm  man/m3_tt_message/sessio_s.sgm \
+    man/m3_tt_message/con_set.sgm   man/m3_tt_message/session.sgm \
+    man/m3_tt_message/con_slot.sgm  man/m3_tt_message/snd_on_e.sgm \
+    man/m3_tt_message/con_val.sgm   man/m3_tt_message/snd_pt_s.sgm
+
+MAN_SRCS9 = \
+    man/m3_tt_message/con_xval.sgm  man/m3_tt_message/snd_pty.sgm \
+    man/m3_tt_message/cons_cnt.sgm  man/m3_tt_message/st_str.sgm \
+    man/m3_tt_message/cr_super.sgm  man/m3_tt_message/st_str_s.sgm \
+    man/m3_tt_message/create.sgm    man/m3_tt_message/state.sgm \
+    man/m3_tt_message/destroy.sgm   man/m3_tt_message/status.sgm \
+    man/m3_tt_message/disp_set.sgm  man/m3_tt_message/status_s.sgm \
+    man/m3_tt_message/disposit.sgm  man/m3_tt_message/uid.sgm \
+    man/m3_tt_message/fail.sgm      man/m3_tt_message/user.sgm \
+    man/m3_tt_message/file.sgm      man/m3_tt_message/user_set.sgm \
+    man/m3_tt_message/file_set.sgm  man/m3_tt_message/xarg_add.sgm \
+    man/m3_tt_message/gid.sgm \
+    man/m3_tt_message/han_pt_s.sgm  man/m3_tt_message/xco_set.sgm \
+    man/m3_tt_message/han_pty.sgm \
+    man/m3_tt_otype/base.sgm      man/m3_tt_otype/is_deriv.sgm \
+    man/m3_tt_otype/deri_cnt.sgm  man/m3_tt_otype/o_arg_mo.sgm \
+    man/m3_tt_otype/derived.sgm   man/m3_tt_otype/o_arg_ty.sgm \
+    man/m3_tt_otype/h_arg_mo.sgm  man/m3_tt_otype/o_args_c.sgm \
+    man/m3_tt_otype/h_arg_ty.sgm  man/m3_tt_otype/o_cb_add.sgm \
+    man/m3_tt_otype/h_args_c.sgm  man/m3_tt_otype/o_count.sgm \
+    man/m3_tt_otype/h_count.sgm   man/m3_tt_otype/osig_op.sgm \
+    man/m3_tt_otype/hsig_op.sgm
+
+MAN_SRCS10 = \
+    man/m3_tt_pattern/addr_add.sgm  man/m3_tt_pattern/op_add.sgm \
+    man/m3_tt_pattern/arg_add.sgm   man/m3_tt_pattern/opnu_add.sgm \
+    man/m3_tt_pattern/barg_add.sgm  man/m3_tt_pattern/otyp_add.sgm \
+    man/m3_tt_pattern/bcon_add.sgm  man/m3_tt_pattern/print.sgm \
+    man/m3_tt_pattern/call_add.sgm  man/m3_tt_pattern/register.sgm \
+    man/m3_tt_pattern/cat_set.sgm   man/m3_tt_pattern/s_pt_add.sgm \
+    man/m3_tt_pattern/category.sgm  man/m3_tt_pattern/scop_add.sgm \
+    man/m3_tt_pattern/clas_add.sgm  man/m3_tt_pattern/send_add.sgm \
+    man/m3_tt_pattern/cont_add.sgm  man/m3_tt_pattern/sess_add.sgm \
+    man/m3_tt_pattern/create.sgm    man/m3_tt_pattern/stat_add.sgm \
+    man/m3_tt_pattern/destroy.sgm   man/m3_tt_pattern/unregist.sgm \
+    man/m3_tt_pattern/disp_add.sgm  man/m3_tt_pattern/user.sgm \
+    man/m3_tt_pattern/file_add.sgm  man/m3_tt_pattern/user_set.sgm \
+    man/m3_tt_pattern/iarg_add.sgm  man/m3_tt_pattern/xarg_add.sgm \
+    man/m3_tt_pattern/icon_add.sgm  man/m3_tt_pattern/xcon_add.sgm \
+    man/m3_tt_pattern/obj_add.sgm \
+    man/m3_tt_session/bpro_add.sgm  man/m3_tt_session/prop_cnt.sgm \
+    man/m3_tt_session/bpro_set.sgm  man/m3_tt_session/prop_set.sgm \
+    man/m3_tt_session/bprop.sgm     man/m3_tt_session/propna_c.sgm \
+    man/m3_tt_session/join.sgm      man/m3_tt_session/propname.sgm \
+    man/m3_tt_session/prop.sgm      man/m3_tt_session/quit.sgm \
+    man/m3_tt_session/prop_add.sgm  man/m3_tt_session/types_ld.sgm \
+    man/m3_tt_spec/bpro_add.sgm  man/m3_tt_spec/prop_add.sgm \
+    man/m3_tt_spec/bpro_set.sgm  man/m3_tt_spec/prop_cnt.sgm \
+    man/m3_tt_spec/bprop.sgm     man/m3_tt_spec/prop_set.sgm \
+    man/m3_tt_spec/create.sgm    man/m3_tt_spec/propna_c.sgm \
+    man/m3_tt_spec/destroy.sgm   man/m3_tt_spec/propname.sgm \
+    man/m3_tt_spec/file.sgm      man/m3_tt_spec/type.sgm \
+    man/m3_tt_spec/move.sgm      man/m3_tt_spec/type_set.sgm \
+    man/m3_tt_spec/prop.sgm      man/m3_tt_spec/write.sgm
+
+MAN_SRCS11 = \
+    man/m3_ttdt/Get_Modi.sgm  man/m3_ttdt/f_reques.sgm \
+    man/m3_ttdt/Revert.sgm    man/m3_ttdt/m_accept.sgm \
+    man/m3_ttdt/Save.sgm      man/m3_ttdt/open.sgm \
+    man/m3_ttdt/close.sgm     man/m3_ttdt/s_imp_on.sgm \
+    man/m3_ttdt/f_event.sgm   man/m3_ttdt/ses_join.sgm \
+    man/m3_ttdt/f_join.sgm    man/m3_ttdt/ses_quit.sgm \
+    man/m3_ttdt/f_notice.sgm  man/m3_ttdt/subc_man.sgm \
+    man/m3_ttdt/f_quit.sgm \
+    man/m3_ttmedia/Deposit.sgm   man/m3_ttmedia/load_rep.sgm \
+    man/m3_ttmedia/load.sgm      man/m3_ttmedia/pty_decl.sgm \
+    man/m3_tttk/Xt_inp_h.sgm  man/m3_tttk/m_fail.sgm \
+    man/m3_tttk/block_wh.sgm  man/m3_tttk/m_reject.sgm \
+    man/m3_tttk/m_abando.sgm  man/m3_tttk/op_str.sgm \
+    man/m3_tttk/m_create.sgm  man/m3_tttk/str_op.sgm \
+    man/m3_tttk/m_destro.sgm \
+    man/man1/dsdm.sgm      man/man1/ttmv.sgm      man/man1/tttar.sgm \
+    man/man1/ksh93.sgm     man/man1/ttrm.sgm      man/man1/tttrace.sgm \
+    man/man1/tt_typ_c.sgm  man/man1/ttrmdir.sgm \
+    man/man1/ttcp.sgm      man/man1/ttsessio.sgm
+
+MAN_SRCS12 = \
+    man/man1_dt/action.sgm    man/man1_dt/helptag.sgm \
+    man/man1_dt/appgathe.sgm  man/man1_dt/helpview.sgm \
+    man/man1_dt/appinteg.sgm  man/man1_dt/huffcode.sgm \
+    man/man1_dt/builder.sgm   man/man1_dt/icon.sgm \
+    man/man1_dt/calc.sgm      man/man1_dt/imsstart.sgm \
+    man/man1_dt/chooser.sgm   man/man1_dt/info.sgm \
+    man/man1_dt/cm.sgm        man/man1_dt/docbook2infolib.sgm \
+    man/man1_dt/cm_delet.sgm  man/man1_dt/ksh.sgm \
+    man/man1_dt/cm_edito.sgm  man/man1_dt/login.sgm \
+    man/man1_dt/cm_inser.sgm  man/man1_dt/lp.sgm \
+    man/man1_dt/cm_looku.sgm  man/man1_dt/mail.sgm \
+    man/man1_dt/codegen.sgm   man/man1_dt/mailpr.sgm \
+    man/man1_dt/config.sgm    man/man1_dt/pad.sgm \
+    man/man1_dt/convertv.sgm  man/man1_dt/printinf.sgm \
+    man/man1_dt/create.sgm    man/man1_dt/screen.sgm \
+    man/man1_dt/docbook.sgm   man/man1_dt/searchpa.sgm \
+    man/man1_dt/exec.sgm      man/man1_dt/sess_res.sgm \
+    man/man1_dt/file.sgm      man/man1_dt/session.sgm \
+    man/man1_dt/file_cop.sgm  man/man1_dt/srcreate.sgm \
+    man/man1_dt/file_err.sgm  man/man1_dt/srdbrec.sgm \
+    man/man1_dt/udcfonte.sgm  man/man1_dt/srhan.sgm \
+    man/man1_dt/fplist.sgm    man/man1_dt/srindex.sgm \
+    man/man1_dt/greet.sgm     man/man1_dt/srkdump.sgm \
+    man/man1_dt/he_ctag1.sgm  man/man1_dt/srload.sgm \
+    man/man1_dt/he_htag1.sgm  man/man1_dt/style.sgm \
+    man/man1_dt/he_htag2.sgm  man/man1_dt/term.sgm \
+    man/man1_dt/hello.sgm     man/man1_dt/types.sgm \
+    man/man1_dt/helpgen.sgm   man/man1_dt/udcexch.sgm \
+    man/man1_dt/helpprin.sgm  man/man1_dt/wm.sgm \
+    man/man1_dt/pdm.sgm       man/man1_dt/pdmd.sgm
+
+MAN_SRCS13 = \
+    man/man1m/dtspcd.sgm \
+    man/man1m/rpccmsd.sgm   man/man1m/ttdbck.sgm \
+    man/man1m/rpcttdbs.sgm  man/man1m/ttdbserv.sgm \
+    man/man4/Deposit.sgm   man/man4/Save.sgm      man/man4/dticonfi.sgm \
+    man/man4/Display.sgm   man/man4/Saved.sgm     man/man4/dtpmfile.sgm \
+    man/man4/DtDndPro.sgm  man/man4/Set_Env.sgm   man/man4/dtresour.sgm \
+    man/man4/Edit.sgm      man/man4/Set_Geom.sgm  man/man4/dtsdldtd.sgm \
+    man/man4/Get_Env.sgm   man/man4/Set_Icon.sgm  man/man4/dtsdlfil.sgm \
+    man/man4/Get_Geom.sgm  man/man4/Set_Loca.sgm  man/man4/dtsessdb.sgm \
+    man/man4/Get_Icon.sgm  man/man4/Set_Map.sgm   man/man4/dtsessio.sgm \
+    man/man4/Get_Loca.sgm  man/man4/Set_Situ.sgm  man/man4/dtspcden.sgm \
+    man/man4/Get_Map.sgm   man/man4/Signal.sgm    man/man4/dtsrdbfl.sgm \
+    man/man4/Get_Modi.sgm  man/man4/Started.sgm   man/man4/dtsrfzkf.sgm \
+    man/man4/Get_Situ.sgm  man/man4/Status.sgm    man/man4/dtsrhanf.sgm \
+    man/man4/Get_Stat.sgm  man/man4/Stopped.sgm   man/man4/dtsrlngf.sgm \
+    man/man4/Get_Sysi.sgm  man/man4/Translat.sgm  man/man4/dtsrocfl.sgm \
+    man/man4/Get_XInf.sgm  man/man4/bil.sgm       man/man4/dtwmrc.sgm \
+    man/man4/Instanti.sgm  man/man4/dtaction.sgm  man/man4/genloc.sgm \
+    man/man4/Lower.sgm     man/man4/dtbmfile.sgm \
+    man/man4/Mail.sgm      man/man4/dtcm_arc.sgm  man/man4/ifloadil.sgm \
+    man/man4/Modified.sgm  man/man4/dtcm_ent.sgm  man/man4/ifprnial.sgm \
+    man/man4/Pause.sgm     man/man4/dtdpfile.sgm  man/man4/ifquit.sgm \
+    man/man4/Print.sgm     man/man4/dtdtfile.sgm  man/man4/ifshwial.sgm \
+    man/man4/Quit.sgm      man/man4/dtdtsfil.sgm  man/man4/mt-libtt.sgm \
+    man/man4/Raise.sgm     man/man4/dtfile_c.sgm  man/man4/startlog.sgm \
+    man/man4/Resume.sgm    man/man4/dtfpfile.sgm  man/man4/tttracef.sgm \
+    man/man4/Revert.sgm    man/man4/dthelpta.sgm \
+    man/man4/Reverted.sgm  man/man4/dthffile.sgm
+
+MAN_SRCS14 = \
+    man/man5/Dt.sgm         man/man5/DtTerm.sgm     man/man5/dtinfobk.sgm \
+    man/man5/DtAction.sgm   man/man5/DtWsm.sgm      man/man5/dtinfost.sgm \
+    man/man5/DtComboB.sgm   man/man5/Tttt_c.sgm     man/man5/dtinfotc.sgm \
+    man/man5/DtDnd.sgm      man/man5/Tttttk.sgm     man/man5/dtmaiact.sgm \
+    man/man5/DtDts.sgm      man/man5/csacsa.sgm     man/man5/dtmanact.sgm \
+    man/man5/DtEditor.sgm   man/man5/dtactact.sgm   man/man5/dtpriact.sgm \
+    man/man5/DtHelp.sgm     man/man5/dtappact.sgm   man/man5/dtsearch.sgm \
+    man/man5/DtHelpDi.sgm   man/man5/dtbuiact.sgm   man/man5/dtsesact.sgm \
+    man/man5/DtHelpQD.sgm   man/man5/dtcalact.sgm   man/man5/dtstyact.sgm \
+    man/man5/DtInfoLib.sgm  man/man5/dtclcact.sgm   man/man5/dtteract.sgm \
+    man/man5/DtMenuBu.sgm   man/man5/dtenvvar.sgm   man/man5/dttermes.sgm \
+    man/man5/DtMrm.sgm      man/man5/dtfilact.sgm   man/man5/dttexact.sgm \
+    man/man5/DtMsgLog.sgm   man/man5/dtfilsys.sgm   man/man5/dttraact.sgm \
+    man/man5/DtPrint.sgm    man/man5/dthelact.sgm   man/man5/imssact.sgm \
+    man/man5/DtSaver.sgm    man/man5/dticoact.sgm   man/man5/mmdbgifo.sgm \
+    man/man5/DtSessio.sgm   man/man5/dtinfact.sgm   man/man5/mmdbhndl.sgm \
+    man/man5/DtSpinBo.sgm   man/man5/dtinfdlb.sgm   man/man5/mmdbireq.sgm \
+    man/man5/DtStdApp.sgm   man/man5/dtinfoaf.sgm \
+    man/man5/DtStdInt.sgm   man/man5/dtinfobc.sgm
+
+
+MAN_ID = cde.man.toc
+include man/Title.am
+
+MAN_TOC = man/TOC.sgm
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(MAN_TOC)
+
+MAN_SRCS = $(MAN_SRCS1) $(MAN_SRCS2) $(MAN_SRCS3) $(MAN_SRCS4)	\
+	$(MAN_SRCS5) $(MAN_SRCS6) $(MAN_SRCS7) $(MAN_SRCS8)	\
+	$(MAN_SRCS9) $(MAN_SRCS10) $(MAN_SRCS11) $(MAN_SRCS12)	\
+	$(MAN_SRCS13) $(MAN_SRCS14)
+
+$(MAN_TOC): $(MAN_SRCS)
+	$(DGENV) $(DTINFOGEN) tocgen -T $(DTINFOGENTMPDIR) $(DTINFOGENOPTIONS) -f $(MAN_TOC) -id $(MAN_ID) -title $(MAN_TITLE) man/book.sgm
+
+BUILT_SOURCES += $(MAN_TOC)
+CLEANFILES += $(MAN_TOC)

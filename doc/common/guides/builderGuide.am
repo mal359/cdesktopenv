@@ -1,0 +1,72 @@
+# build a guide
+
+BUILDERGUIDE_SRCS = \
+    builderGuide/BEntity.sgm    builderGuide/ch05.sgm \
+    builderGuide/appa.sgm       builderGuide/ch06.sgm \
+    builderGuide/appb.sgm       builderGuide/ch07.sgm \
+    builderGuide/book.sgm       builderGuide/ch08.sgm \
+    builderGuide/ch01.sgm       builderGuide/ch09.sgm \
+    builderGuide/ch02.sgm \
+    builderGuide/ch03.sgm       builderGuide/preface.sgm \
+    builderGuide/ch04.sgm
+
+BUILDERGUIDE_GRS = \
+    builderGuide/graphics/AlignMen.tif \
+    builderGuide/graphics/AppFrmEd.tif \
+    builderGuide/graphics/AttIcS5.tif \
+    builderGuide/graphics/AttIcSi1.tif \
+    builderGuide/graphics/AttIcSi2.tif \
+    builderGuide/graphics/AttIcSi3.tif \
+    builderGuide/graphics/AttIcSi4.tif \
+    builderGuide/graphics/AttIcSi6.tif \
+    builderGuide/graphics/AttIcTp1.tif \
+    builderGuide/graphics/AttIcTp2.tif \
+    builderGuide/graphics/AttIcTp3.tif \
+    builderGuide/graphics/AttIcTp4.tif \
+    builderGuide/graphics/AttIcTp5.tif \
+    builderGuide/graphics/AttIcTp6.tif \
+    builderGuide/graphics/AttIcTp7.tif \
+    builderGuide/graphics/AttachEd.tif \
+    builderGuide/graphics/BrowsMW.tif \
+    builderGuide/graphics/CGEnvOpt.tif \
+    builderGuide/graphics/CGOption.tif \
+    builderGuide/graphics/CodeGen.tif \
+    builderGuide/graphics/ColChoos.tif \
+    builderGuide/graphics/ConnEd.tif \
+    builderGuide/graphics/CtrlPIcO.tif \
+    builderGuide/graphics/CustDIcO.tif \
+    builderGuide/graphics/DistMenu.tif \
+    builderGuide/graphics/DnDEdit.tif \
+    builderGuide/graphics/DrawAIcO.tif \
+    builderGuide/graphics/DtIcon.tif \
+    builderGuide/graphics/FSDIcO.tif \
+    builderGuide/graphics/HelpEdit.tif \
+    builderGuide/graphics/ItemsSub.tif \
+    builderGuide/graphics/MWwCP.tif \
+    builderGuide/graphics/MWwSpanP.tif \
+    builderGuide/graphics/MainWIcO.tif \
+    builderGuide/graphics/MainWin.tif \
+    builderGuide/graphics/MenuChoi.tif \
+    builderGuide/graphics/MsgEdit.tif \
+    builderGuide/graphics/NameMod.tif \
+    builderGuide/graphics/NameProj.tif \
+    builderGuide/graphics/PanedWin.tif \
+    builderGuide/graphics/PrjOModA.tif \
+    builderGuide/graphics/ProjOrg.tif \
+    builderGuide/graphics/PrpEdSep.tif \
+    builderGuide/graphics/TermPIcO.tif \
+    builderGuide/graphics/TextPIcO.tif
+
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(BUILDERGUIDE_GRS)
+
+BUILDERGUIDE_ID = cde.builderGuide.toc
+include builderGuide/Title.am
+
+BUILDERGUIDE_TOC = builderGuide/TOC.sgm
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(BUILDERGUIDE_TOC)
+
+$(BUILDERGUIDE_TOC): $(BUILDERGUIDE_SRCS)
+	$(DGENV) $(DTINFOGEN) tocgen -T $(DTINFOGENTMPDIR) $(DTINFOGENOPTIONS) -f $(BUILDERGUIDE_TOC) -id $(BUILDERGUIDE_ID) -title $(BUILDERGUIDE_TITLE) builderGuide/book.sgm
+
+BUILT_SOURCES += $(BUILDERGUIDE_TOC)
+CLEANFILES += $(BUILDERGUIDE_TOC)

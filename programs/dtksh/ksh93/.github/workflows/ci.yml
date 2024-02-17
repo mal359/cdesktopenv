@@ -1,0 +1,32 @@
+name: CI
+
+on: [push]
+
+jobs:
+
+  Linux:
+    name: Linux
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v2
+    - name: Build
+      run: bin/package make
+    - name: Regression tests
+      run: |
+        PS4="$PS4[ci.yml] "
+        set -o xtrace
+        export TZ=UTC
+        ulimit -n 1024
+        : default regression tests &&
+        script -q -e -c "bin/package test" &&
+        : regression tests with OS-provided multibyte locales &&
+        LANG=nl_NL.UTF-8 script -q -e -c "bin/shtests --locale --nocompile" &&
+        LANG=ja_JP.SJIS  script -q -e -c "bin/shtests --locale --nocompile" &&
+        : disable most SHOPTs, rebuild ksh &&
+        sed --regexp-extended --in-place=.orig \
+          '/^SHOPT (AUDIT|BGX|BRACEPAT|DEVFD|DYNAMIC|EDPREDICT|ESH|FIXEDARRAY|HISTEXPAND|MULTIBYTE|NAMESPACE|OPTIMIZE|SPAWN|STATS|SUID_EXEC|VSH)=/ s/=1?/=0/' \
+          src/cmd/ksh93/SHOPT.sh &&
+        bin/package make &&
+        : default regression tests with SHOPTs disabled &&
+        script -q -e -c "bin/shtests"

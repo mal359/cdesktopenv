@@ -1,0 +1,138 @@
+hdr	nc,exec_attr
+mem	exception.name,_exception.name math.h
+lib	setreuid,setregid,nice,fork,spawnveg,fchdir
+lib	pathnative,pathposix,fts_notify
+lib	memcntl sys/mman.h
+lib	getexecuser,free_execattr exec_attr.h -lsecdb
+
+reference	unistd.h
+
+extern	nice		int	(int)
+extern	setreuid	int	(uid_t,uid_t)
+extern	setregid	int	(gid_t,gid_t)
+
+tst	note{ determining default number of extra bytes per argument for arguments list }end output{
+	/*
+	 * Figure out if this OS requires extra bytes per argument
+	 * in the arguments list of a process.
+	 * Outputs an appropriate #define _arg_extrabytes.
+	 * Without this, 'command -x' failed with E2BIG on macOS, Linux and Solaris
+	 * even if all the arguments should fit in ARG_MAX based on their length.
+	 *
+	 * POSIX: "The number of bytes available for the new process' combined argument
+	 * and environment lists is {ARG_MAX}. It is implementation-defined whether null
+	 * terminators, pointers, and/or any alignment bytes are included in this total."
+	 * https://pubs.opengroup.org/onlinepubs/9699919799/functions/exec.html
+	 * So, operating systems are free to consume ARG_MAX space in whatever bizarre way they want, and
+	 * may even come up with more innovative ways to waste buffer space in future. This test assumes
+	 * that null terminators are included in the total, because why wouldn't they be? It builds a
+	 * dummy arguments list and tries fork(2)/execve(2) to figure how how many extra bytes to add to
+	 * each argument to account for pointers and whatnot, and outputs that (_arg_extrabytes) as a
+	 * default value for command_xargs() in path.c. We still cannot entirely rely on this value on all
+	 * systems, so path_spawn() in path.c is able to increase it at runtime if E2BIG still occurs.
+	 */
+
+	#include <ast.h>
+	#include <error.h>
+	#include <sfio.h>
+	#include <stak.h>
+	#include <wait.h>
+
+	int main(int argc,char *argv[])
+	{
+		int extra_bytes = 0, envlen, argmax, i;
+		pid_t childpid;
+		Sfio_t *notebuf;
+		char *note;
+
+		error_info.id="_arg_extrabytes test (parent)";
+		while(1)
+		{
+			envlen = 0;
+			for(i=0; argv[i]; i++)
+				envlen += strlen(argv[i]) + 1 + extra_bytes;
+			envlen += 1 + extra_bytes;	/* final null element */
+			for(i=0; environ[i]; i++)
+				envlen += strlen(environ[i]) + 1 + extra_bytes;
+			envlen += 1 + extra_bytes;	/* final null element */
+			argmax = (int)astconf_long(CONF_ARG_MAX) - envlen;
+			if (argmax < 2048)
+			{
+				error(ERROR_ERROR|2, "argmax too small");
+				return 1;
+			}
+			argmax -= 512;
+			if(!(childpid = fork()))
+			{
+				/* child */
+				int bytec;
+
+				error_info.id="_arg_extrabytes test (child)";
+				argv = (char **)stakalloc((argmax / 2 + 1) * sizeof(char*));
+				argc = bytec = 0;
+				while(bytec < argmax)
+				{
+					if(argc==0)
+						argv[argc] = "/usr/bin/env";
+					else if(argc==1)
+						argv[argc] = "true";
+					else
+						argv[argc] = "xxxxxxxxxxxxxxxxxxxxxxx";
+					/* also add 1 for terminating zero byte */
+					bytec += strlen(argv[argc]) + 1 + extra_bytes;
+					argc++;
+				}
+				argv[argc] = (char*)0;
+				if(execve(argv[0], argv, environ) < 0)
+				{
+					if(errno == E2BIG)
+						return 1;
+					else
+					{
+						error(ERROR_SYSTEM|2, "execve failed");
+						return 2;
+					}
+				}
+				error(ERROR_SYSTEM|2, "[BUG] we should never get here!");
+				return 2;
+			}
+			else
+			{
+				/* parent */
+				int exitstatus;
+
+				if (waitpid(childpid,&i,0) < 0)
+				{
+					error(ERROR_SYSTEM|2, "waitpid failed");
+					return 1;
+				}
+				if (!WIFEXITED(i) || (exitstatus = WEXITSTATUS(i)) > 1 && exitstatus != 126)
+				{
+					error(ERROR_ERROR|2, "child process exited abnormally");
+					return 1;
+				}
+				if (exitstatus == 0)
+					break;	/* yay :) */
+				extra_bytes++;
+				if (extra_bytes > 256)
+				{
+					error(ERROR_ERROR|2, "giving up");
+					return 1;
+				}
+			}
+		}
+		/* show note in iffe output via inherited FD 9 */
+		notebuf = sfstropen();
+		sfprintf(notebuf," %d ...",extra_bytes);
+		note = sfstruse(notebuf);
+		write(9,note,strlen(note));
+		sfclose(notebuf);
+		/* add #define to header via stdout */
+		sfprintf(sfstdout,
+			"#define _arg_extrabytes\t%d\t/* extra bytes per argument for arguments list */\n",
+			extra_bytes);
+		return 0;
+	}
+}end fail{
+	echo "#define _arg_extrabytes	sizeof(char*)	/* BUG: test failed; assuming pointer size */"
+}end

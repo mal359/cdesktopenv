@@ -1,0 +1,23 @@
+Attached is an LSB-compliant init script for dtlogin. This allows dtlogin
+to be controlled using either of the following syntax:
+
+/etc/init.d/dtlogin start | stop | restart | status
+service dtlogin start | stop | restart | status
+
+This script also allows CDE to be properly handled on runlevel changes.
+
+***SCRIPT INSTALL INSTRUCTIONS:***
+1. Copy "dtlogin" script from this directory to /etc/init.d/
+2. chmod 755 /etc/init.d/dtlogin
+3. update-rc.d dtlogin defaults
+4. Restart
+
+dtlogin should now start on boot and correctly exit on shutdown/restart.
+
+Tested on Debian Squeeze & Ubuntu 12.04, but should work on any LSB-compliant
+distro.
+
+
+
+David McBrayer <d9j0m.dev@gmail.com>
+

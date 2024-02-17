@@ -1,0 +1,32 @@
+# build a guide
+
+PROGGUIDE_SRCS = \
+    progGuide/BEntity.sgm    progGuide/ch08.sgm \
+    progGuide/book.sgm       progGuide/ch09.sgm \
+    progGuide/ch01.sgm       progGuide/ch10.sgm \
+    progGuide/ch02.sgm       progGuide/ch11.sgm \
+    progGuide/ch12.sgm \
+    progGuide/ch03.sgm       progGuide/glossary.sgm \
+    progGuide/ch04.sgm       progGuide/part1.sgm \
+    progGuide/ch05.sgm       progGuide/part2.sgm \
+    progGuide/ch06.sgm       progGuide/part3.sgm \
+    progGuide/ch07.sgm       progGuide/preface.sgm
+
+PROGGUIDE_GRS = \
+    progGuide/graphics/ComboBo3.tif  progGuide/graphics/NoPrint.tif \
+    progGuide/graphics/ComboBox.tif  progGuide/graphics/approot.tif \
+    progGuide/graphics/MenuBut2.tif  progGuide/graphics/package.tif
+
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(PROGGUIDE_GRS)
+
+PROGGUIDE_ID = cde.progGuide.toc
+include progGuide/Title.am
+
+PROGGUIDE_TOC = progGuide/TOC.sgm
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(PROGGUIDE_TOC)
+
+$(PROGGUIDE_TOC): $(PROGGUIDE_SRCS)
+	$(DGENV) $(DTINFOGEN) tocgen -T $(DTINFOGENTMPDIR) $(DTINFOGENOPTIONS) -f $(PROGGUIDE_TOC) -id $(PROGGUIDE_ID) -title $(PROGGUIDE_TITLE) progGuide/book.sgm
+
+BUILT_SOURCES += $(PROGGUIDE_TOC)
+CLEANFILES += $(PROGGUIDE_TOC)

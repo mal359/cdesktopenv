@@ -1,0 +1,42 @@
+# build a guide
+
+INFOUGUIDE_SRCS = \
+    infoUGd/BEntity.sgm   infoUGd/ch03.sgm      infoUGd/ch07.sgm \
+    infoUGd/book.sgm      infoUGd/ch04.sgm      infoUGd/ch08.sgm \
+    infoUGd/ch01.sgm      infoUGd/ch05.sgm      infoUGd/glossary.sgm \
+    infoUGd/ch02.sgm      infoUGd/ch06.sgm      infoUGd/preface.sgm
+
+INFOUGUIDE_GRS = \
+    infoUGd/graphics/bklist.tif    infoUGd/graphics/infolib1.cgm \
+    infoUGd/graphics/bklist1.tif   infoUGd/graphics/infosub.tif \
+    infoUGd/graphics/bkmark.tif    infoUGd/graphics/mappref.tif \
+    infoUGd/graphics/bkmarks.tif   infoUGd/graphics/openloca.tif \
+    infoUGd/graphics/bkmkedit.tif  infoUGd/graphics/prefwin.tif \
+    infoUGd/graphics/bknote.tif    infoUGd/graphics/printwin.tif \
+    infoUGd/graphics/brwsbuts.tif  infoUGd/graphics/pushpin.tif \
+    infoUGd/graphics/dgrafico.tif  infoUGd/graphics/qeditwin.tif \
+    infoUGd/graphics/fpico.tif     infoUGd/graphics/readwin.tif \
+    infoUGd/graphics/gmap.tif      infoUGd/graphics/readwin1.tif \
+    infoUGd/graphics/graphmap.tif  infoUGd/graphics/savescop.tif \
+    infoUGd/graphics/scopedit.tif \
+    infoUGd/graphics/graphpan.tif  infoUGd/graphics/scoplist.tif \
+    infoUGd/graphics/graphwin.tif  infoUGd/graphics/searchin.tif \
+    infoUGd/graphics/helpmenu.tif  infoUGd/graphics/sectitle.tif \
+    infoUGd/graphics/histlist.tif  infoUGd/graphics/serchbut.tif \
+    infoUGd/graphics/histpref.tif  infoUGd/graphics/serchprf.tif \
+    infoUGd/graphics/hsarrows.tif  infoUGd/graphics/serchres.tif \
+    infoUGd/graphics/ilibico.tif   infoUGd/graphics/shistwin.tif
+
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(INFOUGUIDE_GRS)
+
+INFOUGUIDE_ID = cde.infoUGuide.toc
+include infoUGd/Title.am
+
+INFOUGUIDE_TOC = infoUGd/TOC.sgm
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(INFOUGUIDE_TOC)
+
+$(INFOUGUIDE_TOC): $(INFOUGUIDE_SRCS)
+	$(DGENV) $(DTINFOGEN) tocgen -T $(DTINFOGENTMPDIR) $(DTINFOGENOPTIONS) -f $(INFOUGUIDE_TOC) -id $(INFOUGUIDE_ID) -title $(INFOUGUIDE_TITLE) infoUGd/book.sgm
+
+BUILT_SOURCES += $(INFOUGUIDE_TOC)
+CLEANFILES += $(INFOUGUIDE_TOC)

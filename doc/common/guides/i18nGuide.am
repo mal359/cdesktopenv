@@ -1,0 +1,29 @@
+# build a guide
+
+I18NGUIDE_SRCS = \
+    i18nGuide/BEntity.sgm    i18nGuide/ch03.sgm \
+    i18nGuide/appa.sgm       i18nGuide/ch04.sgm \
+    i18nGuide/book.sgm \
+    i18nGuide/ch01.sgm       i18nGuide/preface.sgm \
+    i18nGuide/ch02.sgm
+
+I18NGUIDE_GRS = \
+    i18nGuide/graphics/ind1.cgm    i18nGuide/graphics/inint5.tif \
+    i18nGuide/graphics/inint1.cgm  i18nGuide/graphics/inint6.tif \
+    i18nGuide/graphics/inint2.cgm  i18nGuide/graphics/inmot3.tif \
+    i18nGuide/graphics/inint3.tif  i18nGuide/graphics/inmot4.tif \
+    i18nGuide/graphics/inint4.tif
+
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(I18NGUIDE_GRS)
+
+I18NGUIDE_ID = cde.i18nGuide.toc
+include i18nGuide/Title.am
+
+I18NGUIDE_TOC = i18nGuide/TOC.sgm
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(I18NGUIDE_TOC)
+
+$(I18NGUIDE_TOC): $(I18NGUIDE_SRCS)
+	$(DGENV) $(DTINFOGEN) tocgen -T $(DTINFOGENTMPDIR) $(DTINFOGENOPTIONS) -f $(I18NGUIDE_TOC) -id $(I18NGUIDE_ID) -title $(I18NGUIDE_TITLE) i18nGuide/book.sgm
+
+BUILT_SOURCES += $(I18NGUIDE_TOC)
+CLEANFILES += $(I18NGUIDE_TOC)

@@ -1,0 +1,2598 @@
+This is the release history file for CDE.  It will detail each
+release version and date, along with the highlights of the release.
+For more detailed information on changes between any given release,
+use 'git log', or peruse the commit history at:
+
+https://sourceforge.net/p/cdesktopenv/code/commit_browser
+
+
+#######################################################################
+### 2.5.2 (stable) 11/18/2023
+
+This is mainly a bugfix release addressing various issues.
+
+Shortlog:
+
+Cy Schubert (1):
+      Fix build under LLVM15
+
+Jon Trulson (9):
+      Apply various patches from Giacomo Comes <comes@naic.edu>
+      Patch from Giacomo Comes: rename ksh manpage to ksh-cde
+      Add DesktopNames=CDE to cde.desktop
+      pgadmin.dt: set icon from pgadmin to pgadmin3
+      dtfile/dterror.ds: fix script defines typo
+      dtksh: enable SHOPT_ECHOPRINT
+      dticon, dtpad, dtterm: fix session save issues (sprintf bogosity)
+      lib/DtHelp: strmove(): return memmove() result
+      .gitignore: add new locations of dtsession/dtlogin PAM files
+
+Peter Howkins (3):
+      (Pascal Stumpf) Makefile.am change several places where ${prefix} should be $(CDE_INSTALLATION_TOP)
+      (Pascal Stumpf) CDE doesn't provide the ksh binary, don't install the manpage for it
+      (Pascal Stumpf) dtlogin: On OpenBSD start X as root (it drops privileges later)
+
+hyousatsu (15):
+      DtTerm: fix a segfault by allocating a string dynamically.
+      dtwm: fix a title bar resizing issue.
+      dtwm: fix compiler warnings.
+      dtwm: add support for _NET_WM_VISIBLE_NAME and _NET_WM_VISIBLE_ICON_NAME.
+      dtwm: optimize EWMH processing.
+      localized: fix the character encoding errors in zh_TW.UTF-8.
+      dtwm: add a new feature -- window rename.
+      dtwm: optimize EWMH processing.
+      dtwm: support _NET_WM_STATE_ABOVE and _NET_WM_STATE_BELOW.
+      dtsession: change the maximum size of cover dialog to fullscreen.
+      dtlogin: use sessreg to manage utmp/wtmp.
+      dtwm: fix a segfault.
+      dtstyle: make the style manager recognize wheel mouse correctly.
+      tt: make the ttserver process events properly.
+      dtsession: fix a crash.
+
+
+#######################################################################
+### 2.5.1 (stable) 10/1/2022
+
+This release fixes up some issues with the 2.5.0 release and removes
+some more cruft.  In addition, it upgrades ksh93 from 1.0.0beta to
+1.0.3.
+
+Shortlog:
+
+Chase (9):
+      configure.ac: remove patch requirement
+      dtfile/dtcopy: remove duplicate icons
+      Discontinue HPUX support
+      dthelp: remove obsolete and non-compiled code
+      configure: detect libdl
+      configure: detect libm
+      Remove detected -lcrypt flag
+      lib/DtTerm/TermPrim: clean up defines
+      Generify source code
+
+Jon Trulson (14):
+      configure.ac: bump version to 2.5.0a
+      configure.ac: remove extra -lm check, move dl check to after libm check
+      C locales: recursively delete C locale directories on make install
+      doc: re-enable building the dtinfo guides on netbsd
+      libtt: remove OPT_LOCAL_MOUNT_TYPE, OS_VERSION - never used anywhere
+      dtlogin: remove HP BLS B1 simple authentication support (BLS)
+      Kill off OSMAJORVERSION and OSMINORVERSION defines/cpp flags
+      Delete all unused/obsolete .elist files
+      #127: dtcm: solaris - use readdir instead of readdir_r
+      #130: Xserver.src: fix sun X server path
+      Remove ksh 1.0.0beta
+      Squashed 'cde/programs/dtksh/ksh93/' content from commit b16c91f01
+      Merge commit '97ef0077f06cef6f6bb93b0dae22441078647486' as 'cde/programs/dtksh/ksh93'
+      Upgrade ksh93 to 1.0.3
+
+Liang Chang (5):
+      fontaliases: install to DESTDIR correctly.
+      dtdocbook: set locale explicitly.
+      doc: set locale explicitly for building doc.
+      dtsession: help applications enable "international".
+      dtsession: help xterm load the appropriate font.
+
+
+
+#######################################################################
+### 2.5.0 (stable) 7/23/2022
+
+This release is the first to use autotools for building.  The Imake
+build system is gone.  No doubt there is more improvement that can be
+done here (support cross compiling, make uninstall, etc), but
+everything is functional.
+
+General highlights of this release:
+
+- as usual, MANY bug fixes, code improvements and the usual assortment
+  of coverity issues.
+
+- completion of autotools conversion from Imake
+
+- update ksh93 from the ksh93 maintainer Martijn Dekker
+
+- A rework of the documentation system, fixing many issues
+
+- dtbuilder fixes
+
+- PAM and utempter support on Linux and FreeBSD.  This makes it
+  possible to remove SUID root perms on dtsession and dtterm.
+
+- several issues in dtbuilder addressed
+
+- tiling and scaling of backgrounds are supported on systems with the
+  Xrender development package involved.
+
+- Fullscreen apps are better supported with proper support for some
+  _NET_WM properties.
+
+- many improvments to bring a lot of the code up to more modern
+  standards
+
+To build CDE without the documentation system (help, dtinfo books) you
+can pass --disable-docs to the configure command.
+
+By default, only the English language is built.  The other 4 languages
+can be built as long as the same requirements as previous CDE releases
+are met.  For example to build the spanish language, use
+--enable-spanish.  Unlike previous versions of CDE, you are no longer
+forced to build all supported languages.
+
+Run configure with --help to see what options are available.
+
+See the following git shortlog for more information on specific
+changes for this release (nearly 800 commits).
+
+My thanks to the people below who contributed to this release!
+
+Shortlog:
+
+Adam Sampson (3):
+      DtSvc: add missing #include (for malloc)
+      libAButil: remove lt- prefix from program name
+      DtSvc: fix error return from DtHelpReturnSelectedWidgetId
+
+Chase (75):
+      Add top level automake files
+      doc/C: Add makefiles
+      doc/common: add makefiles
+      doc/util: add automake files
+      doc/LANG: add makefiles
+      include: add makefile
+      lib/DtHelp: add automakefiles
+      lib/DtMrm: add automake file
+      lib/DtPrint: add automake file
+      lib/DtSearch: add automake files
+      lib/DtSvc: add automake files
+      lib/DtTerm: add automake files
+      lib/DtWidget: add automake file
+      lib/DtXinerama: add automake file
+      lib: add automake file
+      lib/csa: add automake file
+      lib/pam: add automake files:
+      lib/tt: add automake files
+      logs: add automake files
+      programs: add automake file
+      programs/backdrops: add automake files
+      programs/dsdm: add automake files
+      programs/dtaction: add automake file
+      programs/dtappbuilder: add automake files
+      programs/dtappintegrate: add automake file
+      programs/dtcalc: add automake files
+      programs/dtcm: add automake files
+      programs/dtconfig: add automake files
+      programs/dtcreate: add automake files
+      programs/dtdbcache: add automake files
+      programs/dtdocbook: add automake files
+      programs/dtdspmsg: add automake file
+      programs/dtexec: add automake files
+      programs/dtfile: add automake files
+      programs/dthello: add automake file
+      programs/dtinfo: add automake files
+      programs/dthelp: add automake files
+      programs/dticon: add automake file
+      programs/dtimsstart: add automake file
+      programs/dtksh: add automake files
+      programs/dtlogin: add automake file
+      programs/dtmail: add automake files
+      programs/dtopen: add automake files
+      programs/dtpad: add automake file
+      programs/dtpdm: add automake files
+      programs/dtpdmd: add automake files
+      programs/dtprintegrate: add automake file
+      programs/dtprintinfo: add automake files
+      programs/dtscreen: add automake file
+      programs/dtsearchpath: add automake files
+      programs/dtspcd: add automake file
+      programs/dtsr: add automake file
+      programs/dtstyle: add automake file
+      programs/dtterm: add automake files
+      programs/dtudcexch: add automake file
+      programs/dtwm: add automake file
+      programs/fontaliases: add automake files
+      programs/localized: add automake files
+      programs/icons: add automake file
+      programs/nsgmls/Makefile.am
+      programs/tttypes: add automake file
+      programs/types: add automake file
+      Remove redundant hourglass functions
+      dtappbuilder: make it build under autotools
+      dtksh: make it build under autotools
+      dtksh: specifically test for patch
+      dthelp/parser/helptag: build under autotools
+      ttsnoop: make it build under autotools
+      dtksh: allow parallel building
+      dthelp/parser/canon1: get it to build
+      dthelp/parser/pass2: make it build
+      dtappbuilder: make it build in parallel
+      dthelp: fix spurious compilation failure
+      dtinfo: make auxillary libs and programs build
+      dtcm: make /var/spool/calendar for user
+
+Edmond Orignac (1):
+      misc.c: in cm_mbchar check string!=NULL before dereferencing it
+
+Jon Trulson (398):
+      autotools: many fixups, SUN->SOLARIS, typos, etc
+      gitignore: add the various autotools generated stuff
+      autotools: use m4/ rather than existing admin/ for m4/autotools utils
+      Remove AUTOMAKE_OPTIONS and ACLOCAL_AMFLAGS from top level Makefile.am
+      configure: use a different method to detect tirpc
+      Rename original Makefile to Makefile.imake
+      gitignore: add the generated utilities (config.guess, etc)
+      Fixup some more autogen wanrings.  Only lib/tt/bin/shell remaining
+      tt: begin to get it building under autotools
+      tooltalk.tmpl: restore to previous version for use with Imake
+      tt shell: fix up build - use LDADD rather than AM_LDADD
+      gitignore: add more build artifacts
+      lib/tt: replace tooltalk.tmpl with tooltalk.inc in all Makefile.am files
+      configure: perhaps jumping the gun - set CSRG_BASED #define for the BSD's
+      tt: create Makefile.am for tt/util
+      tt/tttk: play symlink games so tttk can build
+      configure: some changes to config.h, CSRG, and XTOOLLIB impl
+      configure: fix up some cut/paste errors regarding languages
+      tt/slib: include hack
+      configure/Makefiles for TT: many fixups
+      tt: get tt_type_comp to build
+      tt: fixup remaining build issues
+      Re-fix tt_type_comp -- it doesn't actually need yacc/lex
+      The great includes migration of 2019 (autotools)
+      tt: Fixup tt build for new includes locations
+      DtXinerama.h header file - moved to main include/ dir
+      DtSvc,DtXinerama: More include fixes to deal with new order.
+      Add fake OSMAJORVERSION/OSMINORVERSION CPP flags
+      libDtSvc: get it to build
+      gitignore: update for autotools_config.h/.h.in
+      DtSearch: get it to build, fix up some confusion
+      configure: create some convenience AC_SUBST's for the global includes
+      DtWidget: make it build, change include/cppfile.inc a bit
+      configure: add compiler checks, determine endianess, look for locale.h
+      DtHelp: make it build
+      DtPrint: make it build
+      DtTerm: make it build
+      DtMrm: make it build
+      configure: check for rpcgen, add new CSA_INCDIR and SPC_INCDIR
+      csa: make it build
+      gitignore: add a few more files
+      configure: only build lib/* for now
+      csa: add dep for reparser.h to fix multicore build
+      gitignore: add a few more files from csa/
+      DtSvc/DtUtil1: fix implicit function declarations
+      DtSvc/DtUtil2: fix implicit function declarations
+      configure: various fixes regarding compiler flags
+      Protect inclusions of autotools_config.h with HAVE_CONFIG_H
+      configure/m4: add ax_pthread.m4 for pthread checks
+      configure: enable C99
+      Get rid of ancient, useless logs/ subdir
+      configure: add programs/ dthelp, dsdm, dtmail, dtpad, and dtfile
+      Change "if SUN" conditionals in remaining Makefile.am files to "if SOLARIS"
+      dtpad: get it to build
+      configure: rework how $XTOOLLIB works
+      dtpad: fix Makefile.am to use proper XTOOLLIB
+      programs: temporarily disable: dthelp dtksh dtappbuilder dtdocbook dtinfo nsgmls
+      configure: add icons and backdrops to AC_CONFIG_FILES
+      dsdm: make it build
+      configure: Several changes, disable static builds, etc
+      DtXinerama: build as shared lib, all dep on libXinerama
+      DtSvc: we can't use archive .a libs in building libDtSvc.so
+      dtmail: Make it build.  There is more work to be done here.
+      configure: Add -lDtXinerama to DTCLIENTLIBS and set USE_XINERAMA in CFLAGS
+      DtSvc: vastly simplify building this library
+      gitignore: add .dirstamp
+      dtpad: builds again using @DTCLIENTLIBS@
+      configure: Add -DANSICPP -DMULTIBYTE -DNLS16 to SOURCE_CPP_DEFINES
+      dtfile: make it build
+      configure: Add -lm and vfork checks. Add dtwm to AC_OUTPUT.
+      dtwm: fixes to make it build
+      configure: check for -lcrypt, add dtlogin/Makefile.am
+      dtlogin:Makefile.am: fix autogen warnings.  This one still needs work.
+      configure: Several changes related to locating cpp and ksh
+      dtlogin/dtgreet/dtchooser: get them to build
+      configure: use AC_PATH_PROG to find ksh
+      dtfile: still working on cpp issues, a better solution is needed
+      Add tradcpp to the repository, and use it as GENCPP (generic preprocessor)
+      configure: use tradcpp as GENCPP
+      gitignore: ignore built tradcpp binary
+      dtwm: use new GENCPP
+      libtt, DtWidget: use new GENCPP
+      Delete cppfile.inc, don't need it anymore
+      dtwm: fix quoting for SCRIPTFLAGS
+      dtfile: GENCPP, be consistent with SCRIPTFLAGS
+      tradcpp: remove test makefiles
+      Merge branch 'master' into autotools-conversion after 2.3.1 release
+      autogen.sh: make it executable
+      Merge branch 'master' into autotools-conversion after utf8-conversion
+      dtsession: make it build, add check for the full path to xrdb
+      dthello: make it build
+      libtt: add -ltirpc as a dependency if we are using it
+      changing_version_number.txt: change tooltalk.tmpl to tooltalk.inc
+      dtstyle: make it build
+      dtexec: make it build
+      dtdbcache: make it build
+      dticon: make it build
+      dtterm: make it build
+      dtterm/util: delete this non-used stuff
+      dtcalc: make it build
+      dtaction: make it build
+      dtspcd: make it build
+      dtscreen/Dtscreen.src: remove __hpux specialization
+      dtscreen: make it build
+      dtspcd/dtterm: use proper DT_INCDIR rather than hardcoding the location
+      dtcm: make it build
+      dtsearchpath: make it build
+      dtappintegrate: make it build
+      dtprintegrate: make it build
+      dtconfig: get rid of obsolete imb/ and hp/ configs
+      dtconfig: make it build
+      dtcreate: make it build
+      configure: rework the way TIRPC is detected and handled
+      Remove $(TIRPCINC) from all Makefile.am files - it no longer exists
+      dtmailpr: fix vla warning
+      configure: rework libXinerama detection a bit, remove hardcoded -lXinerama's
+      dtprintinfo: make it build
+      fontaliases: make it build, and rework somewhat
+      dtdspmsg: make it build
+      programs: disable ttsnoop for now
+      dtimsstart: make it build
+      dtpdm: make it build
+      dtsr: make it build; configure: fix cpu detection
+      dtpdmd: make it build
+      Fix up a couple issues with multi-core builds and 2 race conditions
+      types: make it build
+      tttypes: make it build
+      dttypes: make it build
+      dtopen: make it build
+      dtprintinfo: fix a mulit-core build race, for realz this time
+      dthello: build the resource file Dthello
+      merge, mkcatdefs: add missing includes, clean up trailing whitespace
+      localized/C/app-defaults: make it build
+      localization: make FR, DE, IT, and ES app-defaults/ build
+      localized: make configs build
+      localized: make backdrops build
+      localized: make types build
+      localized: make palettes build
+      localized: temporarily disable dtinfo appdefaults
+      root Makefile.am: disable doc/ for now
+      localization: finish up with getting message catalogs building
+      localization: disable parallel builds for app-defaults, types, and config
+      programs/dtimsstart/Makefile.am: fix typo
+      Merge branch 'master' into autotools-conversion
+      tt_type_comp: incorporate master CPP_PROGRAM fix into Makefile.am
+      Get app-defaults installing correctly
+      app-defaults.am: tweak installation
+      Install backdrops in proper location, install localization for them
+      Get /usr/dt/config populated correctly on make install
+      Get the message catalogs installed properly on make install
+      Get the palettes installed properly on make install
+      Get the dt types installed properly on make install
+      Get tttypes installed correctly.
+      dtlogin: install Xsession properly
+      dtlogin: fixup some of the options
+      dtwm: fix installation
+      dtsession: add missing dtsession_res script
+      videoTypes.dt: remove duplicate LABEL in Print action
+      dtlogin: set correct OS defines for Xsession, fix linux maildir
+      dtlogin/dtsession: fix up some script perms, add proper OS defines
+      dtsession/SrvPalette.c: fix bogus error handling when selection is lost
+      dtsession/SrvPalette.c: delete trailing whitespace
+      tradcpp: upgrade to 0.5.3
+      Fix palette and backdrops installation in dt/shared with proper symlinks
+      icons: install in proper C/ subdir
+      dtwm: don't install Dtwm.defs - that is processed/handled by localization
+      cpp revisited: look for a cpp binary in various locations for use at runtime
+      fontaliases: redo the way these are built, and actually install them
+      programs/Makefile.am: add missing palettes/ dir
+      library versioning: use proper format and specify for ALL libraries
+      dtopen: install symlinked helpers
+      configure: first stab at a BSD (openbsd 6.5) build
+      dtopen/Makefile.am: fix typo in link for pdf handler
+      dtlogin: build on openbsd
+      configure: fix another bsd related typo
+      gencat: get rid of -o option, not needed and not supported on some systems
+      dtsession: do not hardcode -lcrypt on link
+      localized: use proper mkcatdefs for the Motif catalogs
+      _common.dt.tmsg: remove unportable quote hackery
+      configure: set a compiler search option
+      Merge branch 'master' into autotools-conversion
+      configure: make sure X_EXTRA_LIBS and X_PRE_LIBS are accounted for
+      configure: add some more error checking/reporting for required programs
+      configure: fix some bsd issues
+      configure: get the language enable options working
+      FreeBSD 12: get CDE to build and run
+      configure: detect and use jpeg library
+      freetype: redo the way we detect and use
+      dtterm, dtsession, dtappgather, dtmail: set correct perms on make install
+      Merge branch 'master' into autotools-conversion
+      SrvPalette.c: missed a merge conflict in SrvPalette.c
+      Merge branch 'master' into autotools-conversion
+      Merge branch 'master' into autotools-conversion
+      Use bindir in install hooks rather than CDE_INSTALLATION_TOP
+      Fix erroneous uses of ${prefix} rather than $(CDE_INSTALLATION_TOP)
+      configure: enable building of nsgmls and parts of dthelp
+      Build nsgmls
+      dthelpdemo: remove old Makefile.SUN, .IBM, and .HP
+      dthelp: get parts of it building.
+      tt: fix link order for tt_type_comp and dbck
+      appmanager action files: create and populate them
+      .gitignore: add config numbered session files
+      merge: fix to use per-proc filenames rather than hardcoding them
+      app-defaults, config, types: re-enable parallel builds
+      dthelpprint: make it build.
+      dthelp/parser/pass1: get it to build
+      .gitignore: add dthelp parser/pass1 files
+      dtappbuilder/src/ab: disable parallel builds
+      configure.ac: Add TCL detection
+      dtdocbook: make it build under autotools
+      dthelp/parser/pass1: disable parallel builds due to occasional failures
+      Merge branch 'master' into autotools-conversion
+      dtdocbook/xlate_locale: add proper include for strcmp
+      Merge branch 'master' into autotools-conversion
+      dthelp parser htag1: add new global.c from master
+      Merge branch 'master' into autotools-conversion
+      Remove no longer needed Makefile.am for ksh
+      ksh93: re-add the ksh submodule at 47468f
+      Disable Japanese locale support since we do not currently support it
+      dtksh: disable parallel builds
+      dtappbuilder: fixes to build in autotools branch for freebsd
+      libDtTerm: fixes to build in autotools branch for freebsd
+      autotools: specify tirpc lib to link the tooltalk binaries
+      pm_randon.h: fix conversion warning (int to float)
+      dthelp/parser: disable parallel building
+      .gitignore: Add some MsgCat.c generated files
+      dtprintinfo: try to mitigate some stupid in ParseJob.C for sun
+      NetBSD.cf: add a link comment to list package needed for PAM support
+      FreeBSD.cf,DragonFly.cf: disable PAM support by default
+      Bump devel version to 2.3.2c
+      debin/control: add libpam and libutempter
+      .gitignore: update for PAM changes
+      Apply a patch from Roger Brown for risc-v and other minor fixes
+      dtdspmsg: fixup for autotools and new MsgCat.c
+      dtsr: fixup for autotools and new MsgCat.c
+      localized/util: fixup for autotools and new MsgCat.c
+      dtpdmd: fixup for autotools and new MsgCat.c
+      dthelp/parser/pass2: disable parallel builds for this module
+      configure.ac: add AM_CONDITIONALS() for riscv and aarch64
+      autotools: get the PAM support from master working on linux and freebsd
+      bilP.h: re-fix include issue with bil_parser.h
+      utils/merge: re-fix include issue
+      Squashed 'cde/programs/dtksh/ksh93/' content from commit 66e1d4464
+      Removed cde/programs/dtksh/ksh93 submodule at commit 66e1d446429543be0f9d47d9364e472932dc53f1
+      Merge commit 'c9b86876044cdce95730ea2c6a2af65e06a86125' as 'cde/programs/dtksh/ksh93'
+      Removed .gitmodules
+      Merge branch 'master' into autotools-conversion
+      dthelp: disable parallel builds in parser/canon1 too
+      Merge branch 'master' into autotools-conversion
+      Bump version to 2.4.0a for upcoming merge
+      Begin removal of some Imakefiles, and other no longer useful cruft
+      dthelp/parser.ccdf: delete never used module
+      programs/localized: delete Imakefiles and imake templates
+      programs/: remove Imakefiles for completed modules
+      Rename admin dir to admin-delete-later so it is clear this will also be removed eventually
+      Create a toplevel delete-later dir and put databases/ and admin/ into it
+      README.md: update and rename top level README to README.md
+      dthelp: parser/canon1/eltdef - disable parallel builds
+      Revert "Convert uses of XKeycodeToKeysym (deprecated) to XkbKeycodeToKeysym"
+      utempter: complete the implementation
+      appbuilder/ab: fix a typo on CLEANFILES line
+      dtappbuilder: use /bin/sh rather than /bin/csh as default shell
+      dtappbuilder: try to fix a dep error causeing every make to rebuild
+      autogen.sh: remove the bogus "-I admin" option to aclocal
+      configure: remove freetype checks, we do not need freetype anymore
+      include: move dtinfo/DtMmdb/oliasdb/Mmdb.h -> include/Dt/Mmdb.h
+      includes: install them
+      dtcm: install-exec-hook needs $(DESTDIR)
+      dtterm: fix problem introduced with 0e9b1140ea, preventing install of dtterm
+      dtinfo: use autotools endian detection instead of cpu-specific checks
+      csa: specify correct time_t type in _DtCm_print_tick() prototype
+      Remove some unused imake *.tmpl files
+      FreeBSD: use the LIBICONV_PLUG define to prevent link errors
+      tptregexp/regsub.c: use string.h
+      xdmauth.c: fix some implicit-int warnings
+      tt_ldpath: fix broken logic in find_lib
+      dtksh: move fsym() into widget.c where it belongs
+      dtkcmds.c: fix some pointer<->int conversions
+      DtSetPref.C: fix some pointer<->int conversions
+      DialogBox.c: fix ptr<->int conversion
+      ttsnoop/DtTt.C: fix -Wreturn-type warnings
+      dtcm: timeops.c/getdate.y: fix fbsd build errors
+      dtinfo: remove endian checks from Makefile, handled by autotools now
+      configure: add a check for AC_STRUCT_TIMEZONE
+      configure: fix timezone/tm checks to work on Linux (time.h is needed)
+      gitignore: add some stuff for the new way fonts.aliases is done on linux/en_US
+      Re-add doc2sdl/SGML directory so dtdocbook can work
+      doc: get utils to build
+      doc: get the C SDL help files building
+      doc: get the German, Spanish, French, and Italian SDL help files building
+      Setup some missing files needed for help to build correctly
+      doc/help: install help files in correct place, setup C->en_US.UTF-8 symlink
+      doc/help: install all of the graphics and help assets
+      doc: remove some no longer needed Imakefiles
+      doc: fix dtdocbook so it can handle parallel builds
+      dbtoman/instant: fix some implicit-function-declaration warnings
+      dbtoman: remove uneeded Imakefile
+      doc: get man pages building
+      Revert "fontaliases: revise fonts.alias for UTF-8 to display"
+      lib/DtWidgets: fix implicit-function-declaration warnings
+      lib/DtTerm: fix implicit-function-declaration warnings
+      lib/csa: fix implicit-function-declaration warnings
+      dtpad: fix implicit-function-declaration warnings
+      dthelp/parser: disable parallel building for eltdef and util
+      dtwm: fix implicit-function-declaration warnings
+      dtlogin: fix implicit-function-declaration warnings
+      dtsession: fix implicit-function-declaration warnings
+      dthello: fix implicit-function-declaration warnings
+      dtstyle: fix implicit-function-declaration warnings
+      dticon: fix implicit-function-declaration warnings
+      dtsession/SmSave: fix format pointer confusion warnings
+      dtterm: fix implicit-function-declaration warnings
+      dtcalc: fix implicit-function-declaration warnings
+      dtspcd: fix implicit-function-declaration warnings
+      configure.ac: add m4 macros that can check for compiler option support
+      dtksh: fix implicit-function-declaration warnings
+      dtcm: fix implicit-function-declaration warnings
+      dtappbuilder: fix implicit-function-declaration warnings
+      dtpdm: fix implicit-function-declaration warnings
+      dtsr: fix implicit-function-declaration warnings
+      dthelp: fix implicit-function-declaration warnings (mostly)
+      dthelp: fix implicit-function-declaration warnings (the rest)
+      dtsession/Makefile.am: add config to SUBDIR so PAM config is built/installed
+      dtinfo/dtinfo: initial stab at making it build
+      dtinfo: get src/UAS building, finish msg and res building
+      dtinfo/mmdb: redo the way this library is built
+      dtinfo/DtMmdb: Fix up another build issue
+      configure: fix a typo in LIBSEARCH and LIBMMDB
+      dtinfo/dtinfo/src: more changes to the way the libs are made
+      dtinfo/dtinfo: get it to build
+      dtinfo: move the dtinfo_env.mk makefile include to programs/dtinfo/
+      dtinfo: move the dtinfo_dfiles_hfiles.mk makefile include into dtinfo/src/
+      dtinfo: install required stuff, also in localized/
+      dtinfo/dtinfogen: make it build
+      doc/C/guides: build the TOCs
+      doc/C/guides: build the infolib and search DB
+      doc/C: get m-guides setup
+      m4/compiler_flag_chk.m4: fix bug related to not testing the actual flag
+      doc/common/guides/guides_env.am: use HELP_LANG
+      C/guides: install them
+      dtinfo: fix some installation issues
+      DtPamSvc: move PamSvc.h to include/Dt/
+      dtsession/SmUI.c: fix a build issue on OpenBSD 7
+      Fix a bunch of -Wempty-body warnings reported by clang
+      MIMEBodyPart.C: fix a couple sizeof-pointer-memaccess warnings
+      Fix several pointer-bool-conversion warnings that could cause cores
+      Fix some shift-op-parentheses warnings
+      Fix some logical-not-parentheses warnings
+      DtSearch/raima: use autodetected byte endianness rather than forcing based on OS
+      Fix a couple of unused-comparison clang warnings
+      Fix a Wself-assign-field clang warning
+      DtHelp: remove unused forced bit order depending on OS type
+      dtmailpr/Makefile.am: remove unsupported defines
+      Automate versioning for CDE, set current version to 2.4.0b
+      libtt: remove hardcoded -lstdc++ used to build TT library
+      dthelpdemo: disable it
+      Fix up a few more implicit-function-declaration warnings on the BSDs
+      Look over the install rules and adjust where appropriate
+      Library (.so) versioning: preserve previous library version
+      dtmail: #118: don't fail install if mail group does not exist
+      Revert "dtcalc: Change the prototype of matherr() to reflect actual usage and remove warnings."
+      dtcalc: remove matherr() extern due to reversion of a9175c89
+      guides: disable building on NetBSD until it's fixed (NodeParser)
+      configure: don't try PAM support on anything other than Linux and NetBSD
+      autoconf: fix some "obsolete function" warnings with newer (2.7x) autoconfs
+      dtsession: don't change perms of dtsession if HAS_PAM_LIBRARY
+      dtmail: fix vla warning
+      dtbuilder.c.src: fix empty-body warnings
+      dtcm/RFCMIME: fix a guaranteed buffer overflow
+      dthelp.dt.src: hack to make Dthelpview ACTION work
+      backdrops: don't install Makefile.am as a backdrop. Ahem.
+      configure: don't bother with dthelpdemo
+      configure/Makefiles: add checks for Xmu, Xext, and Xdmcp
+      Move DtXinerama.h and PamSvc.h into include/Dt/
+      dtsr, DtSearch: finish removing need for BYTE_SWAP define
+      configure, libtt: add check for rpc_inline_t and define if not supported
+      Rename autotools_config.h to cde_config.h to better reflect it's ownership.
+      configure: bump version to 2.4.0c
+      tradcpp: don't install it
+      library versioning: try to keep the versions at 2.1.0 for all platforms
+      dtprintinfo: ParseJobs.C: fix some compile errors for solaris
+      docbook/doc_utils: make sure XTOOLLIB follows DTCLIENTLIBS to fix link error
+      .gitignore: add new entries to for the utf8 doc changes
+      dtfile: make sure dterror.ds is generated and installed
+      Remove include of non-existant fonts.am file
+      dtstyle: fix bugs preventing SM save from working properly
+      gitignore: dtfile and fontaliases additions
+      DtSvc/MsgLog.c: remove extra 'noise' around log events
+      configure.ac: add --disable-docs option to disable doc building
+      Remove remaining Imakefiles, tmpls, and the delete-later dir
+      .gitignore: update doc/*ISO8858-1 to doc/*UTF-8 names
+      Update CONTRIBUTORS file
+      configure: rework detection of Xrender
+      CONTRIBUTORS: remove some duplicates
+      dtinfo: restore dtinfo/dtinfo/src/dtinfo_msg.tmpl, accidentally deleted
+      gitignore: split out dtksh gitignores into a separate dtksh/.gitignore
+      ksh93: fix BSD builds due to iconv confusion
+      CONTRIBUTORS: add Martijn Dekker (ksh93)
+
+Lev Kujawski (7):
+      config/cf/Imake.cf: Define AArch64Architecture on the BSDs.
+      dtinfo: rename the CATGETS macro to MCATGETS
+      Centralize catgets() calls through MsgCat
+      Avoid Global Offset Table (GOT) limits by enabling -fPIC on the BSDs.
+      Purge unused Freetype dependency from CDE
+      Switch default backdrop from SkyLight to KnitLight
+      Specify SPARC and SPARC64 as big endian platforms
+
+Liang Chang (230):
+      ttsnoop: fix a segfault that occurred when clicking "Version..." in the "Snoop" menu.
+      dtappbuilder: apply graceful degradation for font loading to avoid a segmentation fault.
+      dtappbuilder: fix a segmentation fault that occurred when clicking "Edit" in the "Revolving Property Editor".
+      dtappbuilder: fix a segmentation fault that occurred when repeating "Add Item" -> "Delete" -> "Add Item" in the "Revolving Property Editor".
+      dtappbuilder: fix a segmentation fault that occurred when clicking "Edit" in the "Menu Property Editor".
+      csa: replace sprintf with asprintf to avoid segfaults.
+      dtcm: fix a segfault when "Drag Appt" in the dtcm_editor.
+      dtcm: fix a segfault that occurred when opening the "Appointment List..." in the "View" menu.
+      dtfile: fix a segmentation fault that occurred when drag and drop file with the same name.
+      dtcm: Avoid to leave an unclosable window when there is no appointment in "Appointment List...".
+      dtappbuilder: ensure the subtypes of widgets are properly initialized.
+      dtappbuilder: ensure mouse operations are not interfering by key masks (e.g., Caps Lock, Num Lock, etc.) when editing (resize, double-click, etc.) widgets.
+      dtappbuilder: adjust data types to avoid type casting errors.
+      dtappbuilder: fix issues of property settings for text pane.
+      dtappbuilder: adjust data types to avoid type casting errors.
+      dtappbuilder: fix issues of property settings for list.
+      dtappbuilder: fix issues of property settings for button.
+      dtappbuilder: fix issues of property settings for choice.
+      dtappbuilder: fix issues of property settings for combo box.
+      dtappbuilder: fix issues of property settings for control pane.
+      dtappbuilder: fix issues of property settings for custom dialog.
+      dtappbuilder: fix issues of property settings for draw area pane.
+      dtappbuilder: fix issues of property settings for file selection dialog.
+      dtappbuilder: fix issues of property settings for group.
+      dtappbuilder: fix issues of property settings for label.
+      dtappbuilder: fix issues of property settings for main window.
+      dtappbuilder: fix issues of property settings for menu.
+      dtappbuilder: fix issues of property settings for menubar.
+      dtappbuilder: fix issues of property settings for scale.
+      dtappbuilder: fix issues of property settings for separator.
+      dtappbuilder: fix issues of property settings for spin box.
+      dtappbuilder: fix issues of property settings for term pane.
+      dtappbuilder: fix issues of property settings for text field.
+      dtappbuilder: fix the rendering glitch of the list widget which contains a label.
+      ttsnoop: adjust the text field on ttChooser.
+      ttsnoop: adjust data types to ensure the result of pointer comparison is correct.
+      ttsnoop: check the return value from tt_message_op to avoid a segmentation fault.
+      dtappbuilder: set limits on the resize rectangle to avoid rollover.
+      dtappbuilder: ensure the resize box always inside the main window to avoid the rendering glitch.
+      dtappbuilder: set the default size (in pixels) for terminal pane.
+      dtappbuilder: set the minimum limit for rows and columns to avoid rollover.
+      dtappbuilder: Fix a crash when resize a text pane. The crash is occurred when drag on the scrollbar to resize.
+      dtappbuilder: Fix unsigned integer rollover.
+      dtterm: Change the default log host to localhost. To check the log function, add -DLOG_USAGE to the Imakefile then build the dtterm. There are a logger in the util directory, run it to receive log messages.
+      Add lib DtPamSvc.
+      Add PAM support to dtlogin.
+      dtlogin: get rid of some warnings.
+      Add PAM support to dtsession.
+      DtPamSvc: update Imakefile.
+      dtlogin: rename PAM config file.
+      dtsession: rename PAM config file.
+      Enable PAM support for dtlogin and dtsession.
+      dtlogin: use utmpx when PAM is enabled.
+      DtPamSvc: use utmpx.
+      dtsession: add rules for config dir into Imakefile.
+      databases: use "src" files to generate CDE-MIN.udb and CDE-RUN.udb.
+      dtlogin: add utmpx support to UtmpIdOpen.
+      dtsession: revise localAuthenticate.
+      DtPamSvc: Improve user experience.
+      dtlogin: revise the Imakefile for config.
+      dtinfo: Fix a segmentation fault. The return value from CanvasRenderer::_dofont is a pointer. It will be passed to the free function. Ensure that pointer always points to a dynamically allocated memory to avoid segmentation faults.
+      DtTerm: Add pts driver support.
+      DtTerm: Add libutempter support for utmp/wtmp updates.
+      dtterm: Add libutempter support for utmp/wtmp updates.
+      databases: Install dtterm as an unprivileged program when PTS driver and libutempter are available.
+      FreeBSD.cf: Enable PTS driver and libutempter.
+      linux.cf: Enable PTS driver and libutempter.
+      dtwm: Add a function: GetHeadInfoById.
+      dtwm: Relocate base window when regenerate its frame.
+      dtwm: Add EWMH related source code.
+      dtwm: Improve response for decoration hint from client.       Add a function: InitClientData.
+      dtwm: Regenerate frame when decoration updated.
+      dtwm: Support multi-monitor fullscreen.
+      dtwm: Respond to the following EWMH:       _NET_WM_FULLSCREEN_MONITORS       _NET_WM_STATE_FULLSCREEN
+      dticon: make sure min_x and min_y are within icon to avoid a segfault.
+      dticon: use libXpm directly.
+      DtHelp: use libXpm directly.
+      dtudcfonted: use libXpm directly.
+      dtprintinfo: use libXpm directly.
+      dtappbuilder: use libXpm directly.
+      Remove DtXpm.
+      configure.ac: add AC_CHECK_LIB for libXpm.
+      dtwm: Trigger fullscreen in an "edge trigger" manner to avoid wrong behaviors caused by some unusual operations. E.g., after entered fullscreen, applications change windows to other states instead of leaving fullscreen.
+      dtwm: To avoid a segfault, allocate gadget rectangles when regenerate window frame. A typical case, create a frameless window then regenerate it's frame.
+      dtwm: Create title bar window if clientTitleWin is NULL when regenerate client frame.
+      dtwm: Create stretcher windows when regenerate a frame for a frameless window to make the resize cursors show again.
+      dtwm: Add definitions for _NET_WM_NAME and _NET_WM_ICON_NAME.
+      dtwm: Add processing functions for _NET_WM_NAME and _NET_WM_ICON_NAME.
+      dtwm: Respond to the following EWMH:       _NET_WM_NAME       _NET_WM_ICON_NAME
+      dtwm: Respond to the following EWMH:       _NET_WM_STATE_MAXIMIZED_VERT       _NET_WM_STATE_MAXIMIZED_HORZ
+      Merge branch 'tmp' into dtwm
+      fontaliases: revise fonts.alias for UTF-8 to display multi-language correctly.
+      dtsearchpath: fix a crash when running dtappgather.
+      autotools: install PAM configuration files directly instead of by using the setup script.
+      DtTerm: enable post-process output.
+      dtdocbook: Migrate instant to UTF-8.
+      doc/ja_JP.dt-eucJP: Adjust some characters to conform to EUC-JP.
+      doc: Added Japanese UTF-8 documents.
+      DtHelp: Fix a multibyte character parsing issue.
+      dthelp: Fix a multibyte character parsing issue.
+      dtdocbook: Migrate doc2sdl to UTF-8.
+      DtHelp: Apply graceful degradation for font loading to avoid a segmentation fault.
+      DtHelp: Add the multibyte character support to _DtCvChar.
+      DtHelp: Add the multibyte character support to _DtCvStrcspn.
+      DtMmdb: Initialize "oid_in_string_buf" to 0 to ensure "get_oid_2" returns a correct "oid".
+      DtMmdb: Remove an extra space from the environment variable "schemaDEBUG".
+      DtSearch: Migrate to UTF-8.
+      dtinfo: Fix a font issue to make the multilingual text can be displayed correctly.
+      dtinfo: make search highlight works for UTF-8.
+      DtMmdb: check if the log file exists before deleting to avoid crash.
+      DtMmdb: add UTF-8 encoding for nbsp.
+      dtinfo: improve MessageMgr to avoid unexpected behavior.
+      dtinfogen: repair lex and yacc source.
+      dtinfogen: fix a space character.
+      DtMmdb: change the default encoding to UTF-8.
+      dtinfo: change the default encoding to UTF-8.
+      DtSearch: improve support for Japanese.
+      dtinfogen: preserve NBSP.
+      dtinfogen: Migrate to UTF-8.
+      dtinfogen: Remove an unused environment variable.
+      dtdocbook: update SGML DTDs.
+      DtHelp: support ending the lines which contains multibyte characters.
+      DtMmdb: prepare for building dtinfoge.
+      dtinfogen: file renaming.
+      DtMmdb: repair lex and yacc source in StyleSheet dir.
+      DtMmdb: repair lex source in compression dir.
+      DtMmdb: repair lex source in schema dir.
+      dtinfogen: replace Xt-related functions.
+      dtinfogen: update prefix for lex source.
+      dtinfogen: update include directives.
+      dtdocbook: install SGML DTDs to datadir.
+      dtdocbook: remove hardcoded /usr/dt.
+      configure.ac: add makefiles.
+      Merge branch 'master' into dtdocbook
+      Merge branch 'master' into dtdocbook
+      DtMmdb: install spec files to datadir.
+      doc2sdl: convert strings files to UTF-8.
+      doc2sdl: install tpt to datadir.
+      doc2sdl: install locale files to datadir.
+      doc2sdl: use POSIX regex functions.
+      dbtoman: remove duplicate source code and merge into dtdocbook.
+      dtdocbook: update SGML DTDs.
+      dtdocbook: remove xlate_locale.
+      dtdocbook: update SGML DTDs.
+      dtdocbook: merge dtinfogen into dtdocbook.
+      dtinfo: update bookmark spec.
+      DtMmdb: move to lib directory as a standalone library.
+      nsgmls: remove nsgmls and use onsgmls contained in OpenSP.
+      DtEncap: use system locales.
+      DtHelp: use system locales.
+      dthelp: use system locales.
+      dtinfo: remove an unnecessary header file dependency.
+      dtdocbook: update doc_utils/Makefile.am.
+      dtdocbook: remove unnecessary header files dependency.
+      doc: update common files.
+      doc: update Makefile.am.
+      doc: update SGML syntax.
+      doc: move C to en_US.UTF-8.
+      doc: convert de_DE.ISO8859-1 to de_DE.UTF-8.
+      doc: make de_DE.UTF-8 build normally.
+      doc: convert es_ES.ISO8859-1 to es_ES.UTF-8.
+      doc: make es_ES.UTF-8 build normally.
+      doc: convert fr_FR.ISO8859-1 to fr_FR.UTF-8.
+      doc: make fr_FR.UTF-8 build normally.
+      doc: convert it_IT.ISO8859-1 to it_IT.UTF-8.
+      doc: make it_IT.UTF-8 build normally.
+      doc: remove ja_JP.dt-eucJP.
+      doc: migrate ja_JP.UTF-8 to Autotools.
+      doc: update AM files.
+      localized: convert ja_JP.dt-eucJP to ja_JP.UTF-8.
+      localized: convert ko_KR.dt-eucKR to ko_KR.UTF-8.
+      localized: convert zh_CN.dt-eucCN to zh_CN.UTF-8.
+      localized: convert zh_TW.dt-eucTW to zh_TW.UTF-8.
+      localized: add Japanese template.
+      localized: update templates.
+      DtHelp: keep processing even when some fonts are missing.
+      dtinfo: fix a highlighting issue.
+      doc: replace /usr/dt with macro.
+      programs: update Makefile.am.
+      cde: update .gitignore.
+      cde: update configure.ac.
+      Merge branch 'master' into dtdocbook
+      dtdocbook: fix a linking issue.
+      dtappbuilder: improve font settings.
+      programs: remove a duplicate subdir from Makefile.am.
+      lib: update Makefile.am.
+      dtlogin: make the language menu works.
+      configure.ac: check if getty exists.
+      localized: build dtprintinfo.cat.
+      dtdocbook: update macros.
+      DtMmdb: fix a yacc syntax error.
+      dtdocbook: set language for infolib properly.
+      DtSearch: fix a crash.
+      dtlogin: use POSIX.1 non-local jumps.
+      configure.ac: don't check getty.
+      fontaliases: revise fonts.alias for UTF-8 to display multi-language correctly.
+      fontaliases: add font aliases.
+      fontaliases: make the font aliases to support i18n.
+      dtlogin: set fontpath to support i18n.
+      cde: update configure.ac.
+      cde: update .gitignore.
+      dtstyle: fix window functions.
+      dtinfo: improve font recognition.
+      dtdocbook: update the token of new line.
+      doc: update man pages to display hyphen-minus correctly.
+      dtinfo: fix a crash.
+      dtinfo: fix a highlighting issue.
+      doc: update fonts used in guides.
+      DtSearch: processing multibyte characters based on locale settings to avoid confusion.
+      dtinfo: prevent allocating redundant DtPrintSetupData.
+      dtinfo: ensure the print setup dialog initializing properly.
+      dtinfo: update help callback name to XmNhelpCallback.
+      doc: update man pages to display &ensp; correctly.
+      doc: update man pages to display &numsp; correctly.
+      doc: update man pages to display &thinsp; correctly.
+      doc: update man pages to display &hairsp; correctly.
+      doc: update man pages to display &ldquo; correctly.
+      doc: update man pages to display &rdquo; correctly.
+      doc: update man pages to display &mdash; correctly.
+      doc: update dtdocbook2infolib man page.
+      doc: update dtdocbook2infolib related documents.
+      tt: prevent superfluous ttsession processes.
+      tt: ensure ttsession is shut down properly.
+      tt: ensure all versions of mapping can be deleted from portmap.
+      tt: remove an unnecessary macro definition.
+      dtdocbook: ensure the correct data type is passed into the variable argument list.
+      DtUtil1: fix a pointer casting issue.
+      dtdocbook: only check LC_CTYPE to determine the locale for DtSearch.
+      dtcm: set default calendar version to avoid segfault.
+      dtdocbook: fix a crash caused by type casting.
+
+Martijn Dekker (1):
+      dtksh: Upgrade ksh93 to 1.0.0-beta.2 2021-12-28
+
+OBATA Akio (18):
+      lib/tt: fix missing version bump
+      Get rid of support of ancient signal handler return type int
+      Change to detect iconv implementation with autoconf
+      configure: stop to add /usr/local to EXTRA_INCS and _LIBS for BSD
+      Change to use POSIX confirmed `select` argments unconditionally
+      Fix to include system header files for using functions
+      Change to use the standard signal handler signature unconditionally
+      Fix to decide data and return type explicity
+      Fix mismatch functionally for temporary file name
+      libcsa: remove duplicated function prototype
+      libcsa: always use time_t for tick
+      dtcm: include <iso8601.h> of libcsa to resolve type mismatch
+      libcsa: fix to use proper xdr function for time_t
+      dtcm: prevent to use `NULL` as a Tick type
+      dtcm: fix `localtime()` usage
+      dtcm: resolve mismatch between `tm.tm_gmtoff` and global `timezone`
+      dtcm: change to use `_XLocaltime` instead of `localtime` consitently
+      dtcm: change to detect TZ offset way with configure
+
+Peter Howkins (53):
+      Add a few configure checks to make sure various programs and headers needed for build are available.
+      Support pkg-config for detecting freetype2 includes and libs. Fixes Ubuntu 19.10 missing the freetype-config binary.
+      libcsa: Resolve GCC 9 warnings
+      libcsa: Resolve all strict-prototype warnings
+      libcsa: resolve all missing-prototypes warnings
+      dtterm: on install use 'tic' to install the terminfo definition for dtterm
+      dtstyle: Alphabetically sort the list of screen savers.
+      dtcalc: Change the prototype of matherr() to reflect actual usage and remove warnings.
+      dtcalc: Remove more 'extern' variables in .c files, by putting them in .h. Also reduce scope of vars and funcs with static.
+      dtpad: resolve warnings due to buffer safety
+      dtfile: Resolve warnings about format string overflow.s
+      dticon: Resolve some warnings about format bufferss
+      libtt: Resolve uninitialized warningss
+      libdtsvc: Resolve Uninitialized warnings
+      libdthelp: Resolve uninitialized warnings
+      libdtsearch: Resolve uninitialized warnings
+      libdtwidget: resolve uninitialized warnings
+      libdtprint: Resolve uninitialized warnings
+      libdtterm: Resolve uninitialized warnings
+      libcsa: Resolve uninitialized warnings
+      ttsnoop: Resolve uninitialized warnings
+      nsgmls: Resolve uninitialized warnings
+      localized/util: Resolve uninitialized warnings
+      dtwm: Resolve uninitialized warnings
+      dtstyle: Resolve uninitialized warnings
+      dtsr: Resolve uninitialized warnings
+      dtprintinfo: Resolve uninitialized warnings
+      dtpad: Resolve uninitialized warnings
+      dtmail: Resolve uninitialized warnings
+      dtlogin: Resolve uninitialized warnings
+      dtksh: Resolve uninitialized warningsc
+      dtimsstart: Resolve uninitialized warnings
+      dticon: Resolve uninitialized warnings
+      dthelp: Resolve uninitialized warnings
+      dtfile: Resolve uninitialized warnings
+      dtdocbook: Resolve uninitialized warnings
+      dtcreate: Resolve uninitialized warnings
+      dtcm: Resolve uninitialized warnings
+      dtappbuilder: Resolve uninitialized warnings
+      dtaction:: Resolve uninitialized warnings, use a set access more for the SULog file
+      dtwm: Resolve format-overflow issues
+      dtstyle: Resolve format-overflow issues
+      dtprintinfo: Resolve format-overflow issues
+      dtmail: Resolve format-overflow issues
+      dtlogin: Resolve format-overflow issues
+      dtappbuilder: Resolve format-overflow issues
+      dthelp: Resolve format-overflow issues
+      dtfile: Resolve format-overflow issues
+      dtcm: Resolve format-overflow issues
+      dtappbuilder: Resolve format-overflow issues
+      libtt: Resolve format-overflow issues
+      various: Window objects should be initialised to 0 not NULL
+      Allow the window manager to handle centered, fit and fill backdrops
+
+WHR (2):
+      Break building on subdirectories make(1) failed
+      Remove uses of ar(1) option '-l'
+
+
+
+#######################################################################
+### 2.4.0 (stable) 6/3/2021
+
+This release adds support (and converts) to UTF-8 encoding for all
+message catalogs.  The help and dtinfo stuff (being based on docbook
+2) is still using ISO8859-* encodings.
+
+This will also be the last release to use imake/Imakefiles for
+building.  Once released, the autotools-conversion branch will be
+merged into master shortly thereafter, and future releases will use
+autotools.
+
+The main highlights of this release:
+
+- Conversion of message catalogs to UTF-8
+
+- The ksh93 code used to build dtksh has been updated to something
+  from this century (hash: 66e1d446), and a lot of work has gone into
+  making it work with CDE's dtksh
+
+- Many build related warnings and bugs have been addressed as usual.
+
+- Linux (and some BSD's) support PAM and utempter allowing the removal
+  of the SUID root bit for dtsession and dtterm
+
+- Preliminary risc-v support
+
+- Preliminary support for the musl C library
+
+- many fixes related to old K&R code, new compiler versions and
+  other related fixes
+
+Here is the git "short" log:
+
+Chase (24):
+      dtksh: remove unused files and functions
+      dtkcmds.c: avoid c99 collision
+      dtksh: remove needless OS defines
+      extra.h: remove unused prototypes
+      dtksh: Turn dtksh aliases into builtins and discard BLT_SPC flag
+      dtksh: remove old ksh from repo
+      dtksh: add new ksh93 submodule
+      dtksh/examples: clean up scripts
+      dtksh: make new ksh submodule build
+      ksh: update to commit 092b90
+      dtkcmds.c: add extra field to discipline functions
+      dtksh: Use ksh93 translate over augmented version
+      ksh93: update to commit dd9bc2
+      Dtksh: fix callback segfault
+      dtksh: update to commit 67880e3
+      dtksh: use sh_addbuiltin instead of manually editing builtins.c
+      dtkcmds.c: use Empty macro instead of empty string
+      dtksh: use bin/package flat make instead of shell
+      use a patchfile to augment init.c instead of copying it entirely
+      dtksh/findsym.c: fix compiler warnings
+      dtksh/Imakefile: make patch obey POSIX
+      dtksh: make it build under openindiana
+      dtksh: use std malloc instead of ast malloc
+      dtksh: update ksh to commit 47468f (fix musl compiler errors)
+
+Edmond Orignac (1):
+      misc.c: in cm_mbchar check string!=NULL before dereferencing it
+
+Jon Trulson (54):
+      UTF-8 conversion: convert imports/motif/localized
+      Remove useless logs/ directory
+      UTF-8 conversion: programs/localized/de_DE
+      UTF-8 conversion: programs/localized/es_ES
+      UTF-8 conversion: programs/localized/fr_FR
+      UTF-8 conversion: programs/localized/it_IT
+      UTF-8 conversion: programs/localized/sv_SE
+      UTF-8 conversion: fixup database Imakefiles, config and gitignore
+      utf8 conversion: fix up seperation of locale and doc building
+      Fix .gitignore for ISO8859-1 docs
+      utf8 conversion: mostly working, help has issues
+      Merge branch 'master' into utf8-conversion-2
+      Merge branch 'master' into utf8-conversion-2
+      Merge branch 'master' into utf8-conversion
+      Merge branch 'master' into utf8-conversion
+      Merge branch 'master' into utf8-conversion
+      Merge branch 'master' into utf8-conversion, after 2.3.0a release
+      Merge branch 'master' into utf8-conversion after 2.3.1 release
+      dtinfo: link proper localized (utf8) dirs
+      site.def: add define guards around DtLocalesToBuild
+      gitignore: add infolib/etc UTF-8 locales
+      Set version to 2.3.1a (devel) for current master
+      linux.cf: always use bison
+      FreeBSD 12/libDtHelp: fix link errors with missing libjpeg
+      DtSvc: always use vsnprintf
+      dtsession, DtSvc: fix CVE-2020-2696/VU#308289
+      Add a new contrib/desktopentry-setlang/ mechanism
+      Revert "Add a new contrib/desktopentry-setlang/ mechanism"
+      desktopentry/README: Clarify that the login manager is responsible for setting language
+      dtksh: fix 32b/64b issues with XmTextGetString and XmTextFieldGetString
+      Convert uses of XKeycodeToKeysym (deprecated) to XkbKeycodeToKeysym
+      fix broken dev version number: 2.3.1a -> 2.3.2a
+      udbParseLib.awk: comment out some uneeded commands that cause warnings now
+      Merge branch 'master' into master-ksh93-upgrade
+      ksh93: re-add the ksh submodule at 47468f
+      Change version to 2.3.2b for the new ksh93 submodule merge
+      README: update clone instructions
+      ksh93: update to 66e1d446 from autotools branch
+      .gitignore: Add some MsgCat.c generated files
+      Merge /u/l-chang/cdesktopenv1/ branch master into master
+      Merge /u/low-power/cde-code/ branch remove-ar-l into master
+      videoTypes.dt: remove duplicate LABEL field
+      dtprintinfo: try to mitigate some stupid in ParseJob.C for sun
+      NetBSD.cf: add a link comment to list package needed for PAM support
+      FreeBSD.cf,DragonFly.cf: disable PAM support by default
+      Bump devel version to 2.3.2c
+      debin/control: add libpam and libutempter
+      .gitignore: update for PAM changes
+      Apply a patch from Roger Brown for risc-v and other minor fixes
+      Removed cde/programs/dtksh/ksh93 submodule at commit 66e1d446429543be0f9d47d9364e472932dc53f1
+      Squashed 'cde/programs/dtksh/ksh93/' content from commit 66e1d4464
+      Merge commit '12bbb66931feaac778ef4e47b67375ec9b58e839' as 'cde/programs/dtksh/ksh93'
+      Removed .gitmodules
+      README: fix clone instructions to no longer require --recursive
+
+Lev Kujawski (20):
+      Define _DtPLATFORM_MAX_LEN for C libraries (including musl) that do not provide the SVID SYS_NMLN definition. Use sizeof() to replace another #ifdef.
+      Rename functions within ToolTalk that conflict with the musl C library headers.
+      Hide FILE internals from the musl C library that conflict with the Desktop Korn Shell's SFIO.
+      On Linux, use the SVR4 (now POSIX) signal and locking interfaces instead of the non-standard BSD equivalents.
+      On Linux, use SVR4's (now POSIX) mktime() instead of BSD's non-standard timelocal().
+      Use the C99 standard va_copy if possible for compatibility with the musl C library.
+      Define time_t within AccessI.h by including <time.h>.
+      Fix incompatibilites between the Desktop Korn Shell and the musl C library:
+      imake: fix warnings on PowerPC builds
+      dtdocbook/instant: the musl C library does not define MAXNAMLEN
+      dtinfo: the musl C library requires the inclusion of the POSIX fcntl header
+      dtinfo: Include config.h for the definition of u_int
+      dtprintinfo: don't use rresvport() on Linux systems using the musl C library
+      config/cf/Imake.cf: Define AArch64Architecture on the BSDs.
+      dtinfo: rename the CATGETS macro to MCATGETS
+      Centralize catgets() calls through MsgCat
+      Avoid Global Offset Table (GOT) limits by enabling -fPIC on the BSDs.
+      Purge unused Freetype dependency from CDE
+      Switch default backdrop from SkyLight to KnitLight
+      Specify SPARC and SPARC64 as big endian platforms
+
+Liang Chang (69):
+      dtopen: fix the syntax errors of comment.
+      dtdocbook: fix a segmentation fault.
+      ttsnoop: fix a segfault that occurred when clicking "Version..." in the "Snoop" menu.
+      dtappbuilder: apply graceful degradation for font loading to avoid a segmentation fault.
+      dtappbuilder: fix a segmentation fault that occurred when clicking "Edit" in the "Revolving Property Editor".
+      dtappbuilder: fix a segmentation fault that occurred when repeating "Add Item" -> "Delete" -> "Add Item" in the "Revolving Property Editor".
+      dtappbuilder: fix a segmentation fault that occurred when clicking "Edit" in the "Menu Property Editor".
+      csa: replace sprintf with asprintf to avoid segfaults.
+      dtcm: fix a segfault when "Drag Appt" in the dtcm_editor.
+      dtcm: fix a segfault that occurred when opening the "Appointment List..." in the "View" menu.
+      dtfile: fix a segmentation fault that occurred when drag and drop file with the same name.
+      dtcm: Avoid to leave an unclosable window when there is no appointment in "Appointment List...".
+      dtappbuilder: ensure the subtypes of widgets are properly initialized.
+      dtappbuilder: ensure mouse operations are not interfering by key masks (e.g., Caps Lock, Num Lock, etc.) when editing (resize, double-click, etc.) widgets.
+      dtappbuilder: adjust data types to avoid type casting errors.
+      dtappbuilder: fix issues of property settings for text pane.
+      dtappbuilder: adjust data types to avoid type casting errors.
+      dtappbuilder: fix issues of property settings for list.
+      dtappbuilder: fix issues of property settings for button.
+      dtappbuilder: fix issues of property settings for choice.
+      dtappbuilder: fix issues of property settings for combo box.
+      dtappbuilder: fix issues of property settings for control pane.
+      dtappbuilder: fix issues of property settings for custom dialog.
+      dtappbuilder: fix issues of property settings for draw area pane.
+      dtappbuilder: fix issues of property settings for file selection dialog.
+      dtappbuilder: fix issues of property settings for group.
+      dtappbuilder: fix issues of property settings for label.
+      dtappbuilder: fix issues of property settings for main window.
+      dtappbuilder: fix issues of property settings for menu.
+      dtappbuilder: fix issues of property settings for menubar.
+      dtappbuilder: fix issues of property settings for scale.
+      dtappbuilder: fix issues of property settings for separator.
+      dtappbuilder: fix issues of property settings for spin box.
+      dtappbuilder: fix issues of property settings for term pane.
+      dtappbuilder: fix issues of property settings for text field.
+      dtappbuilder: fix the rendering glitch of the list widget which contains a label.
+      ttsnoop: adjust the text field on ttChooser.
+      ttsnoop: adjust data types to ensure the result of pointer comparison is correct.
+      ttsnoop: check the return value from tt_message_op to avoid a segmentation fault.
+      dtappbuilder: set limits on the resize rectangle to avoid rollover.
+      dtappbuilder: ensure the resize box always inside the main window to avoid the rendering glitch.
+      dtappbuilder: set the default size (in pixels) for terminal pane.
+      dtappbuilder: set the minimum limit for rows and columns to avoid rollover.
+      dtappbuilder: Fix a crash when resize a text pane. The crash is occurred when drag on the scrollbar to resize.
+      dtappbuilder: Fix unsigned integer rollover.
+      dtterm: Change the default log host to localhost. To check the log function, add -DLOG_USAGE to the Imakefile then build the dtterm. There are a logger in the util directory, run it to receive log messages.
+      dtinfo: Fix a segmentation fault. The return value from CanvasRenderer::_dofont is a pointer. It will be passed to the free function. Ensure that pointer always points to a dynamically allocated memory to avoid segmentation faults.
+      Add lib DtPamSvc.
+      Add PAM support to dtlogin.
+      dtlogin: get rid of some warnings.
+      Add PAM support to dtsession.
+      DtPamSvc: update Imakefile.
+      dtlogin: rename PAM config file.
+      dtsession: rename PAM config file.
+      Enable PAM support for dtlogin and dtsession.
+      dtlogin: use utmpx when PAM is enabled.
+      DtPamSvc: use utmpx.
+      dtsession: add rules for config dir into Imakefile.
+      databases: use "src" files to generate CDE-MIN.udb and CDE-RUN.udb.
+      dtlogin: add utmpx support to UtmpIdOpen.
+      dtsession: revise localAuthenticate.
+      DtPamSvc: Improve user experience.
+      dtlogin: revise the Imakefile for config.
+      DtTerm: Add pts driver support.
+      DtTerm: Add libutempter support for utmp/wtmp updates.
+      dtterm: Add libutempter support for utmp/wtmp updates.
+      databases: Install dtterm as an unprivileged program when PTS driver and libutempter are available.
+      FreeBSD.cf: Enable PTS driver and libutempter.
+      linux.cf: Enable PTS driver and libutempter.
+
+Marcin Cieślak (1):
+      dtdocbook/instant: fix buffer overlow on German umlaut in latin-1
+
+Nina Didenko (2):
+      installCDE: don't hardcode path to whoami
+      tt_type_comp: use CppCmd definition
+
+Peter Howkins (14):
+      all: remove deprecated sys_errlist[] and replace with ANSI C strerror()
+      dtstyle: Remove duplicate definition of NumOfPalettes that was a) wrong b) causing issues on recent compilers
+      dtcalc: Resolve gcc 10 errors about multiple definitions of global variables
+      dtappbbuilder: Resolve GCC 10 errors about multiple definitions of global variables
+      dtcreate: Resolve GCC 10 errors about multiple definitions of global variables
+      dticon: Resolve GCC 10 errors about multiple definitions of global variables
+      libDtSearch: Resolve GCC 10 errors about multiple definitions of global variables
+      dtudcfonted: Resolve GCC 10 errors about multiple definitions of global variables
+      dthelp: Resolve GCC 10 errors about multiple definitions of global variables
+      dtcreate: remove hacky solution to declaring and defining variables in .h files Split them into .c and .h like usual.y
+      dtcalc: Remove support for optional K&R prototypes to simplify code
+      dtcalc: remove some pointless macroing of function names to uppercase versionss
+      libcsa: Always use ANSI function prototypes
+      dtcm: Always use ANSI function prototypes
+
+WHR (2):
+      Break building on subdirectories make(1) failed
+      Remove uses of ar(1) option '-l'
+
+
+#######################################################################
+### 2.3.2 (stable) 1/14/2020
+
+The release corrects a potentially exploitable CVE (well, exploitable
+on solaris CDE, but unlikely to be exploitable with this CDE).  Fix
+the issues anyway.
+
+Jon Trulson (2):
+      dtsession, DtSvc: fix CVE-2020-2696/VU#308289
+      Prepare for 2.3.2 release: HISTORY and version number change
+
+
+#######################################################################
+### 2.3.1 (stable) 11/15/2019
+
+This stable release comes from the 2.3.0a development release, and
+adds a few more minor fixes and cleanups.
+
+The main highlights of this release:
+
+- All languages are built by default on Linux again.
+
+- Hundreds (perhaps thousands) of compiler warnings fixed.  Far too
+  many remain.
+
+- Hundreds of Coverity fixes.
+
+- Removal of large chunks of code, docs and the like pertaining to
+  unsupported systems and plain old ancient cruft that serves no
+  useful purpose anymore.
+
+- All non-ansi C functions (K&R style) have finally been ansi'fied.
+
+- All C/C++ 'register' declarations have finally been removed.
+
+- Integration of Antonis Tsolomitis' desktop_approots contribution.
+
+  This adds default actions for a variety of common file types.
+  Support is provided via a new dtopen script that is used to launch an
+  appropriate viewer for an appropriate file type.
+
+  The types supported are: images (jpg, png, etc), videos (mpg, avi,
+  mp4, etc), PDF files, and Postscript files.
+
+  Additionally, icons and actions for various common utilties are also
+  provided, like one for VLC.
+
+  The various "view" helpers currently installed are:
+
+  dtopen_vimage - view an image file.  Defaults to xv, display, and
+  gimp, in that order.  Override with the environment variable
+  DTOPEN_VIMAGE.
+
+  dtopen_vpdf - view a PDF file.  Defaults to okular, xpdf.  Override
+  with the environment variable DTOPEN_VPDF.
+
+  dtopen_vps - view a postscript file.  Defaults to mgv, gv.  Override
+  with the environment variable DTOPEN_VPS.
+
+  dtopen_vvideo - view a video file.  Defaults to vlc, ffplay.
+  Override with the environment variable DTOPEN_VVIDEO.
+
+  When a request is made to view one of these file types, the list of
+  possible viewers will be tried, in order, until one is found.  If
+  none are found, an error message will be displayed.
+
+  Add environment variable overrides to your ~/.dtprofile file if you
+  don't like the default(s).  ex:
+
+  export DTOPEN_VVIDEO="mpv"
+
+- sgml is gone.  We always use CDE's nsgmls program now.  In time,
+  this too will be removed and the system's nsgmls installation will
+  be used and required as an external dependency.
+
+- The included tcl interpreter is gone, we always use the system TCL
+  interpreter now (8.5+).
+
+- A potential exploit in dtprintinfo was also addressed.  This
+  affected Solaris CDE, but ours still had "issues" with amazingly
+  stupid code. It is no longer installed SUID root.
+
+- aarch64 support.
+
+- scroll wheel support for dtterm and dtfile is working now.
+
+
+Here is the git "short" log:
+
+Adam Sampson (3):
+      Avoid a NULL pointer dereference
+      Don't dereference an uninitialised pointer
+      Explicitly initialise two more static pointers
+
+Alex Ivanov (1):
+      define M4Cmd
+
+Chase (4):
+      Use iconv on linux
+      Remove old jpeg files
+      remove more internal jpeg headers
+      il: remove various deprecated files
+
+David Cantrell (1):
+      Patch out use of deprecated and now removed ustat(2) function on Linux.
+
+Jon Trulson (111):
+      Merge branch 'master' into cde-next
+      makedepend: remove register keyword
+      util/mkshadow: delete ancient unused utility
+      util/dbtoman/instant: remove register keyword
+      examples/dtwsm: remove register keyword
+      lib/DtHelp/il: remove register keyword
+      lib/DtHelp/jpeg: remove register keyword
+      lib/DtHelp: remove register keyword
+      lib/DtPrint: remove register keyword
+      DtSearch/raima: remove register keyword
+      lib/DtSearch: remove register keyword
+      DtSvc/DtCodelibs: remove register keyword
+      DtSvc/DtEncap: remove register keyword
+      DtSvc/DtUtil1: remove register keyword
+      DtSvc/DtUtil2: remove register keyword
+      DtTerm/util: remove register keyword
+      DtWidget: remove register keyword
+      lib/csa: remove register keyword
+      lib/pam/examples/login: remove register keyword
+      lib/pam: remove register keyword
+      tt/lib: remove register keyword
+      tt/bin: remove register keyword
+      dtaction: remove register keyword
+      dtappbuilder: remove register keyword
+      dtcalc: remove register keyword
+      dtcm: remove register keyword
+      dtdocbook: remove register keyword
+      dtfile: remove register keyword
+      dtimsstart: remove register keyword
+      dtinfo: remove TKTemplate.nd.c
+      dtinfo: remove register keyword
+      dtksh: remove register keyword
+      dtlogin: remove register keyword
+      dtmail: remove register keyword
+      dtpad: remove register keyword
+      dtprintinfo: remove register keyword
+      dtscreen: remove register keyword
+      dtsr: remove register keyword
+      dtstyle: remove register keyword
+      dtterm: remove register keyword
+      dtwm: remove register keyword
+      localized/util: remove register keyword
+      nsgmls: remove register keyword
+      util/dttypes: remove register keyword
+      dtudcfonted, dtudcexch: delete from repository
+      dtdocbook/regexp.c, remove register keyword
+      lib/tt/mini_isam: remove register keyword
+      FreeBSD.cf, OpenBSD.cf: remove -Wno-deprecated-register, no longer needed
+      dtdocbook/tcl/tclUtil.c: fix merge error
+      Merge branch 'master' into cde-next
+      ttsnoop: drag into a modern C++ century
+      ttsnoop: use tail arg -f rather than +0f
+      tt/mini_isam: use proper include, get rid of ultrix strdup
+      tt/mini_isam: remove all ancient sccsid blocks
+      tt/mini_isam: add new isam_prototypes.h include file and fix up problems
+      ttsnoop: resolve coverity 176047, 176046, 176044, 176043, 176042 and 176040
+      Merge branch 'master' into update-with-master
+      Merge branch 'master' into cde-next
+      lib/DtSearch/raima/proto.h: fix OBSD build - don't redef system functions
+      Add a new script, dtapp, used to locate and run various helper programs
+      Add icons from Antonis Tsolomitis desktop_approots contribution
+      databases/: remove ancient crufty scripts
+      Add actions and types from Antonis Tsolomitis' desktop_approots contribution
+      Finish integrating Antonis's desktop_approots work
+      Rename "dtapp" to "dtopen"
+      templates/types.tmpl: make sure to clean up new .dt's on a make clean
+      Merge branch 'master' into cde-next
+      dtfile: Fix up CopyCheckDeletePermission() and CheckDeletePermission
+      sgmls: remove from repository - we always use nsgmls
+      configShlibs.src: Fixup some bugs introduced by previous commits
+      tcl: use the system version, initial work only on linux for now
+      docbook.tcl: fix up some problems using a modern Tcl
+      docbook/instant: fix a few more issues
+      instant: encode 8bit chars to keep Tcl happy
+      use system tcl: clean up Imake files for dtdocbook/instant
+      Change version to 2.3.0a (devel)
+      dtdocbook/tcl/tcl.h: Add compatibility defines for old Tcl
+      Remove ancient included tcl code
+      docbook.tcl, instant: finish remaining help generation issues with tcl
+      Merge branch 'master' into cde-next
+      dtdocbook/instant: add Tcl_GetErrorLine check for older versions of Tcl
+      Merge branch 'master' into cde-next
+      linux: DtHelp/StringFuncs, enable real iconv() support
+      dtcalc/calctool.h: Use include stdlib rather than extern declarations
+      dtdockbook/instant: Add the proper paths for TCL on NetBSD
+      Merge branch 'master' of ssh://git.code.sf.net/p/cdesktopenv/code
+      NLS: fix quote issue with various OS's in C/types/_common.dt.tmsg
+      dtprintinfo: Fix a potential exploitable buffer overrun
+      dtprintinfo: correct another possible buffer overflow
+      dtprintinfo: remove SUID root on install
+      ksh/libast: include sys/sysmacros.h in fmtdev.c for linux systems
+      isfname.c: remove register keyword
+      Merge /u/jrubio/cdesktopenv/ branch dtksh_include_sys_sysmacros into master
+      Merge /u/jrubio/cdesktopenv/ branch linux_aarch64 into master
+      Merge /u/jrubio/cdesktopenv/ branch pointer-compare into master
+      Merge /u/jrubio/cdesktopenv/ branch implicit-int into master
+      Merge /u/jrubio/cdesktopenv/ branch int-conversion into master
+      Merge /u/jrubio/cdesktopenv/ branch incompatible-pointer-types into master
+      Merge /u/jrubio/cdesktopenv/ branch delete-incomplete into master
+      Merge /u/jrubio/cdesktopenv/ branch discarded-qualifiers into master
+      linux: build all languages by default again
+      dtterm: add scroll wheel support
+      dtcalc: increase highlight thickness to match Solaris CDE
+      dtfile: Add scroll wheel support
+      dtpad: emit error on catopen() failure
+      dtmail: fix NULL char embedded in format string
+      dtmail: fix extra format args warnings
+      ttserver: fixup forward (vexing) fucntion decl's in main, get rid of **environ
+      DtSvc/DtUtil1: fix implicit function declarations
+      DtSvc/DtUtil2: fix implicit function declarations
+      Change CDE version info for 2.3.1 release
+
+Jose Rubio (15):
+      Added linux/aarch64 as valid target.
+      Cleanup of -Wpointer-compare warnings.
+      Fixes for warnings related to -Wimplicit-int.
+      FIX: Define Aarch64 as little endian so DtInfo compiles.
+      Fix for deprecated warnings related to gnu libc sys macros.
+      Update TCL libraries link and restrict tcl8.6 only to SuSE.
+      Link TCL libraries and restrict tcl8.6 to SuSE only.
+      Merge branch 'linux-suse-tcl-link' of https://git.code.sf.net/u/jrubio/cdesktopenv into linux-suse-tcl-link
+      Fix openbsd compile build errors due to dependency on libiconv
+      Fix to Wenum-compare
+      Fix to different compile warnings.
+      Fix to compile warnings.
+      Fix to delete-incomplete warnings.
+      Fixes for a few -Wincompatible-pointer-types
+      get rid of the 'extern sys_errlist' and 'sys_nerr' in SysErrorMsg.
+
+Matthew R. Trower (4):
+      Add default TCLLIB, and allow override in host.def
+      Clean up UseInstalledX11 logic
+      Restore original `tail` functionality in ttsnoop, with POSIX args
+      Repair and simplify installCDE.src:CleanDaemons()
+
+Nina Didenko (4):
+      dtinfogen: don't override PATH
+      udbToAny.ksh: don't hardcode path to awk
+      merge: don't hardcode path to gencat
+      sym2num: don't hardcode path to cpp
+
+Peter Howkins (301):
+      dtwm: Remove the define PANELIST, it is always on for dtwm
+      dtwm: Remove id strings related to historic version control system used before CDE was opened.
+      dtwm: remove define MINIMAL_DT which is always on for CDE
+      dtwm: Remove WSM define, that is always on for CDE
+      dtwm: Remove define MOTIF_ONE_DOT_ONE, backwards compatibility for motif 1.1, CDE as a whole requires 2.1
+      dtwm: Remove define MWM_QATS_PROTOCOL that has to be always off for dtwm, obsolete, unavailable mwm test suite support
+      dthelp: Remove define M_PROTO that was always turned on (for all platforms) that enabled ANSI not K&R function prototypes
+      dthelp: Remove always on macro M_NOPAR which was just there to support ancient compilers that don't have 'void'
+      dthelp: Remove spectaculaly obsolete MSDOS support
+      dthelp: Convert all K&R function definitions to ANSI (C90) standard
+      dtwm: In CDE we always build with MULTIBYTE support, disable unused singlebyte only
+      dtfile: Remove define MULTIBYTE which is always on for CDE
+      config/util: Change to ANSI function definitions
+      dbtoman: Change to ANSI function definitions
+      libDtHelp: Change to ANSI function definitions
+      libcsa: Change to ANSI function definitions
+      libDtMrm: Change to ANSI function definitions
+      libDtSvc: Change to ANSI function definitions
+      libDtTerm: Change to ANSI function definition
+      libtt: Change to ANSI function definitions
+      dsdm: Change to ANSI function definitions
+      dtappbuilder: Change to ANSI function definitions
+      dtcalc: Change to ANSI function definitions
+      dtcm: Change to ANSI function definitions
+      dtcreate: Change to ANSI function definitions
+      dtdocbook: Change to ANSI function definitions
+      dtfile: Change to ANSI function definitions
+      dtfile/dtcopy: Change to ANSI function definitions
+      dtinfo: Change to ANSI function definitions
+      dticon: Change to ANSI function definitions
+      dtlogin: Change to ANSI function definitions
+      dtwm: Change to ANSI function definitions
+      dtsession: Change to ANSI function definitions
+      dtimsstart: Change to ANSI function definitions
+      dtpdm: Change to ANSI function definitions
+      dtpdmd: Change to ANSI function definitions
+      dtstyle: Change to ANSI function definitions
+      dtterm: Change to ANSI function definitions
+      dtscreen: Change to ANSI function definitions
+      dthelp: Change to ANSI function definitions
+      dtpad: Change to ANSI function definitions
+      dtsr: Change to ANSI function definitions
+      dttypes: Change to ANSI function definitions
+      localized/util: Change to ANSI function definitions
+      libDtSearch: Remove optional support for ancient DOS far pointer
+      libDtSearch: Enable compiling with const support, remove ability to build without const support.
+      libDtSearch: remove optional code MULTI_TASK that is not used on CDE
+      libDtSearch: Remove optional code for NO_DBN which is not used on CDE
+      libDtSearch: Remove define ONE_DB which is always off for CDE
+      libDtSearch: NO_TRANS is always on for CDE
+      libDtSearch: SINGLE_USER is always defined for CDE
+      libDtSearch: NO_TIMESTAMP is always on for CDE
+      libDtSearch: remove NO_COUNTRY code which is always off for CDE
+      libDtSearch: Untangle large numbers of TASK_ macros that were all unused code
+      libDtSearch: Tidy up the LOCK and DBN macro madness
+      libDtSearch: Convert to ANSI function definitions and use proper prototypes (which causes more warnings
+      libDtSearch: Remove unused C files that have now disapeared with removal of #defines
+      Merge branch 'cde-next' of ssh://git.code.sf.net/p/cdesktopenv/code into cde-next
+      dtwm: Coverity 87858
+      dtwm: Coverity 88311
+      dtwm: Coverity 88247
+      dtwm: Coverity 88714
+      dtwm: Coverity 89619
+      dtwm: Coverity 88325
+      dtwm: Coverity 88540
+      dtwm: Coverity 89124
+      dtwm: Coverity 89400
+      dtwm: 88998
+      dtwm: Coverity 87256
+      dtwm: Coverity 87236
+      dtwm: Coverity 88535
+      dtwm: Coverity 88285
+      dtwm: Coverity 88375
+      libDtSearch: Coverity 86698
+      libDtSearch: Coverity 86762
+      libDtSearch: Coverity 86768
+      libDtSearch: Coverity 86780
+      libDtSearch: Coverity 86804
+      libDtSearch: Coverity 86856
+      libDtSearch: Coverity 86944
+      libDtSearch: Coverity 87032
+      libDtSearch: Coverity 86579
+      libDtSearch: Coverity 176038
+      libDtSearch: Coverity 87018
+      libDtSearch: Coverity 86816
+      libDtSearch: Coverity 86426
+      libDtSearch: Coverity 86602
+      libDtSearch: Coverity 86119
+      libDtSearch: Coverity 86459
+      dtaction: Coverity 88210 and 87787
+      dtterm: Coverity 89479
+      dtpad: Coverity 174846
+      nsgmls: Coverity 174600
+      nsgmls: Coverity 174584
+      dticon: Coverity 89192
+      dticon: fix for \n being truncated by snprintf off end of error message
+      dtstyle: Coverity 89351
+      dtstyle: Coverity 87763
+      dtstyle: Coverity 89456
+      dtstyle: Coverity 89011
+      dtstyle: Coverity 88726
+      dtstyle: Coverity 88475
+      dtstyle: Coverity 87337
+      dtstyle: Coverity 87244
+      dtstyle: Coverity 87251
+      dtstyle: Coverity 88110
+      dtcm: Coverity 89566
+      dtcm: Coverity 88978
+      dtcm: Coverity 89423
+      dtcm: Coverity 89063
+      dtcm: Coverity 88587
+      dtcm: Coverity 89037
+      dtcm: Coverity 88902
+      dtcm: Coverity 88481
+      dtcm: Coverity 89265
+      libDtHelp: Coverity 88776
+      libDtHelp: Coverity 89548
+      libDtHelp: Coverity 88813
+      libDtHelp: Coverity 88906
+      libDtHelp: Coverity 88665
+      libDtHelp: 88550
+      libDtHelp: Coverity 88440
+      dtprintinfo: Coverity 88414
+      dtprintinfo: Coverity 89561
+      dtprintinfo: Coverity 89488
+      dtprintinfo: Coverity 88650
+      dtprintinfo: Coverity 88683
+      dtprintinfo: Coverity 88097
+      dtprintinfo: Coverity 89669
+      dtprintinfo: Coverity 88447
+      dtdocbook: Coverity 86763
+      dtdocbook: Coverity 86996
+      doc/util/dbtoman: Coverity 88244
+      doc/util/dbtoman: Coverity 89668
+      doc/util/dbtoman: Coverity 88750
+      dtdocbook: Coverity 86683
+      dtcm: Coverity 89621
+      dtcm: Coverity 89547
+      dtcm: Coverity 88910
+      dtcm: Coverity 88353
+      dtcm: Coverity 88888
+      dtcm: Coverity 88584
+      dtcm: Coverity 88468
+      dtcm: Coverity 89169
+      dtcm: Coverity 88107
+      dtcm: Coverity 174711
+      dtcm: Coverity 88514
+      dtcm: Coverity 88613
+      dtcm: Coverity 89212, 88188 and 88636
+      dtcm: Coverity 88675
+      dtcm: Coverity 88687
+      dtcm: Coverity  88741, 88121 and 88692
+      dtcm: Coverity 88768, 89297 and 89115
+      dtcm: Coverity 89452 and 89661
+      dtcm: Coverity 88904
+      dtcm: Coverity 89138
+      dtcm: Coverity 89287
+      dtcm: Coverity 89369
+      dtcm: Coverity 88303, 89531 and 89433
+      dtcm: Coverity 88113
+      dtcm: Coverity 88137
+      dtcm: Coverity 88165
+      dtcm: Coverity 88331 and 88169
+      dtcm: Coverity 89670, 88380 and 88201
+      dtcm: Coverity 88214
+      dtcm: Coverity 88383
+      dtcm: Coverity 88858
+      dtcm: Coverity 88871
+      dtcm: Coverity 89021
+      dtcm: Coverity 89105
+      dtcm: Coverity 89113
+      dtcm: Coverity 89273
+      dtcm: Coverity 89439 and 89458
+      dtcm: Coverity 89502
+      dtcm: Coverity 89593
+      dtcm: Coverity 89641
+      dtcm: Coverity 89645
+      dtcm: Coverity 174810
+      dtcm: Extend string buffer to prevent warning
+      dtcm: Coverity 89423
+      dtcm: Coverity 89273
+      dtcm: Coverity 88978
+      dtcm: Coverity 88902
+      dtcm: Coverity 88871
+      dtcm: Coverity 88672
+      dtcm: Coverity 88636
+      dtcm: Coverity 88107
+      dtcm: Coverity 88183, 88208, 89289
+      dtcm: Coverity 88351
+      dtcm: Increase buffer size to prevent warning
+      dtcm: Coverity 88080
+      dtcm: Fix typo
+      dtcm: Coverity 88236
+      dtcm: Coverity 88243
+      dtcm: Coverity 88334
+      dtcm: Coverity 88648
+      dtcm: Coverity 88860
+      dtcm: Coverity 88917
+      dtcm: Coverity 89143
+      dtcm: Coverity 88762
+      dtcm: Coverity 88792
+      dtcm: Coverity 88899
+      dtcm: Coverity 89043
+      dtcm: Coverity 89182
+      dtcm: Coverity 89275
+      dtcm: Coverity 89667
+      dtcm: Coverity 89686
+      dtcm: Coverity 87931
+      dtcm: Coverity 174713
+      dtcm: Coverity 174819
+      dtcm: Coverity 88168
+      dtcm: Coverity 88225
+      dtcm: Coverity 88235
+      dtcm: Coverity 88272
+      dtcm: Coverity 88336
+      dtcm: Coverity 88505
+      dtcm: Coverity 88575
+      dtcm: When freeing pointer, set the pointer to NULL, so that on future failures you don't return a pointer to freed data
+      dtcm: Coverity 88631
+      dtcm: Coverity 88647
+      dtcm: Coverity 88669
+      dtcm: Coverity 89081
+      dtcm: Coverity 89413
+      dtcm: Coverity 89499
+      dtcm: Coverity 89535
+      dtcm: Coverity 89542
+      dtcm: Coverity 89544
+      dtcm: When deleting data, set the pointer to NULL to avoid returning a pointer to freed data on future errors
+      dtcm: Also make sure to reset non pointer fields, so that on future failures they don't return stale data (due to static)
+      dtcm: Coverity 88206
+      dtcm: Coverity 88326
+      dtcm: Coverity 89207
+      dtcm: Coverity 89234
+      dtcm: Coverity 88778
+      dtcm: Coverity 89398
+      dtcm: Coverity 89371
+      dtcm: Coverity 88253
+      dtcm: Coverity 89595
+      dtcm: Coverity 89160
+      dtcm: Coverity 88079
+      dtcm: Coverity 88494
+      dtcm: Coverity 88200
+      dtcm: Coverity 89517
+      dtcm: Coverity 89341
+      dtcm: Coverity 89232
+      dtcm: Coverity 88745
+      dtcm: Coverity 88250
+      dtcm: Coverity 87364
+      dtcm: Coverity 87745 and 88154
+      dtcm: Coverity 88056
+      dtcm: Coverity 88279
+      dtcm: Coverity 88350
+      dtcm: Coverity 88533
+      dtcm: Coverity 89111
+      dtcm: Coverity 89685
+      dtcm: Coverity 176055
+      dtcm: Coverity 89313
+      dtcm: Coverity 88006
+      dtcm: Coverity 87565
+      dtcm: Coverity 87942
+      dtcm: Coverity 88069
+      dtcm: Coverity 88382
+      dtcm: Coverity 88884
+      dtcm: Coverity 88955
+      dtcm: Coverity 89051
+      dtcm: Coverity 89185
+      libDtHelp: Cov 87607
+      libDtHelp: Cov 89582
+      libDtHelp: Cov 88839
+      libDtHelp: Cov 88527
+      libDtHelp: Cov 88084
+      libDtUtil: Cov 88123
+      libDtUtil: Cov 88127
+      libDtHelp: Cov 89172
+      libDtHelp: Cov 89366
+      libDtHelp: Cov 88221
+      libDtHelp: Cov 88465
+      libDtHelp: Cov 88526
+      libDtHelp: Cov 88724
+      libDtHelp: Cov 88952
+      libDtHelp: Cov 89012
+      libDtHelp: Cov 89084
+      libDtHelp: Cov 89401
+      libDtHelp: Cov 89524
+      libDtHelp: Cov 89532
+      libDtHelp: Cov 174697
+      libDtHelp: Cov 88109
+      libDtHelp: Cov 88119
+      libDtHelp: Cov 88162
+      libDtHelp: Cov 88209
+      libDtHelp: Cov 88240
+      libDtHelp: Cov 88262 and 88459
+      libDtHelp: Cov 88275
+      libDtHelp: Cov 88890 and 88294
+      libDtHelp: Cov 88302
+      libDtHelp: Cov 89129 and 88355
+      libDtHelp: Cov 88365
+      libDtHelp: Cov 88381
+      installCDE: fix outputting of missing files on install, caused by C&P error in shellshock fixes
+      libDtHelp: Fix a regression with the Help Index pages caused by an overzealous Coverity fix
+      libDtHelp: Fix another regression caused by Coverity fix, clicking 'Help Manager' works again.
+
+chase (26):
+      linux.cf: Remove permissive flag
+      Remove macII support
+      Remove apollo support
+      Add debian packaging files
+      Add upstream config files
+      Remove redundant motif widgets
+      installCDE.src: Fix shellcheck warnings
+      linksLast and uncomment: Fix shellcheck warnings
+      Revert "dtudcfonted, dtudcexch: delete from repository"
+      Revert "Disable building of dtudcfonted and dtudcexch"
+      Refactor and reimplement dtudcfonted
+      CDE-RUN: Readd binary entries for dtudcfonted
+      post_install: fix shellcheck warnings
+      Remove amoeba support
+      Remove old windows support
+      Dtdocbook: Remove old sgmls program
+      DtsMM.c: Remove null in string
+      dtappintegrate.src and dtopen.src: fix shellcheck warnings
+      dtprintegrate: fix shellcheck warnings
+      il: Remove deprecated files
+      debian: misc cleanup
+      gpftobdf.c: fix long int comiler warnings
+      remove ultrix support
+      Remove hpversion.h from repository
+      Clean up OPENBUGS
+      dbtoman: Improve readability
+
+tu83 (1):
+      Fixed segfault for mode switching when compiled with clang
+
+wmoxam (7):
+      Remove NOTDONE code
+      Remove unused HP_EXTENSIONS code blocks
+      Remove legacysun code blocks
+      Remove 'oldcode'
+      Remove ancient HP VUE compatibility support
+      'notdef' means it's not used, so we remove it
+      Remove all optional compile flags from dtwm that are not referenced anywhere, and are unlikely to ever be used
+
+
+#######################################################################
+### 2.3.0 (stable) 07/06/2018
+
+This is a very long overdue stable release.  It incorporates all of
+the fixes in the 2.2.4a development release plus:
+
+- tooltalk/ttsession:
+
+  - on newer Linux/TIRPC systems, make sure listen() is called on a
+    server socket.  This fixes an infinite loop problem seen with with
+    newer glibc and TIRPC implementations (SUSE Tumbleweed, ArchLinux)
+
+  - default to localhost when hostname IP resolution fails (all
+    platforms).  There is no longer any need to add your unresolvable
+    hostname to the localhosts line in your /etc/hosts file.
+
+- improved build support on Solaris/OpenIndiana systems (gcc and SunStudio).
+
+- BSD improvments:
+  - no need to create X11/Motif symlinks prior to compiling CDE.
+  - Fix native clang builds
+  - Fix some GCC builds
+
+- remove ancient XmeXpm* defines
+
+Here is the git shortlog since the 2.2.4a development release:
+
+Jon Trulson (14):
+      libDtTerm: Fix for a coredump seen on OpenBSD
+      dtinfo/freebsd: fix a (int)NULL cast in DtSR_SearchEngine.C
+      FreeBSD 11: Don't use imported x11/motif, use installed versions for build
+      building_release_archive: omit '-src' in archive filename
+      OpenBSD 6+: use installed X11 and Motif
+      XPM: Replace calls to XmeXpm*() with regular Xpm*()
+      FreeBSD 11: Fix clang (v6) builds
+      FreeBSD: turn off some warnings
+      CDE-ICONS: create compatibility symlinks as relative rather than absolute
+      OpenBSD: tone down compiler warnings a bit
+      libtt: if local hostname lookup fails, default to localhost
+      linux/site.def: use an if !defined() gaurd for DtLocalesToBuild
+      slib/mp_rpc_server: TIRPC: force a listen() call on the server socket
+      dwtm/WmResource.c: Stop printing garbage when XmeRenderTableGetDefaultFont() fails.
+
+Matthew R. Trower (7):
+      nsgml: Resolve symbol collision when building with SunStudio 12.1
+      imake: Refactor and fix get_sun_compiler_versions()
+      Add SMF service on Sun
+      Resolve inconsistent strcasestr availability on Sun
+      Minor corrections and cleanup to sun.cf
+      Enable building against an arbitrary Motif installation
+      Fix DtMail compilation on Sun with GCC
+
+Ulrich Wilkens (3):
+      create .depend files for Solaris+Illumos
+      Reenable gcc support on FreeBSD and OpenBSD
+      Use installed X11 includes and libs
+
+chase (3):
+      Remove reallyoldsun defines
+      installCDE.src: remove duplicate code
+      docnook.tcl: Add shebang
+
+
+  ## 2.2.4a (development) 06/08/2018
+
+  This is a long overdue development release.
+
+  This release corrects several known issues with newer BSD based
+  operating systems, enables TIRPC by default for all Linux systems, and
+  corrects several hundred bugs and warnings (compiler and coverity).
+
+  Using TIRPC on Linux means that you should no longer need to configure
+  rpcbind to run in insecure (-i) mode.
+
+  For Linux, only the C/en_US locales are built by default now.  The
+  available extra locales are:
+
+  fr_FR.ISO8859-1, de_DE.ISO8859-1, es_ES.ISO8859-1, and it_IT.ISO8859-1
+
+  To build for these locales, you must ensure the locale support is
+  present on your OS (see the wiki), and then you can:
+
+  A) Edit config/cf/site.def and add the desired locales to
+     DtLocalesToBuild in the LinuxArchitecture section, or
+
+  B) call make World with the following option:
+
+     make World IMAKE_DEFINES='-DDtLocalesToBuild="fr_FR.ISO8859-1"'
+
+     to build the French Locale, for example.
+
+  For the BSD's, All of the current ones (OpenBSD 6.x and FreeBSD 11.x)
+  should compile now.  Since we no longer use XPrint, the BSD's
+  should not need to compile their own modified Motif libraries any
+  more.  Just install a Motif development package, and go.
+
+  Here is the git shortlog:
+
+  Cody Kotichas (1):
+        Fix typographical error
+
+  Edmond ORIGNAC (2):
+        Manual page for vcal2xapia.awk
+        DtMail translations and improvements of vcal2xampia.awk
+
+  Jon Trulson (103):
+        dtappbuilder: Add patches from Robert Pangrazio fixing coredumps
+        Remove old cruft: osf/* and utils/prog*
+        CDE-RUN: remove osf bindings
+        dtinfo/TextParser.C: coverity CID 89054; mem corruption
+        dtinfo/DtSR: coverity CID 88552; memory corruption
+        dtspcd: coverity CID 174742; potential NULL derefs
+        dtinfo/MixedGen.C: coverity CID 89495; use after free
+        dtfile/SharedProcs.c: coverity CID 89068; use after free
+        dtfile/sharedFuncs.c: coverity CID 88625; use after free
+        dtfile/Main.c: coverity CID 89623; uninit var
+        dtmail/DtMailRc.C: coverity CID 88975; use after free
+        dthelp/htag/malloc: coverity CID 86955; use after free
+        libtt/db_server_svc.C: coverity CID 87060; string overflow
+        libtt/process.c: coverity CID 87051; use after free
+        dtfile/Help.c: coverity CID 88484; use after free
+        dthelp/helpgen.c: coverity CID 175085; use after free
+        csa/match.c: coverity CID 87204; bad free; WTF
+        dtinfo/OutlineListViewMotif.C: coverity CID 87754; memset truncated
+        dtmail/MsgScrollingList.C: coverity CID 87360; memset no effect
+        libtt/tt_file_system.C: coverity CID 86024; array vs singlton
+        dtfile/SharedProcs.c: coverity CID 174852; int overflow
+        dtfile: coverity CIDs 88363,88405,89140,89612; insecure readlink
+        dtudcfonted/getfname.c: coverity CID 86392; insecure readlink
+        dtexec,DtSvc/MsgLog.c: coverity CID 89585; resource leak
+        dtcm/props.c: coverity CID 88573; unbounded src buf
+        dthelp/Initialize.c: coverity CID 89569; unbounded src buf
+        dtfile/File.c: coverity CID 88919; uninit array read
+        libtt/isrepair.c: coverity CID 86705; uninit ptr read
+        dtudcfonted/gpftobdf.c: coverity CIDs 87073,87008,87029,86919,86898,86715; uninit scalar
+        dtudcfonted/_faludcInf.c: coverity CIDs 175096,175092; uninit ptr read
+        dtcalc/ds_xlib.c: coverity CID 175093; wrong sizeof/bad free
+        dtcalc: remove MAX_PATH, use standard PATH_MAX
+        dtcreate/CreateActionAppShell.c: coverity CID 175092; uninit ptr read
+        dtcreate/fileio.c: coverity CID 175094; dref bef NULL
+        dtwm/WmResource.c: remove errant ')' added in previous commit
+        libDtSearch/dtsrapi.c: Coverity CID 86857; dest buf too small
+        dtsr/dtsrclean.c: Coverity CID 86876; dest buf too small
+        dtcm/dssw.c: Coverity CID 88672; dest buf too small
+        dtcalc/ds_xlib.c: Coverity CID 175167; uninit value
+        dtudcfonted/gpftobdf.c: Coverity CID 175168; NULL deref
+        dtcm/dssw.c: fix typo
+        Disable building of dtudcfonted and dtudcexch
+        fontaliases: use copy rather than symlink since bdftopcf can't handle those
+        dtfile/SharedProcs.c: rework coverity 174852 fix to unbreak dtfile
+        dtfile: define MAX_PATH to PATH_MAX rather than 1024, also CID 87557
+        dtfile/sharedFuncs: CID 88085; resource leak
+        Revert "dtfile: coverity CIDs 88363,88405,89140,89612; insecure readlink"
+        Remove admin/BuildTools/fnrclone/; obsolete junk
+        Remove admin/BuildTools; none of this is pertinent anymore
+        Remove admin/bin; none of this is pertinent anymore
+        Remove admin/man, *nameswitch; none of this is pertinent anymore
+        installCDE/linux: don't try to edit/modify /etc/inetd.conf if it does not exist
+        dthelp/FormatUtils: fix coredump in dthelpgen due to free() of a bad address
+        Reimplement reverted commit 7fa35c to fix readlink() issues
+        dtfile/Prefs: CID 88095,88407,89162,89164,89283,89445
+        dtfile/Desktop: CID 88133,88159,88339,88798,89331,89466
+        dtfile/FileDialog: CID 88141,88451,88658,89058
+        dtfile/SharedProcs: CID 88158,88337,89104,89118
+        dtfile/File: CID 88195,88595,88627,88794
+        dtfile/dtcopy/sharedFuncs: CID 88204,88291,88852,88861,88876
+        dtfile/IconWindow: CID 88242,88702,89030
+        dtfile/Find: CID 88258,87250
+        dtfile/FileMgr: CID 88441,89025,174801
+        dtfile/Help: CID 88598
+        dtfile/Trash: CID 88638,88815,89061,89614
+        dtfile/FileOp: CID 88744,89337,89546
+        linux.cf: Add -Wno-unused-result to C flags
+        dtfile/Command: CID 88819
+        dtfile/Directory: CID 88835,89096,89446,89469,89498
+        dtfile/dtcopy/fsrtns: CID 88868,88128
+        dtfile/Menu: CID 89222
+        dtfile/dtcopy/dosync: CID 89374
+        dtfile/Main: CID 89623
+        dtfile/Encaps: CID 174844
+        dtfile/Desktop: CID 175219,175222,175223,175226,175227
+        dtfile/dtcopy/sharedFuncs: CID 175225
+        dtfile/SharedProcs: CID 175229
+        dtfile/FileDialog: CID 175220
+        dtfile/FileOp: CID 175228
+        dtbuilder/Imakefile: fix clean target to remove dtbuilder executable
+        Enable TIRPC support for Linux
+        dtfile/File.c: implement a hack to fix Ticket #19, tree icons are black
+        CDE-MAN-DEV.udb: remove extra }, added when UXP support was removed
+        CDE-DEMOS: remove references to Makefile.novell
+        TermPrimSetUtmp: fix lost define broken by last patch
+        tt_old_db: use TT_DB_OK instead of NULL
+        tt_xdr_utils: fix up some warnings
+        installCDE.src: Add a -destdir <dir> option
+        Imake.tmpl: don't delete logfiles (make.log MakeOut)
+        XlationSvc: remove a "'" added in previous spelling commit that causes warnings
+        rpc.cmsd: use TIRPC on Linux
+        dtcm/graphics: NULL is not 0
+        libDtCmP: use TIRPC on linux, fix some warnings
+        dtcm: NULL is not 0
+        dtsession: fix screen saver/locking on linux
+        configRun: leave dtmail alone, UDB handles it's perms correctly
+        configRun: remove inetd support
+        configMin: remove inetd support, 'pam' support
+        configTT: remove inetd support
+        installCDE: unset FIGNORE to workaround potential ksh bug
+        linux.cf: disable stripping of installed binaries
+        site.def: Only build C/en_US locales by default for Linux
+        installCDE: Only install locales that were built
+
+  Matthew R. Trower (2):
+        dtwm: basic multihead(xinerama only) support
+        Fix imake segfault on OpenIndiana
+
+  Michael McConville (1):
+        Remove needless zeroing after calloc
+
+  Peter Howkins (78):
+        Change pid wait types to int on Linux as well. Fixes compile issue     in dtudc programs on ubuntu 16.10+
+        Add in an example .desktop session file for other X session managers (not dtlogin)     Suitable for kdm/gdm/lightdm etc
+        Resolve some coverity warnings
+        Fixed for wrong cased filename on depends creation
+        Resolve some compiler warnings
+        Change how read and write errors are detected on fstream based streams.
+        Change dtmmdb class from tuple to mmdb_tuple
+        dtksh: HACKY fix for compilation on later linux C library where FILE definition has moved
+        dtksh: make sure you can still build on linux older c library too
+        dtksh: Linux modern glibc compile HACK prevent system wide definition of __FILE that we define to Sfio_t
+        dtcalc: change from obsoleted MAXFLOAT to FLT_MAX from std C
+        dtdocbook: glibc 2.27 drops support for matherr() support in math.h
+        dtcudcfonted: Resolve compiler and coverity warnings
+        dtscpd: resolve compiler and coverity warnings
+        dtcalc: resolve coverity issues
+        libtt: Resolve some compiler warnings
+        dthelp: compiler warning and coverity warning fixes
+        dtcalc: resolve coverity issues
+        dtudcfonted: Resolve further coverity issues
+        dtcreate: Resolve coverity issues
+        dtpdmd: Resolve some coverity warnings
+        libDtWidget: Resolve some Coverity warnings
+        dtwm: Resolve coverity warnings
+        dtmail: resolve 'deference before null check' errors related to if(!NULL) checks around free() calls
+        Merge branch 'master' of ssh://git.code.sf.net/p/cdesktopenv/code
+        libdtsvc: Compiler warning prevention
+        libdtsvc: Resolve coverity warnings related to 'dereference before null check' related to free()
+        dtwm: cov 175166, check for pointer
+        Merge branch 'master' of ssh://git.code.sf.net/p/cdesktopenv/code
+        dsdm: cov 86572, free mem in error condition
+        libdtterm: Resolve coverity issues
+        config/util: resolve coverity issues
+        dtspcd: Cov 89547, 175089
+        dtinfo: Fix coverity issues for resource leaks
+        dtinfo: fix coverity issues related to null checks after dereference
+        dtinfo/dtinfogen: Fix segfault introduced by over zealously fixing coverity resource leak
+        dthelp: more coverity fixes
+        dtpad: resove coverity issues
+        libtt: Resolve coverity warnings
+        ttsnoop: resolve some compiler warnings
+        libtt: resolve coverity issues related to double close()
+        lidtsvc: coverity fixes
+        dtterm: coverity fixes
+        dtlogin: coverity fixes
+        libtt: More coverity fixes
+        dthelp: coverity fixes
+        dtwm: Fix window menus caused by using destination as param to snprintf
+        various: You cannot use the destination of snprintf as one of the srcs, undefined
+        libtt: Coverity fixes related to uninitialised fields in classes.
+        dtinfo: Resolve coverity warnings related to uninitialised members of classes
+        nsgmls: resolve coverity warnings related to uninitialed members in C++ classes
+        dtmail: resolve coverity warnings related to uninitialised members in C++ classes
+        libtt: Further coverity fixes
+        dtinfo: Fix coverity warning related to using delete not delete []
+        Merge branch 'cde-fixups-1' of ssh://git.code.sf.net/p/cdesktopenv/code into cde-fixups-1
+        dtpdm: Coverity 87632, 87664, 87923
+        libtt: Fixes for Coverity fixes that I thought I'd already fixed.
+        dtmail: Further Coverity fixes
+        dtsr: Coverity fixes for string buffer issues
+        dtinfo: Extra fixes for previous believed fixed things (coverity)
+        dtlogin: Two additional coverity fixes
+        dtappbuilder: Resolve all compiler warnings
+        dtappbuilder: Coverity fixes for mising return value and copy into fixed size buffer
+        dtappbuilder: Fix for very wrong sized buffer
+        dtappbuilder: Further coverity, resource leaks, copy intofixed size buffer and dereference before null checl
+        dticon: coverity fixes
+        Merge branch 'cde-fixups-1' of ssh://git.code.sf.net/p/cdesktopenv/code into cde-fixups-1
+        dtimsstart: Resolve all compiler warnings
+        dtimsstart: Coverity fixes
+        dtimsstart: Fix derp in previoua fix set
+        dtfile: batch coverity fixes
+        dtlogin: Resolve some coverity issues, including those thought previously fixed
+        dtsession: A few extra snprintf's for buffer safety
+        dtimsstart: Fix brackets on previous coverity fix
+        dticon: Fix broken string length calculation
+        dthelp: Further coverity fixes
+        dtappbuilder: Coverity fixes mostly related to uninitialised variables
+        dtwm: Resolve coverity warnings related to uninitialised variables and missing return statements
+
+  Swift Griggs (1):
+        Patches from pkgsrc-WIP
+
+  Ulrich Wilkens (4):
+        Fix BSD and Sun problems after coverity fixes
+        Fix Linux rpc problems with new glibc
+        Fixes for OpenBSD
+        Fix warnings on FreeBSD
+
+  alx (6):
+        libDtSvc: added Xinerama support to _DtMessageDialog
+        dtfile: added Xinerama support to dialog positioning routines
+        dtlogin: center the mouse pointer on the login screen on multi-head setups
+        ttsession: don't segfault if host name isn't properly set
+        dtksh/sfio: resolved a naming collision on FreeBSD 11
+        libtt: pass proper flags to getfsstat, log error message and exit if it fails
+
+  chase (23):
+        Fix various spelling errors
+        More spelling fixes
+        Rewrite csh scripts in sh, use sh instead of csh in scripts
+        Small spelling fixes
+        Fix typo in license headers
+        Even more spelling fixed
+        Last of the spelling fixed
+        Add missing license headers on *.hh files and others
+        Remove bsdi support
+        Add generated binaries to gitignore from programs/localized/
+        Remove examples/motif
+        cde.desktop: remove deprecated encoding key
+        sgml-mode.el: fix address, dt-toolbox: delete
+        Remove UXPDS support
+        Remove Unixware and openserver support
+        Use /var/spool instead of /usr/spool and /var/mail instead of /usr/mail
+        remove OSF1 support
+        Use POSIX macros for linux
+        dinstallCDE.src: add linux and *BSD support
+        Spelling fixes
+        cde.desktop:Add keywords to desktop entry
+        fix files not registering as scripts
+        cde.desktop: add xpm icon
+
+
+
+#######################################################################
+### 2.2.4 (stable) 06/19/2016
+
+This release incorporates several fixes for newer operating systems
+(linux and the BSD's primarily).  It also removes the requirement to
+build with Xp (X Print extension), which is no longer supported.  As
+usual, many warnings and bugs were also fixed.
+
+Here's the shortlog:
+
+Douglas Carmichael (2):
+      Patches to enable compilation on OpenBSD 5.7/FreeBSD 10.1.
+      Changed memcpy() to memmove() to stop coredumping on OpenBSD 5.7.
+
+Giacomo Comes (2):
+      Use /var/spool instead of /usr/spool on linux
+      call fclose(infile) after print_progress()
+
+Isaac Dunham (1):
+      programs/dtappintegrate: make PATH include /bin.
+
+Jon Trulson (6):
+      ksh: fix up shipin for more modern systems WRT test and wc
+      dtlogin: use XDM authentication instead of MIT/DES on linux
+      ttcp: fix missing arg to fprintf
+      dbtoman: fix missing arg to fprintf
+      dtappbuilder: replace accidental %a with %% in write_func_as_strings()
+      contrib: some enhancements to the scrotps provided by Edmond Orignac
+
+Pascal de Bruijn (2):
+      dtlogin: don't use crypt(3) on openbsd
+      dtlogin: openbsd build fix
+
+Peter Howkins (3):
+      Disable all code related to libXp     deprecated and mostly no longer included on current OSes
+      dtstyle: backdrops, allow jpg/png if motif supports it     add file extensions to all types but .pm/.bm. This lets XmGetPixmap() load them.
+      dtstyle: remove some accidentally commited debug code
+
+Ulrich Wilkens (3):
+      Fix FreeBSD 10.2 build
+      Fix dtinfo document build on OpenBSD
+      dtlogin: FreeBSD build fix
+
+alx (14):
+      dtsession: fixed errorlog rotation
+      dtfile: fixed double free in copy/move collision handler
+      dticon: KeySym is not char
+      dtfile: 0 is not NULL
+      dtfile: fixed file view scrolling with Page Up/Down keys
+      dtfile: fixed ambiguity in the translation table
+      DtWidget: added appropriate KeyPress event handler to DtIcon widget
+      DtWidget: resolved some compiler warnings
+      dtfile: Enable FILE_MAP_OPTIMIZE on FreeBSD. This avoids unnecessary tt_file_netfile calls on local host.
+      dtlogin: Enable XDM authentication on FreeBSD
+      dtsession: Enable X11 screensaver extension on FreeBSD
+      dtwm: 0 is not NULL
+      dtwm: Resolved some compiler warnings
+      dtfile: Enable FILE_MAP_OPTIMIZE on Linux. This avoids unnecessary tt_file_netfile calls on local host.
+
+
+#######################################################################
+### 2.2.3 (stable) 05/09/2015
+
+This release incorporates several hundred fixes identified by various
+Coverity scans and patches supplied by users.  In addition,
+OpenIndiana/OpenSolaris support was significantly enhanced thanks to
+Ulrich Wilkens, and a few hundred compiler warnings were squashed.
+
+There is also a new default CDE logo :)
+
+Here is the shortlog:
+
+Edmond ORIGNAC (1):
+      Fix dtprintinfo parser
+
+Isaac Dunham (1):
+      contrib/rc/linux/dtlogin: Make the init script work.
+
+Johannes von Rotz (1):
+      Let "make World" run through on OpenBSD
+
+Jon Trulson (63):
+      contrib/rc/freebsd: Add FreeBSD start script from Douglas Carmichael
+      Add new Dtlogo from Jeff Pierquet.  Original renamed to TOGDtlogo.pm
+      dtmail: MotifCmds.C: NULL is not False
+      ttsnoop: NULL is not 0
+      Revert "ttsnoop: NULL is not 0"
+      dtappbuilder/dtcodegen: Fix up some warnings, remove use of sys_errlist[].
+      dthelp: fixup some warnings with special.h(s)
+      dttypes: use regex on linux too.
+      dtappbuilder: abmf.c: more warnings killed
+      it_IT.ISO8859-1/types/_common.dt.tmsg: Apply manual one-line patch
+      DtHelp: Coverity (memory corruption)
+      DtSvc: Coverity (memory corruption)
+      DtSvc: Coverity (memory corruption)
+      DtTerm: Coverity (memory corruption)
+      DtWidget: Coverity (memory corruption)
+      ttauth: Coverity (memory corruption)
+      dtappbuilder: Coverity (memory corruption)
+      dtsession: Coverity (memory corruption)
+      dtsession: Coverity (memory corruption)
+      imake: Coverity (memory corruption, moderate)
+      DtHelp: Coverity (memory corruption, moderate)
+      DtHelp: Coverity (memory corruption, moderate)
+      DtSearch: remove bogus debug block
+      DtSvc: Coverity (memory corruption, moderate)
+      DtSvc/DtEncap: Coverity (memory corruption, moderate)
+      DtSvc/DtUtil1: Coverity (memory corruption, moderate)
+      DtSvc/DtUtil2: Coverity (memory corruption, moderate)
+      DtTerm: Coverity (memory corruption, moderate)
+      DtTerm: Coverity (memory corruption, moderate)
+      csa: Coverity (memory corruption, moderate)
+      ttauth: Coverity (memory corruption, moderate)
+      ttsession: Coverity (memory corruption, moderate)
+      tt/mini_isam: Coverity (memory corruption, moderate)
+      tt/mini_isam: Coverity (memory corruption, moderate)
+      dtcalc: Coverity (memory corruption, moderate)
+      dtcalc: Coverity (memory corruption, moderate)
+      dtlogin: Coverity (memory corruption, moderate)
+      dtlogin: Coverity (memory corruption, moderate)
+      dtprintinfo: Coverity (memory corruption, moderate)
+      dtscreen: Coverity (memory corruption, moderate)
+      dtsession: Coverity (memory corruption, moderate)
+      dtwm/PopUpMenu: Coverity (memory corruption, moderate)
+      dtwm/WmFP: Coverity (memory corruption, moderate)
+      dtlogin/xdmcp: fixup many warnings and a possible declaration bug
+      DtXinerama: no need to check unsigned int < 0 (CID:86121)
+      Merge branch 'master' of ssh://git.code.sf.net/p/cdesktopenv/code
+      dtsession/SmGlobals: fixup 17 coverity issues.
+      dtsession/SmCommun: fix bogus check (CID 89326)
+      dtsession/SmDB: error handling issues (CID 87778, 87926)
+      dtsession/SmLock: potential null deref (CID 87561, 87957, 88181)
+      dtsession/SmGlobals: use of tainted string (CID 89450)
+      dtsession/SmGlobals: unlink mkstemp generated files.
+      dtsession/SmGlobals: re-add smGD.savePath to generated paths, was lost in mkstemp changes.
+      dtsession/SmRestore: fixup 8 coverity issues.
+      dtsession/SmRestore: redo defaultCwd detection in StartClient() to be safer
+      dtsession/SmSave: get rid of use of tempnam (CID 89359)
+      dtsession/SmSave: use absolute path to rm in system()
+      dtsession/SmUI: fix tainted var (CID 88216)
+      dtsession/SrvFile_io: fix CID's 88299 and 89441
+      dtsession/SrvPalette: fix CID 89227
+      Merge branch 'coverity_dtsession'
+      dtscreen: don't use old version of round() on linux either
+      cde: change revision to 2.2.3
+
+Matthew Howkins (3):
+      libtt: Fix 'Missing return statement' errors detected by static analysis
+      libtt: Fix some uninitialized variables detected by Coverity
+      libtt: Change to standard function prototypes in ttauth. Fix some compiler warnings by adding #includes
+
+Peter Howkins (53):
+      dtlogin: start to resolve static analysis warnings
+      libDtWidget: Resolve some static analyser warnings
+      dtlogin: Resolve 27 compiler warnings
+      dtlogin: resolve 8 compiler warnings.
+      dtlogin: resolve more static analysis warnings
+      Merge branch 'master' of ssh://git.code.sf.net/p/cdesktopenv/code
+      dtcalc: resolve 13 compiler warnings on 64 bit builds.
+      dsdm: resolve coverity warnings CID 86139 86255 86331 86345 86418 86517 86526 86567 86590 86616
+      dsdm: convert k&r function declarations to ansi, and correct the warnings this then uncovered.
+      dtaction: resolve 2 compiler warnings.
+      dtwm: resolve 92 compiler warnings (related to 64 bit pointer to int coversions)
+      dtstyle: resolve 30 compiler warnings.
+      dtsr: resolve all 12 compiler warnings.
+      dtmail: Resolve 50 compiler warnings.
+      dtdocbook: resolve 49 compiler warnings.
+      dticon: resolve 3 compiler warnings
+      dtfile: resolve 19 compiler warnings.
+      dtmail: add a stdint.h include for openbsd, as reported by Daniel Diaz via the wiki.
+      dtstyle: Fix CID 100252
+      dtcm: Resolve 303 compiler warnings.
+      dtpad: Resolve 7 compiler warnings.
+      dthello: Resolve 8 compiler warnings that would be introduced with -Wall
+      libDtHelp: Resolve 11 compiler warnings.
+      libDtPrint: Resolve the 1 remaining compiler warning.
+      libDtSvc: Resolve 28 compiler warnings.
+      dtscreen: convert K&R prototypes to ansi C
+      dtcm: Resolve CID 87384
+      dtcm: Resolve CID 87408
+      dtcm: Resolve CID 87562
+      dtcm: Resolve CID 87713
+      dtcm: Resolve CID 87801
+      dtcm: Resolve CID 87822
+      dtcm: Resolve CID 87983
+      dtcm: Resolve CID 88003
+      dtfile: Resolve CID 87308
+      dtfile: Resolve CID 87776. OkCallback is of type XtCallbackProc, it doesn't return one
+      dtfile: Resolve CID 88133, 88261
+      dtfile: Resolve CID 88199
+      dtfile: Resolve CID 89319
+      dtfile: Resolve CID 89009
+      dtfile: Resolve CID 88830
+      dtfile: Resolve CID 89277
+      dtprintinfo: Resolve CID 87253
+      dtudcfonted: Resolve CID 86153
+      dtudcfonted: Resolve CID 86232
+      dtudcfonted: Resolve CID 86389
+      dtudcfonted: Resolve CID 86280
+      dtudcfonted: Resolve CID 86328
+      dtudcfonted: Resolve CID 86391
+      dtudecfonted: Resolve CID 86417
+      dtudcfonted: Resolve CID 86495
+      dtudcfonted: Resolve CID 86547
+      dtudcfonted: Resolve CID 86560
+
+Stuart Brady (1):
+      DtTerm: fix formatted text in history buffer
+
+Ulrich Wilkens (7):
+      Fix panel right click
+      Resolve many build warnings
+      OpenIndiana and Solaris port
+      Fix FreeBSD 10.1 build
+      Support for new Solaris/OpenIndiana versions
+      Fix broken build on OpenBSD
+      Remove warnings on Linux with glibc 2.20
+
+alx (1):
+      dtcopy: Fix file removal
+
+
+#######################################################################
+### 2.2.2 (stable) 07/27/2014
+
+A lot of fixes and improvements in this release.  CDE can be built on
+more modern Linuxes and BSDs.  An initial stab at illimios support is
+also present.
+
+Here is the shortlog:
+
+Eugene Doudine (7):
+      Fixes the bug #17 dtsession can't validate passwords longer than 8 characters when the session is locked
+      Fixed bug #27 dtfile space handling bug
+      Fixed bug #32 dtfile table formatting bug with non-latin filenames
+      Fixes the off-by-one bug in RegisterInGrid(), which caused dtfile's desktop icons on the right edge of the screen (if desktop width is not a multiple of icon with) to be registered on the next workspace or (in the case of the last workspace) beyond the desktop_grid array (possibly causing segfaults).
+      Fixes several issues with grid registration of the dtwm panel on dtfile startup and on workspace addition:
+      Fixes a small bug in grid registration: when an object is placed over another object (can be done manually) and then removed from there, the registration of the covered object is removed as well (that is it's cell is considered empty).
+      Fixes the bug, which caused dtterm to show stripes of wrong color between text lines when using fontsets that include fonts of slightly different heights.
+
+Jon Trulson (52):
+      update HISTORY file for 2.2.1, though a little too late :)
+      building_release_archive: add some steps and clean up
+      linux depend: stop using makedepend, use gcc instead
+      libDtTerm: add include <stdio.h> so FILE is properly defined.
+      linux: Use installed X11 header files rather than requiring /imports/x11/include
+      nsgmls: fix up some gcc 4.8 warnings.
+      linux.cf: fix typo and some formatting.
+      linux: move dependancy handling out of linux.cf and into new lnxDep.rules file.
+      mp_rpc_server.C: limit iteration of svc_fdset to FD_SETSIZE, as per spec.
+      dtdocbook/instant: *always* link with local libtcl.a
+      dtpad: stub out XmPrint stuff if there is no XmPrint support.
+      dtmail: stub out XmPrint stuff if there is no XmPrint support.
+      dtcm: stub out XmPrint stuff if there is no XmPrint support.
+      dtinfo: stub out XmPrint stuff if there is no XmPrint support.
+      linux: libDtSearch requires linking with -lm
+      libcsa: fix up some stupidness.
+      tt_xdr_utils.h: fix build error on linux/bsd introduced with illumos initial patch.
+      Updated Greek (el_GR.UTF-8) translations from Antonis Tsolomitis.
+      PrintTopics.c: fix up some warnings
+      pax.h: include stdio.h
+      getdate.y: include string.h
+      Icon.c: include stdlib.h
+      localized/util/merge.h: include string.h and fix up some warnings
+      Threads.C: NULL is not 0
+      MotifUI.C: NULL is not 0
+      dtcm/server/: just return NULL, not the address of a dummy local variable.  Geez.
+      cleanup: eliminate "implicit declaration" warnings.
+      linux.cf: turn off writable strings warnings (write-strings)
+      linux: build with thread safety and REENTRANT enabled.
+      dtcm/reminders.c: NULL is not 0
+      dtcm/rfp.c: NULL is not 0
+      cleanup: eliminate missing sentinel warnings
+      xtclient.c, spcd_event.c: stop referencing fds_bits directly
+      linux.cf: with fds_bits fixes, stop using _POSIX_C_SOURCE=199309L and _XOPEN_SOURCE defines
+      xtclient.c: fix debug statement regarding fd number
+      dtsession: screensaver don't pass random attributes to XScreenSaverSetAttributes()
+      InterruptibleCmd.C, WorkingDialogManager.C: NULL is not 0
+      AttachArea.C: NULL is not 0, sprintf needs a format
+      RoamInterruptibleCmd.C: NULL is not 0
+      RoamMenuWindow.C: NULL is not 0
+      SendMsgDialog.C: NULL is not 0
+      WMSaveSession.C: NULL is not 0
+      ttsnoop.C.src: NULL is not 0
+      dtappbuilder: bil_store.c: don't return local variables
+      fr_FR.ISO8859-1/types/_common.dt.tmsg: Fix up a couple of backslash errors.
+      contrib/: add vcal2xapia from Edmond Orignac
+      Added additional info to vcal2xapia/README
+      contrib/: add desktop2dt from Isaac Dunham
+      el_GR _common.dt.tmsg: fix corrupted msg line at line 1763
+      site.def: create new DtDocLocalesToBuild define
+      Version change to 2.2.2
+      Fixup UDB databases to fix a problem introduced with FreeBSD 10 patch.
+
+Peter Tribble (1):
+      initial illumos port
+
+Ulrich Wilkens (4):
+      Fix dtfile and dtterm on NetBSD
+      Fix cpp output on Ubuntu 13
+      Fix dtinfo search engine
+      FreeBSD 10 clang port
+
+alx (2):
+      dtstyle: enable palette editor on true/direct color screens
+      DtWidget: Don't free random pointer on Control widget destruction
+
+
+#######################################################################
+### 2.2.1 (stable) 03/01/2014
+
+- Forgot to update this file for the release.  Oops.  At any rate,
+  only the git shortlogs for each release will be listed here.
+
+Shortlog:
+
+Eugene Doudine (5):
+      Bugfix for #9 Cut off fonts in titles
+      Fix for several segfaults in dtwm that happen with UTF-8 locale and were caused by unckeked XmeRenderTableGetDefaultFont return value
+      Fixes segfault in dtprintinfo when used UTF-8 locale, bug was caused by unchecked return value of XmeRenderTableGetDefaultFont()
+      addition of en_US.UTF-8 locale: fonts.alias and fonts.dir files
+      Addition of the en_US.UTF-8 locale: installation support
+
+Isaac Dunham (2):
+      dtlogin: use proper path to getty and /usr/local/bin in path on Linux
+      Add -quiet option to dtlogin.
+
+Jon Trulson (9):
+      dtinfogen_worker: don't free variables then use them later.
+      Merge branch 'master' of ssh://git.code.sf.net/p/cdesktopenv/code
+      Add dtwm.mgg Greek UTF translation from Antonis Tsolomitis
+      dtexec: fix a case on linux where an infinite loop could occur.
+      dtexec: use proper FD_CLOEXEC rather than a hardcoded 1
+      Fix for xorg-xkb partially freezes dtwm when keyboard layout is changed.
+      Re-add NO_DTINFO blocks removed in NetBSD port patch
+      admin: add a BuildNotes dir for documenting release proceedures, etc
+      Version change to 2.2.1
+
+Pascal Stumpf (22):
+      Kill lots of warnings in DtSvc.
+      Kill most warnings in lib/DtTerm.
+      Do not use -fpermissive in programs/nsgmls. It's not needed.
+      sync warning flags betseen cc and c++ on OpenBSD
+      kill a few more warnings in DtPrint
+      Silence lots of warnings in lib/DtHelp.
+      Do not hardcode /usr/dt in print.dt.
+      Xreset.src: Do not hardcode /usr/dt.
+      s,/usr/dt,CDE_INSTALLATION_TOP,g in dtlogin/config
+      Simplify programs/Imakefile a bit. dtksh, dtlogin and dtcm build everywhere.
+      Adapt dtlogin/config/_common.ksh.src for OpenBSD:
+      error.ds.src: don't hardcode /usr/dt
+      SECURITY fix for dtappintegrate: Use mktemp(1) to generate a template.
+      Kill iostream.h deprecation warnings on *BSD.
+      ttsnoop: deal with iostream.h and missing sentinels.
+      OpenBSD.cf: don't include xorg.cf (leftover)
+      Make dtksh build on OpenBSD/powerpc.
+      include unistd.h for read(2) prototype. Fixes dtdocbook on PowerPC.
+      dtlogin: correct path to getty.
+      dtlp: Fix the path to DtFuncs.dtsh if CDE_INSTALLATION_TOP != /usr/dt.
+      Do not install symlinks to libraries on OpenBSD.
+      Fix dtcm build on OpenBSD-current.
+
+Peter Howkins (2):
+      dtstyle: Alphabetically sort the backdrops in the backdrop list.
+      dtstyle: Resolve 70 compiler warnings
+
+Ulrich Wilkens (16):
+      lib/DtHelp: added missing include.
+      avoid identical Vector instantiations.
+      Remove installation of motif man pages.
+      dtinfo subdirectory DtMmdb
+      dtinfo subdirectory dtinfo
+      dtinfo subdirectory dtinfogen
+      dtinfo subdirectory mmdb
+      documents for dtinfo
+      dtinfo other files
+      dtinfo activation
+      No symlinks to libraries on OpenBSD (default install)
+      correction of message files
+      Introduction of BSDArchitecture
+      NetBSD port
+      Fix for dtinfo segfaults
+      Fix UTF8 problem on non-linux systems
+
+alx (4):
+      dticon: fixed "rubber string" drawing on high/true color displays
+      dtfile: fclose called twice on same handle
+      dtscreen: cosmic flame fractals missing drawing code
+      wwl: fixed dtinfo segfault due to missing copy constructor in WArgList
+
+
+  ## 2.2.0d (development, beta) 05/30/2013
+
+  - We are being bold this time, and promoting CDE to Beta.
+
+  - More work on dtinfo.  It now mostly compiles but is not quite ready
+    for prime time.  It is not built be default.
+
+  - dtksh now builds on linux systems.
+
+  - We do not build Motif man pages anymore.
+
+  - X11 screensaver extension support now works in dtsession on Linux.
+
+  - Some screen locking issues on the BSD's have been fixed.
+
+  - /usr/sbin/sendmail is now the default mailer on OpenBSD
+
+  - Basic support for Xinerama has been added to dtlogin and dtsession
+    using a new DtXinerama library.
+
+  - Resolve many more more compiler warnings
+
+
+  ## 2.2.0c (development, alpha3) 10/4/2012
+
+  - Many 64b issues have been fixed, related to XtVaGetValues(), missing
+    prototypes, erroneous assumptions regarding the size of ints and
+    pointers, etc.  Many still lurk in the shadows.
+
+  - help files should build now on 64b systems with compiler
+    optimization enabled.
+
+  - FreeBSD is pretty much fully functional now.  OpenBSD and NetBSD are
+    close behind.
+
+  - FreeBSD uses a authorized FreeBSD Foundation specific logo on
+    dtlogin.
+
+  - a few hundred more compiler warnings fixed :)
+
+  - more missing prototypes added to XmPrivate.h
+
+
+  ## 2.2.0b (development, alpha2) 9/6/2012
+
+  - This release incoporates approximately 200 patches from various
+    people around the planet.
+
+  - initial BSD (OpenBSD, FreeBSD) support.
+
+  - wider support for various Linux distributions - Redhat, Arch,
+    Ubuntu/Kubuntu/Xubuntu.  See a full list of currently operational
+    platforms and their statuses at:
+
+    https://sourceforge.net/p/cdesktopenv/wiki/SupportedPlatforms/
+
+  - many fixes to better support 64b systems.  There is still much work
+    needed in this regard.
+
+  - most modules are operational.  dtinfo is not operational on any
+    platform yet.  dtksh is not yet operational on linux systems.
+
+  - several thousand compiler warnings have been addressed.
+    Unfortunately, there are still several thousand more waiting :(
+    Some of this code is *old*.
+
+
+  ## 2.2.0a (development, alpha1) 8/6/2012
+
+  - This is the initial release of CDE form The Open Group based on
+    2.1.30.
+
+    Minimal changes to get it compiling on some common linux distros,
+    primarily 32bit.

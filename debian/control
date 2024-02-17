@@ -1,0 +1,68 @@
+Source: cde-desktop
+Section: x11
+Priority: optional
+Maintainer: TheSelousScout <nicetrynsa@protonmail.ch>
+Build-Depends: debhelper (>= 10),
+               automake,
+               libxt-dev,
+               libxmu-dev,
+               libxinerama-dev,
+               libxpm-dev,
+               libmrm4,
+               libmotif-dev,
+               libxaw7-dev,
+               libx11-dev,
+               libxss-dev,
+               libtirpc-dev,
+               libutempter-dev,
+               libpam-dev,
+               x11-xserver-utils,
+               libjpeg62-dev,
+               libssl-dev,
+               tcl-dev,
+               ksh,
+               m4,
+               ncompress,
+               xfonts-100dpi,
+               xfonts-100dpi-transcoded,
+               rpcbind,
+               bison,
+               libbison-dev,
+               xbitmaps
+Standards-Version: 4.1.2
+Homepage: https://sourceforge.net/projects/cdesktopenv/
+#Vcs-Git: https://anonscm.debian.org/git/collab-maint/cde-desktop.git
+#Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/cde-desktop.git
+
+Package: cde-desktop
+Architecture: any
+Depends: libxt6,
+         libxmu6,
+         libxinerama1,
+         libxpm4,
+         libmrm4,
+         libxaw7,
+         libx11-6,
+         libxss1,
+         libtirpc1,
+         libutempter,
+         libpam,
+         x11-xserver-utils,
+         libjpeg62,
+         libuil4,
+         tcl,
+         ksh,
+         m4,
+         ncompress,
+         rpcbind,
+         bison,
+         xbitmaps,
+         ${shlibs:Depends},
+         ${misc:Depends}
+Recommends: xfonts-100dpi,
+            xfonts-100dpi-transcoded
+Description: CDE - Common Desktop Environment
+ The Common Desktop Environment, the classic UNIX desktop. The Common Desktop
+ Environment was created by a collaboration of Sun, HP, IBM, DEC, SCO, Fujitsu
+ and Hitachi. Used on a selection of commercial UNIXs, it is now available as
+ open-source software.

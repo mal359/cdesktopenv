@@ -1,0 +1,5 @@
+cat{
+	#if SHOPT_DYNAMIC
+	#include	<dlldefs.h>
+	#endif
+}end

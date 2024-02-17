@@ -1,0 +1,10 @@
+MAINTAINERCLEANFILES = Makefile.in
+
+bin_PROGRAMS = dthelpdemo
+
+dthelpdemo_CPPFLAGS = -DCDE_INSTALLATION_TOP=\"$(CDE_INSTALLATION_TOP)\" \
+		   -DCDE_CONFIGURATION_TOP=\"$(CDE_CONFIGURATION_TOP)\"
+
+dthelpdemo_LDADD = $(DTCLIENTLIBS) $(XTOOLLIB)
+
+dthelpdemo_SOURCES = Main.c HourGlass.c HelpCache.c

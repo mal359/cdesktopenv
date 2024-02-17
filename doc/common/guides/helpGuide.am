@@ -1,0 +1,55 @@
+# build a guide
+
+HELPGUIDE_SRCS = \
+    helpGuide/BEntity.sgm   helpGuide/ch10.sgm \
+    helpGuide/book.sgm      helpGuide/ch11.sgm \
+    helpGuide/ch01.sgm      helpGuide/ch12.sgm \
+    helpGuide/ch02.sgm      helpGuide/ch13.sgm \
+    helpGuide/ch03.sgm      helpGuide/glossary.sgm \
+    helpGuide/ch04.sgm      helpGuide/part1.sgm \
+    helpGuide/ch05.sgm      helpGuide/part2.sgm \
+    helpGuide/ch06.sgm      helpGuide/part3.sgm \
+    helpGuide/ch07.sgm      helpGuide/part4.sgm \
+    helpGuide/ch08.sgm      helpGuide/preface.sgm \
+    helpGuide/ch09.sgm
+
+HELPGUIDE_GRS = \
+    helpGuide/graphics/Approot.tif   helpGuide/graphics/ExTHyper.tif \
+    helpGuide/graphics/BldInst.tif   helpGuide/graphics/ExVex.tif \
+    helpGuide/graphics/BuildDir.tif  helpGuide/graphics/ExWrapGr.tif \
+    helpGuide/graphics/CharEntU.tif  helpGuide/graphics/ExXref.tif \
+    helpGuide/graphics/CharEntV.tif  helpGuide/graphics/FMCompil.tif \
+    helpGuide/graphics/ExAnnot.tif   helpGuide/graphics/FMhelpfs.tif \
+    helpGuide/graphics/ExBuList.tif  helpGuide/graphics/FPanel.tif \
+    helpGuide/graphics/ExCautio.tif  helpGuide/graphics/FmtTable.tif \
+    helpGuide/graphics/ExComput.tif  helpGuide/graphics/GHelpLB.tif \
+    helpGuide/graphics/ExEx.tif      helpGuide/graphics/GenHelp.tif \
+    helpGuide/graphics/ExHTopic.tif  helpGuide/graphics/GrEntity.tif \
+    helpGuide/graphics/ExInliGr.tif  helpGuide/graphics/HelpMenu.tif \
+    helpGuide/graphics/ExKeycap.tif  helpGuide/graphics/HelpMgr.tif \
+    helpGuide/graphics/ExLaLstH.tif  helpGuide/graphics/HelpOrg.tif \
+    helpGuide/graphics/ExLaNowr.tif  helpGuide/graphics/HelpVol.tif \
+    helpGuide/graphics/ExLalst1.tif  helpGuide/graphics/HyperFmt.tif \
+    helpGuide/graphics/ExLalstW.tif  helpGuide/graphics/Icons.tif \
+    helpGuide/graphics/ExListHd.tif  helpGuide/graphics/IndexNum.tif \
+    helpGuide/graphics/ExLists.tif   helpGuide/graphics/IndxSrch.tif \
+    helpGuide/graphics/ExNoteHd.tif  helpGuide/graphics/PrintDlg.tif \
+    helpGuide/graphics/ExNuList.tif  helpGuide/graphics/Process.tif \
+    helpGuide/graphics/ExOthrHd.tif  helpGuide/graphics/QuickHlp.tif \
+    helpGuide/graphics/ExPHead.tif   helpGuide/graphics/Topics.tif \
+    helpGuide/graphics/ExProc2.tif   helpGuide/graphics/ViewVol.tif \
+    helpGuide/graphics/ExProced.tif
+
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(HELPGUIDE_GRS)
+
+HELPGUIDE_ID = cde.helpGuide.toc
+include helpGuide/Title.am
+
+HELPGUIDE_TOC = helpGuide/TOC.sgm
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(HELPGUIDE_TOC)
+
+$(HELPGUIDE_TOC): $(HELPGUIDE_SRCS)
+	$(DGENV) $(DTINFOGEN) tocgen -T $(DTINFOGENTMPDIR) $(DTINFOGENOPTIONS) -f $(HELPGUIDE_TOC) -id $(HELPGUIDE_ID) -title $(HELPGUIDE_TITLE) helpGuide/book.sgm
+
+BUILT_SOURCES += $(HELPGUIDE_TOC)
+CLEANFILES += $(HELPGUIDE_TOC)

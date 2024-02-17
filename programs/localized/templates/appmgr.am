@@ -1,0 +1,91 @@
+# Setup the Appmanager type 'executable' files
+
+ACTION = $(top_builddir)/programs/localized/$(LANG)/types/action
+
+desktop_appsdir = $(CDE_INSTALLATION_TOP)/appconfig/appmanager/$(LANG)/Desktop_Apps
+desktop_apps_SCRIPTS = Desktop_Apps/Dtmanpageview			\
+	Desktop_Apps/Dthelpview Desktop_Apps/DtPrintManager		\
+	Desktop_Apps/Dtcreate Desktop_Apps/Dtstyle			\
+	Desktop_Apps/Dtmail Desktop_Apps/Dttrash			\
+	Desktop_Apps/DtLoadInfoLib Desktop_Apps/Dtterm			\
+	Desktop_Apps/Dtappbuild Desktop_Apps/Dtpad			\
+	Desktop_Apps/Dticon Desktop_Apps/Dtcm Desktop_Apps/Dtfile	\
+	Desktop_Apps/Dtcalc
+
+graphicsdir = $(CDE_INSTALLATION_TOP)/appconfig/appmanager/$(LANG)/Graphics
+graphics_SCRIPTS = Graphics/xv Graphics/fontforge Graphics/gimp	\
+	Graphics/inkscape Graphics/okular
+
+internetdir = $(CDE_INSTALLATION_TOP)/appconfig/appmanager/$(LANG)/Internet
+internet_SCRIPTS = Internet/firefox Internet/nxclient		\
+	Internet/thunderbird Internet/skype Internet/chromium
+
+gamesdir = $(CDE_INSTALLATION_TOP)/appconfig/appmanager/$(LANG)/Games
+games_SCRIPTS = Games/pychess Games/powermanga Games/eboard	\
+	Games/supertux Games/dreamchess Games/lbreakout2	\
+	Games/gcompris Games/xboard Games/ktuberling
+
+texdir = $(CDE_INSTALLATION_TOP)/appconfig/appmanager/$(LANG)/Tex
+tex_SCRIPTS = TeX/xdvi TeX/acroread TeX/xpdf TeX/TeX TeX/mgv	\
+	TeX/emacs TeX/gv TeX/kile TeX/xournal
+
+officedir = $(CDE_INSTALLATION_TOP)/appconfig/appmanager/$(LANG)/Office
+office_SCRIPTS = Office/nedit Office/libreoffice-calc		\
+	Office/libreoffice-writer Office/acroread Office/xpdf	\
+	Office/libreoffice-draw Office/libreoffice-base		\
+	Office/libreoffice-main Office/libreoffice-math		\
+	Office/libreoffice-impress Office/xournal
+
+systemdir = $(CDE_INSTALLATION_TOP)/appconfig/appmanager/$(LANG)/System
+system_SCRIPTS = System/caja System/firestarter System/virtualbox	\
+	System/engrampa System/wicd System/synaptic			\
+	System/file-roller System/pgadmin
+
+desktop_toolsdir = $(CDE_INSTALLATION_TOP)/appconfig/appmanager/$(LANG)/Desktop_Tools
+desktop_tools_SCRIPTS = Desktop_Tools/Rm Desktop_Tools/DttermRlogin	\
+	Desktop_Tools/Env Desktop_Tools/Uncompress			\
+	Desktop_Tools/Xclipboard Desktop_Tools/Xwd			\
+	Desktop_Tools/XtermRlogin Desktop_Tools/Xload			\
+	Desktop_Tools/DttermConsole Desktop_Tools/Compress		\
+	Desktop_Tools/Tar Desktop_Tools/DuSort Desktop_Tools/TarList	\
+	Desktop_Tools/DttermErrorlog Desktop_Tools/Xprop		\
+	Desktop_Tools/XclockDig Desktop_Tools/Spell			\
+	Desktop_Tools/Xterm Desktop_Tools/Diff Desktop_Tools/Xdpyinfo	\
+	Desktop_Tools/Xrefresh Desktop_Tools/Grep			\
+	Desktop_Tools/ReloadApps Desktop_Tools/Xlsfonts			\
+	Desktop_Tools/RestorePanel Desktop_Tools/Df			\
+	Desktop_Tools/Xwud Desktop_Tools/SaveSession			\
+	Desktop_Tools/Make Desktop_Tools/ExecuteCmd			\
+	Desktop_Tools/CodeGen Desktop_Tools/ReloadResources		\
+	Desktop_Tools/TarUnpack Desktop_Tools/Dttypes			\
+	Desktop_Tools/Vi Desktop_Tools/Wc Desktop_Tools/Xfd		\
+	Desktop_Tools/File Desktop_Tools/ReloadActions			\
+	Desktop_Tools/DtImsMode Desktop_Tools/Xwininfo			\
+	Desktop_Tools/Nm Desktop_Tools/Bitmap				\
+	Desktop_Tools/DttermDtspcd Desktop_Tools/DtwmrcEdit		\
+	Desktop_Tools/XtermDtspcd
+
+media_toolsdir = $(CDE_INSTALLATION_TOP)/appconfig/appmanager/$(LANG)/Media_Tools
+media_tools_SCRIPTS = Media_Tools/k3b Media_Tools/rhythmbox		\
+	Media_Tools/xine Media_Tools/vlc Media_Tools/rosegarden		\
+	Media_Tools/pavucontrol Media_Tools/sound-juicer		\
+	Media_Tools/amarok Media_Tools/brasero Media_Tools/k9copy
+
+educationdir = $(CDE_INSTALLATION_TOP)/appconfig/appmanager/$(LANG)/Education
+education_SCRIPTS = Education/tuxpaint Education/gcompris	\
+	Education/stellarium Education/geogebra
+
+informationdir = $(CDE_INSTALLATION_TOP)/appconfig/appmanager/$(LANG)/Information
+information_SCRIPTS = Information/OpenDtIntro
+
+appmgr_allfiles = $(desktop_apps_SCRIPTS) $(graphics_SCRIPTS)		\
+	$(internet_SCRIPTS) $(games_SCRIPTS) $(tex_SCRIPTS)		\
+	$(office_SCRIPTS) $(system_SCRIPTS) $(desktop_tools_SCRIPTS)	\
+	$(media_tools_SCRIPTS) $(education_SCRIPTS)			\
+	$(information_SCRIPTS)
+
+BUILT_SOURCES = $(appmgr_allfiles)
+CLEANFILES = $(BUILT_SOURCES)
+
+$(appmgr_allfiles): $(ACTION)
+	$(CP) $(ACTION) $@ || $(RM) $@

@@ -1,0 +1,353 @@
+# Disable default inclusion of <stdio.h> by setting stdio option to empty
+set stdio
+
+# Flag systems that omit necessary definitions such as u_long
+# when _POSIX_SOURCE or _XOPEN_SOURCE are defined.
+# Affected: Mac OS X, UnixWare.
+# Do not emit a #define for this test, just remember it for the next tests in this file.
+set nodefine
+typ u_long
+set define
+
+#
+# The following tests try to define the features/standards macros that expose
+# as much functionality as possible on the current system. We've got our own
+# feature test framework, iffe, so we want POSIX + all possible extensions.
+#
+# The results of these are included in everything that uses libast and
+# (as of 2021-12-06) also in all subsequent feature tests run by iffe.
+#
+# Note: The code between compile{ ... }end is the feature test; the text
+# in the subsequent { ... } block is output literally to FEATURE/standards.
+#
+
+if tst note{ BSD (Free, Net, Open, et al) }end compile{
+		/*
+		 * On BSD systems, _POSIX_SOURCE and such are used to *limit* functionality to a known API;
+		 * they don't enable anything. The general intent in BSD is to enable everything by default.
+		 */
+		#include <limits.h>
+		#include <unistd.h>
+		#include <sys/param.h>
+		#include <sys/types.h>
+		#include <wchar.h>
+		#if !(BSD && !__APPLE__ && !__MACH__ && !NeXTBSD)  /* NeXT/macOS falsely claim to be BSD */
+		#error not BSD
+		#endif
+		int _do_these_compile_ = _POSIX_PATH_MAX & _SC_PAGESIZE;
+		#if _typ_u_long
+		u_long _test_dummy_;
+		#endif
+		int main(void)
+		{
+			wchar_t _wchar_dummy_ = 0;
+			wcwidth(_wchar_dummy_);
+			return 0;
+		}
+	}end {
+		/* No standards or features macro here. On BSD, everything is enabled by default */
+	}
+elif tst note{ Darwin (macOS, Mac OS X) }end compile{
+		/*
+		 * From compat(5) on macOS 10.14.6:
+		 *
+		 *     Defining  _POSIX_C_SOURCE or _DARWIN_C_SOURCE causes  library and kernel calls to
+		 *     conform to the SUSv3 standards even if doing so would alter the behavior of func-
+		 *     tions used in 10.3.   Defining _POSIX_C_SOURCE also removes functions, types, and
+		 *     other interfaces that are not part of SUSv3  from the normal C namespace,  unless
+		 *     _DARWIN_C_SOURCE is also defined  (i.e., _DARWIN_C_SOURCE is _POSIX_C_SOURCE with
+		 *     non-POSIX extensions).
+		 */
+		#define _DARWIN_C_SOURCE 1
+		#include <limits.h>
+		#include <unistd.h>
+		#include <sys/param.h>
+		#include <sys/types.h>
+		#include <wchar.h>
+		#if !(__APPLE__ && __MACH__ && NeXTBSD)
+		#error not Darwin
+		#endif
+		int _do_these_compile_ = _POSIX_PATH_MAX & _SC_PAGESIZE;
+		#if _typ_u_long
+		u_long _test_dummy_;
+		#endif
+		int main(void)
+		{
+			wchar_t _wchar_dummy_ = 0;
+			wcwidth(_wchar_dummy_);
+			return 0;
+		}
+	}end {
+		#ifndef _DARWIN_C_SOURCE
+		#define _DARWIN_C_SOURCE 1
+		#endif
+	}
+elif tst note{ SunOS (Solaris, illumos) }end compile{
+		/*
+		 * On Solaris/illumos, we ignore the standards(5) manual completely because
+		 * defining recommended standards macros will disable functionality that
+		 * libast depends on. Instead we define unofficial _XPG* macros that enable
+		 * up-to-date declarations and functionality in Solaris system headers.
+		 * (Note that we must also avoid passing any -std=... flag to the compiler,
+		 * because that will disable essential functionality as well.)
+		 */
+		#define _XPG7
+		#define	_XPG6
+		#define	_XPG5
+		#define _XPG4_2
+		#define _XPG4
+		#define _XPG3
+		#define __EXTENSIONS__	1
+		#define	_XOPEN_SOURCE	9900
+		#undef _POSIX_C_SOURCE
+		#include <limits.h>
+		#include <unistd.h>
+		#include <sys/types.h>
+		#include <wchar.h>
+		#if !__sun
+		#error dark
+		#endif
+		int _do_these_compile_ = _POSIX_PATH_MAX & _SC_PAGESIZE;
+		#if _typ_u_long
+		u_long _test_dummy_;
+		#endif
+		int main(void)
+		{
+			wchar_t _wchar_dummy_ = 0;
+			wcwidth(_wchar_dummy_);
+			return 0;
+		}
+	}end {
+		#define _XPG7
+		#define	_XPG6
+		#define	_XPG5
+		#define _XPG4_2
+		#define _XPG4
+		#define _XPG3
+		#define __EXTENSIONS__	1
+		#define	_XOPEN_SOURCE	9900
+		#undef _POSIX_C_SOURCE
+	}
+elif tst note{ GNU (glibc) or Cygwin }end compile{
+		/*
+		 * On GNU (GNU's Not UNIX) and Cygwin, _GNU_SOURCE is the "everything and the kitchen sink" macro
+		 * (see feature_test_macros(7)), but on GNU we also need to define _FILE_OFFSET_BITS to get large
+		 * file support. We also need to define 'basename' to stop string.h from declaring a GNU-specific
+		 * version of basename(3) which on Cygwin has a declaration that conflicts with AST basename(3).
+		 */
+		#define _GNU_SOURCE	1
+		#define _FILE_OFFSET_BITS 64
+		#define basename	basename
+		#include <limits.h>
+		#include <unistd.h>
+		#include <features.h>
+		#include <sys/types.h>
+		#include <wchar.h>
+		#if !__GLIBC__ && !__CYGWIN__
+		#error not GNU or Cygwin
+		#endif
+		int _do_these_compile_ = _POSIX_PATH_MAX & _SC_PAGESIZE;
+		#if _typ_u_long
+		u_long _test_dummy_;
+		#endif
+		int main(void)
+		{
+			wchar_t _wchar_dummy_ = 0;
+			wcwidth(_wchar_dummy_);
+			return 0;
+		}
+	}end {
+		#ifndef _GNU_SOURCE
+		#define _GNU_SOURCE	1
+		#endif
+		#ifndef _FILE_OFFSET_BITS
+		#define _FILE_OFFSET_BITS 64
+		#endif
+		#define basename	basename	/* avoid string.h defining this in conflict with AST basename(3) */
+	}
+elif tst note{ QNX }end compile{
+		/*
+		 * QNX Neutrino, tested on version 6.5.0 as of April 2022.
+		 */
+		#define _QNX_SOURCE	1
+		#if !__QNX__
+		#error not QNX
+		#endif
+	}end {
+		#ifndef _QNX_SOURCE
+		#define _QNX_SOURCE	1
+		#endif
+		#ifndef _FILE_OFFSET_BITS
+		#define _FILE_OFFSET_BITS 64
+		#endif
+	}
+elif tst note{ _ALL_SOURCE & _POSIX_SOURCE & _POSIX_C_SOURCE & _XOPEN_SOURCE & __EXTENSIONS__ works }end compile{
+		#define _ALL_SOURCE	1
+		#define _POSIX_SOURCE	1
+		#define _POSIX_C_SOURCE	21000101L
+		#define _XOPEN_SOURCE	9900
+		#define __EXTENSIONS__	1
+		#include <sys/types.h>
+		#include <sys/stat.h>
+		#include <stdlib.h>
+		#include <unistd.h>
+		#include <fcntl.h>
+		#include <limits.h>
+		int _do_these_compile_ = _POSIX_PATH_MAX & _SC_PAGESIZE;
+		#if _typ_u_long
+		u_long _test_dummy_;
+		#endif
+	}end {
+		#ifndef _ALL_SOURCE
+		#define _ALL_SOURCE	1
+		#endif
+		#ifndef _POSIX_SOURCE
+		#define _POSIX_SOURCE	1
+		#endif
+		#ifndef _POSIX_C_SOURCE
+		#define _POSIX_C_SOURCE	21000101L
+		#endif
+		#ifndef _XOPEN_SOURCE
+		#define _XOPEN_SOURCE	9900
+		#endif
+		#ifndef __EXTENSIONS__
+		#define __EXTENSIONS__	1
+		#endif
+	}
+elif tst note{ _ALL_SOURCE & _POSIX_SOURCE & _XOPEN_SOURCE & __EXTENSIONS__ works }end compile{
+		#define _ALL_SOURCE	1
+		#define _POSIX_SOURCE	1
+		#define _XOPEN_SOURCE	9900
+		#define __EXTENSIONS__	1
+		#include <sys/types.h>
+		#include <sys/stat.h>
+		#include <stdlib.h>
+		#include <unistd.h>
+		#include <fcntl.h>
+		#include <limits.h>
+		int _do_these_compile_ = _POSIX_PATH_MAX & _SC_PAGESIZE;
+		#if _typ_u_long
+		u_long _test_dummy;
+		#endif
+	}end {
+		#ifndef _ALL_SOURCE
+		#define _ALL_SOURCE	1
+		#endif
+		#ifndef _POSIX_SOURCE
+		#define _POSIX_SOURCE	1
+		#endif
+		#ifndef _XOPEN_SOURCE
+		#define _XOPEN_SOURCE	9900
+		#endif
+		#ifndef __EXTENSIONS__
+		#define __EXTENSIONS__	1
+		#endif
+	}
+elif tst note{ _POSIX_SOURCE & _POSIX_C_SOURCE & _XOPEN_SOURCE & __EXTENSIONS__ works }end compile{
+		#define _POSIX_SOURCE	1
+		#define _POSIX_C_SOURCE	21000101L
+		#define _XOPEN_SOURCE	9900
+		#define __EXTENSIONS__	1
+		#include <sys/types.h>
+		#include <sys/stat.h>
+		#include <stdlib.h>
+		#include <unistd.h>
+		#include <fcntl.h>
+		#include <limits.h>
+		int _do_these_compile_ = _POSIX_PATH_MAX & _SC_PAGESIZE;
+		#if _typ_u_long
+		u_long _test_dummy;
+		#endif
+	}end {
+		#ifndef _POSIX_SOURCE
+		#define _POSIX_SOURCE	1
+		#endif
+		#ifndef _POSIX_C_SOURCE
+		#define _POSIX_C_SOURCE	21000101L
+		#endif
+		#ifndef _XOPEN_SOURCE
+		#define _XOPEN_SOURCE	9900
+		#endif
+		#ifndef __EXTENSIONS__
+		#define __EXTENSIONS__	1
+		#endif
+	}
+elif tst note{ _POSIX_SOURCE & _XOPEN_SOURCE & __EXTENSIONS__ works }end compile{
+		#define _POSIX_SOURCE	1
+		#define _XOPEN_SOURCE	1
+		#define __EXTENSIONS__	1
+		#include <sys/types.h>
+		#include <sys/stat.h>
+		#include <stdlib.h>
+		#include <unistd.h>
+		#include <fcntl.h>
+		#include <limits.h>
+		int _do_these_compile_ = _POSIX_PATH_MAX & _SC_PAGESIZE;
+		#if _typ_u_long
+		u_long _test_dummy;
+		#endif
+	}end {
+		#ifndef _POSIX_SOURCE
+		#define _POSIX_SOURCE	1
+		#endif
+		#ifndef _XOPEN_SOURCE
+		#define _XOPEN_SOURCE	1
+		#endif
+		#ifndef __EXTENSIONS__
+		#define __EXTENSIONS__	1
+		#endif
+	}
+elif tst note{ _XOPEN_SOURCE & __EXTENSIONS__ works }end compile{
+		#define _XOPEN_SOURCE	1
+		#define __EXTENSIONS__	1
+		#include <sys/types.h>
+		#include <sys/stat.h>
+		#include <stdlib.h>
+		#include <unistd.h>
+		#include <fcntl.h>
+		#include <limits.h>
+		int _do_these_compile_ = _POSIX_PATH_MAX & _SC_PAGESIZE;
+		#if _typ_u_long
+		u_long _test_dummy;
+		#endif
+	}end {
+		#ifndef _XOPEN_SOURCE
+		#define _XOPEN_SOURCE	1
+		#endif
+		#ifndef __EXTENSIONS__
+		#define __EXTENSIONS__	1
+		#endif
+	}
+elif tst note{ _XOPEN_SOURCE works }end compile{
+		#define _XOPEN_SOURCE	1
+		#include <sys/types.h>
+		#include <sys/stat.h>
+		#include <stdlib.h>
+		#include <unistd.h>
+		#include <fcntl.h>
+		#include <limits.h>
+		int _do_these_compile_ = _POSIX_PATH_MAX & _SC_PAGESIZE;
+		#if _typ_u_long
+		u_long _test_dummy;
+		#endif
+	}end {
+		#ifndef _XOPEN_SOURCE
+		#define _XOPEN_SOURCE	1
+		#endif
+	}
+else tst note{ __EXTENSIONS__ works }end compile{
+		#define __EXTENSIONS__	1
+		#include <sys/types.h>
+		#include <sys/stat.h>
+		#include <fcntl.h>
+		#include <limits.h>
+		int _do_these_compile_ = _POSIX_PATH_MAX & _SC_PAGESIZE;
+		#if _typ_u_long
+		u_long _test_dummy;
+		#endif
+	}end {
+		#ifndef __EXTENSIONS__
+		#define __EXTENSIONS__	1
+		#endif
+	}
+endif

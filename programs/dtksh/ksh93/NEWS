@@ -1,0 +1,2200 @@
+This documents significant changes in the 1.0 branch of ksh 93u+m.
+For full details, see the git log at: https://github.com/ksh93/ksh/tree/1.0
+Uppercase BUG_* IDs are shell bug IDs as used by the Modernish shell library.
+
+2022-08-25:
+
+- Release 1.0.3.
+
+- In the vi line editor, a bug was fixed that caused erratic behaviour after
+  using the 0 or ^ commands when already at the beginning of the command line.
+
+2022-08-24:
+
+- Fixed a bug that caused ksh in the vi editor mode to crash or produce
+  invalid completions if ESC = was used at the beginning of a line. Both
+  tab and = completions are now disabled at the start of the command line.
+
+- Fixed ksh freezing or using excessive memory if HISTSIZE is assigned a
+  pathologically large value. A new bounds check makes the theoretical
+  maximum number of history lines equal to the number of bytes kept in the
+  history file at cleanup time. On 64-bit systems, that maximum is 16384.
+
+2022-08-20:
+
+- Fixed a bug in command line options processing that caused short-form
+  option equivalents on some built-in commands to be ignored after one use,
+  e.g., the new read -a equivalent of read -A (introduced on 2022-02-16).
+
+- Fixed a bug in the /opt/ast/bin/cp built-in command that caused the -r and
+  -R options to sometimes ignore -P, -L and -H. Additionally, the -r and -R
+  options no longer follow symlinks by default.
+
+2022-08-16:
+
+- Fixed an old bug in history expansion (set -H) where any use of the history
+  comment character caused processing to be aborted as if it were an invalid
+  history expansion. (On 2022-01-24 the history comment character was set to
+  '#' instead of being disabled by default, which exposed this bug.)
+
+- Fixed a bug introduced on 2022-02-12 that would cause the optional head
+  builtin's -s option to fail.
+
+2022-08-08:
+
+- Release 1.0.2.
+
+2022-08-06:
+
+- Fixed an interactive shell crashing on redefining, then unsetting one of
+  the predefined aliases.
+
+- Fixed an interactive shell crashing on redefining one of the predefined
+  aliases, then executing a shell script that does not start with a #! path.
+
+2022-08-05:
+
+- Reverted a buggy exec optimisation introduced on 2022-06-18. It is known
+  to make the build scripts of GNU binutils produce corrupted results.
+
+- Release 1.0.1.
+
+2022-08-01:
+   _        _        ___ _____                          ___   ___   ___
+  | | _____| |__    / _ \___ / _   _   _   _ __ ___    / / | / _ \ / _ \
+  | |/ / __| '_ \  | (_) ||_ \| | | |_| |_| '_ ` _ \  / /| || | | | | | |
+  |   <\__ \ | | |  \__, |__) | |_| |_   _| | | | | |/ / | || |_| | |_| |
+  |_|\_\___/_| |_|    /_/____/ \__,_| |_| |_| |_| |_/_/  |_(_)___(_)___/
+
+- Exactly ten years after ksh 93u+ 2012-08-01, we now have a new ksh release.
+  Many thanks to all the direct and indirect contributors for their hard work!
+
+2022-07-28:
+
+- Fixed BUG_IFSGLOBS ("$*" does pattern matching if the first character of
+  $IFS is a wildcard).
+
+2022-07-27:
+
+- Fixed a bug introduced on 2022-02-08 where $PPID was incorrect when a script
+  without a #! path was executed.
+
+- Fixed a completion bug in the vi line editor. It now correctly completes
+  the sole member of a directory when tab is pressed immediately after /.
+  Thanks to K. Eugene Carlson for the report and the fix.
+
+2022-07-26:
+
+- Fixed incorrect handling of initial zeros in test/[ and [[ arithmetic
+  comparison operators. For example, [[ 0x0A -eq 10 ]] yielded false but
+  [[ 1+0x0A -eq 11 ]] yielded true.
+
+- Fixed comparing long floating point (typeset -lF) values in test/[ and [[;
+  the values were reduced to standard floating point before comparing.
+
+2022-07-25:
+
+- Release candidate: ksh 93u+m/1.0.0-rc.1.
+
+2722-07-24:
+
+- Add new 'man' function in src/cmd/ksh93/fun/man. This integrates the --man
+  self-documentation of ksh built-in and external AST commands with your
+  system's 'man' command so you can conveniently use 'man' for all commands,
+  whether built-in or external. To use this, put the file in a directory in
+  your $FPATH and then issue 'autoload man' in your .kshrc to override the
+  system's man(1) command. See the file for details.
+
+- Add new 'autocd' function in src/cmd/ksh93/fun/autocd. This activates a
+  feature like 'shopt -s autocd' in bash: type only a directory name to change.
+  See the file for details. Add this file to a directory in your $FPATH to use.
+
+- New feature to make 'set -b'/'set -o notify' more usable. When that option
+  is on (and either the vi or emacs/gmacs line editor is in use), 'Done' and
+  similar notifications from completed background jobs no longer mess up the
+  command line you're typing. Instead, the notification is inserted directly
+  above the line you're typing, without affecting your command line display.
+
+- Fixed a bug that caused the -b/--notify option to only notify on one job if
+  more than one background job completed at the same time.
+
+- Fixed a bug in the 'command -x' feature introduced on 2021-01-30; it is meant
+  to always run an external command, but failed to bypass path-bound builtins.
+
+2022-07-21:
+
+- Fixed a bug where a reproducible $RANDOM sequence (after assigning a
+  specific value to $RANDOM) was influenced by running any external command.
+
+- When an error occurs in a POSIX name() function or a dot script, the
+  function or script name is now reported in the error message.
+
+2022-07-14:
+
+- Fixed a bug that caused a spurious "Done" message on the interactive shell
+  when an external command was run as a foreground job from a SIGINT trap.
+
+2022-07-12:
+
+- The .sh.level variable can now only be changed within a DEBUG trap. When
+  trap execution ends, the variable and the scope are now restored. These
+  changes disallow an inconsistent shell scoping state causing instability.
+
+2022-07-10:
+
+- Fixed a potential crash on retrieving an empty line from the command history.
+
+- Fixed a potential crash in the lexical analyser on processing single-byte
+  characters with the highest bit set.
+
+2022-07-09:
+
+- Fixed a bug that broke '[[ ... ]]' test expressions for the command
+  following a syntax error in an associative array assignment.
+
+2022-07-05:
+
+- Fixed a spurious syntax error on encountering a process substitution
+  following a redirection without being an argument to a redirection.
+  For example, this now writes 'OK' to standard error: cat >&2 <(echo OK)
+
+- Fixed the detection of a syntax error in compound assignments to
+  associative arrays.
+
+2022-07-02:
+
+- Fixed a bug where, if the last command in a subshell was an external
+  command that was terminated by a signal, the exit status ($?) of the
+  subshell did not reflect this by adding 256 to the signal number.
+
+- Fixed a bug that caused signal traps to be ignored if the shell was
+  signalled from a subshell that is the last command in the script.
+
+2022-07-01:
+
+- In scripts, $COLUMNS and $LINES are now kept up to date in scripts at
+  initialization and when the window size changes (previously, this
+  required setting a dummy trap for the SIGWINCH signal in the script).
+
+2022-06-28:
+
+- Fixed a bug that caused the <#((num)) or >#((num)) arithmetic seek
+  redirection operator to fail if used with file descriptor 0, 1 or 2
+  connected to a block device.
+
+2022-06-22:
+
+- Fixed: 'echo' failed when used inside a command substitution that
+  is inside a nested compound assignment.
+
+- Fixed a crash in KEYBD trap handling introduced on 2021-11-29.
+
+2022-06-20:
+
+- Fixed a race condition that could cause redirections to fail with a
+  "cannot create" or "cannot open" error while processing a signal trap.
+
+2022-06-18:
+
+- Fixed a bug where, with the monitor or pipefail option on, the shell
+  failed to wait for all component commands in a pipeline to terminate if
+  the last component command was an external command and the pipeline was
+  the last command in a background subshell.
+
+- When any trap except DEBUG, KILL or STOP is set to a non-empty command,
+  the last command in a script or forked subshell will no longer avoid forking
+  before executing; this optimization incorrectly bypassed the traps.
+
+2022-06-15:
+
+- Fixed a bug where converting an indexed array into an associative array in
+  a subshell failed, resulting in an empty associative array.
+
+2022-06-13:
+
+- Trapping a signal that is not a pseudosignal will now cause a virtual
+  subshell to fork into a real one. This ensures a persistent PID where
+  other processes can signal the subshell (the PID of a virtual subshell may
+  change as other commands cause it to fork), and fixes a bug where a signal
+  could not be correctly or effectively trapped in a subshell if the same
+  signal was also trapped in the main shell environment.
+
+2022-06-12:
+
+- The POSIX mode now disables zero-padding of seconds in 'time'/'times' output.
+
+2022-06-09:
+
+- The POSIX mode has been amended to use a UNIX pipe(2) instead of a
+  socketpair(2) to connect commands in a pipeline, as the standard requires.
+  (When reading directly from a pipeline in posix mode, the <#pattern and
+  <##pattern redirection operators will not work and the -n option to the
+  read built-in will not return early when reading from a slow device.)
+
+- An interactive shell initialized in POSIX mode now once again has the
+  preset aliases defined. This amends a change made on 2020-09-11.
+
+- If a long-form shell option name is abbreviated so it matches multiple
+  options, the error message from ksh or 'set' now reads "ambiguous option".
+
+2022-06-08:
+
+- If -B/--braceexpand is turned on in --posix mode, it now only allows brace
+  expansion on literal strings and not on the values of unquoted expansions.
+  This behaviour is like bash and zsh, as well as compliant with a future
+  version of the POSIX standard that may specify brace expansion:
+  https://www.austingroupbugs.net/view.php?id=1193
+
+2022-06-07:
+
+- Fixed a bug in 'typeset' where compound variables could acquire a spurious
+  -x (export) attribute when printing their values, triggering other bugs.
+
+2022-06-05:
+
+- Fixed a bug where tab completion would spuriously execute a command
+  substitution after entering: '`something<TAB> or generate a spurious
+  'end of file unexpected' syntax error after entering: '$(something<TAB>.
+
+- Fixed bug where tab completion stopped working for arguments following a
+  quoted string with an escaped backslash in the form $'foo\'bar'.
+
+2022-06-04:
+
+- Added a new --functrace long-form shell option which causes the -x/--xtrace
+  option's state and the DEBUG trap action to be inherited by function scopes
+  instead of being reset to default. Changes made to them within a function
+  scope still do not propagate back to the parent scope. Similarly, this
+  option also causes the DEBUG trap action to be inherited by subshells.
+
+2022-06-03:
+
+- Fixed a couple of bugs that caused floating point variables imported from
+  a parent ksh through the environment to be corrupted.
+
+- Fixed a bug where invocation-local assignments preceding a built-in or
+  external command or function call did not honour their pre-existing
+  attributes set by typeset (such as -i or -F) in certain cases.
+
+2022-06-01:
+
+- New 'typeset' feature inspired by bash (and zsh and mksh): the -g flag
+  causes the specified variable(s) to be created globally, ignoring the
+  local scope of ksh functions or name spaces. For example, this allows
+  creating a global array or numeric variable from a ksh function.
+  Thanks to @ormaaj for the feature suggestion and to @hyenias for testing.
+
+2022-05-29:
+
+- Fixed a bug causing an inconsistent state after a special built-in command
+  threw an error within a namespace.
+
+2022-05-27:
+
+- Fixed a bug introduced on 2022-03-05 where 'set --default', while turning
+  off the --posix option, did not re-enable the special handling of a repeated
+  $IFS whitespace character as non-whitespace.
+
+2022-05-25:
+
+- Fixed a bug introduced on 2021-02-20 that caused incorrect output for
+  typeset -L/-R/-Z when the variable contained leading or trailing spaces.
+  Thanks to George Lijo for the report and the fix.
+
+2022-05-21:
+
+- Fixed a bug, present since the beginning of ksh93, that broke backslash line
+  continuation within $(standard) and ${ shared-state; } command substitutions.
+  Thanks to atheik for the analysis and the fix. (BUG_CSUBLNCONT)
+
+2022-05-20:
+
+- Fixed an ancient bug that caused a spurious syntax error when using double
+  quotes within a `backtick` command substitution within double quotes.
+  Thanks to atheik for the analysis and the fix. (BUG_CSUBBTQUOT)
+
+2022-03-10:
+
+- Fixed another corner case bug in the 'test'/'[' command.
+
+- A memory leak was fixed in the --man self-documentation options
+  of built-in commands.
+
+2022-03-05:
+
+- The 'enum' command can now create more than one type per invocation.
+
+- The POSIX compatibility mode has been amended to disable the special handling
+  of a repeated $IFS whitespace character as non-whitespace.
+
+2022-02-23:
+
+- When reading input from the keyboard, ksh now turns off nonblocking I/O
+  mode for standard input if a previously ran program left it on, so that
+  interactive programs that expect it to be off work properly.
+
+- Fixed a regression introduced on 2022-02-02 that caused interactive shells
+  to enter an infinite loop when a command failed to execute on Linux
+  systems with version 2.35 of glibc.
+
+- Fixed a SIGTTOU lockup that could cause ksh to freeze under strace(1) after
+  a command failed to execute in an interactive shell.
+
+2022-02-18:
+
+- Fixed a regression introduced on 2021-04-11 that caused the += operator in
+  invocation-local assignments to crash the shell or modify variables outside
+  of the invocation-local scope.
+
+2022-02-17:
+
+- Fixed a crash, introduced on 2021-01-19, that occurred when using 'cd' in
+  a subshell with the PWD variable unset.
+
+- Fixed a crash that could occur when or after entering the suspend character
+  (Ctrl+Z) while the shell was blocked trying to write to a FIFO special file.
+
+2022-02-16:
+
+- Backported minor additions to the 'read' built-in command from ksh 93v-:
+  '-a' is now the same as '-A' and '-u p' is the same as '-p'. This is for
+  compatibility with some 93v- or ksh2020 scripts. (Note that their change
+  to the '-p' option to support both prompts and coprocess reads was not
+  backported because we found it to be broken and unfixable.)
+
+2022-02-15:
+
+- A bug was fixed in fast filescan loops (like 'while <file; do ...; done',
+  enabled by default by the SHOPT_FILESCAN compile-time option) in which
+  "$@" incorrectly acted like "$*" within the do...done block.
+
+- Improved sanity check for filescan loops: they are now only recognised if
+  'while' is followed by a single input redirection without any command
+  name/arguments or variable assignments.
+
+- As SHOPT_FILESCAN has been enabled by default since ksh 93l 2001-06-01,
+  the fast filescan loop is now documented in the manual page and the
+  compile-time option is no longer considered experimental.
+
+- Filescan loops are now disabled at runtime if the --posix option is active
+  as they break a portable use case: POSIXly, 'while <file; do stuff; done'
+  repeatedly executes 'stuff' while 'file' can successfully be opened for
+  reading, without actually reading from 'file'.
+
+2022-02-12:
+
+- In multibyte locales such as UTF-8, shell input is no longer corrupted when
+  a KEYBD trap is active. However, the KEYBD trap is not yet multibyte ready
+  and is now only triggered for ASCII characters (1-127) in a multibyte locale.
+
+2022-02-11:
+
+- On the interactive shell, tab/esc completion is no longer disabled as a side
+  effect of turning off pathname expansion with 'set -f' or 'set -o noglob'.
+
+- Fixed a bug in which a >&- or <&- redirection could persist past a
+  subshell in certain corner cases involving 'exec' or 'redirect'.
+
+2022-02-08:
+
+- Multiple bugs were fixed in the method that ksh uses to execute a shell
+  script without a #! path. Among other things, custom types and other
+  changes in built-in commands will no longer affect the invoked script.
+  The state of the 'posix' option is now inherited by the script.
+
+- To avoid an inconsistent state, the 'enum' and 'typeset -T' commands are
+  no longer allowed to replace special built-in commands. For instance,
+  'enum trap=(a b c)' is now an error because 'trap' is a special built-in.
+  The ability of 'typeset -T' to redefine a type is not affected.
+
+- A command like 'typeset -T foo_t' without any assignment no longer creates
+  an incompletely defined 'foo_t' built-in command that will crash the shell
+  when used. Instead, it is now silently ignored for backwards compatibility.
+
+- Compound arrays belonging to a type created with 'typeset -T' now have
+  their -C attribute preserved in the output of 'typeset -p'.
+
+- A bug has been fixed in which the 'typeset -p' output of a two-dimensional
+  sparse indexed array would cause the second subscript to be treated as an
+  associative array when read back in by the shell. Elements that are sparse
+  indexed arrays are now prefixed with "typeset -a".
+
+- The rewritten .sh.match code from ksh93v- has been backported to ksh93u+m,
+  fixing many bugs and improving performance by a considerable amount.
+
+2022-02-05:
+
+- Fixed: for indexed arrays, given an unset array member a[i] with i > 0,
+  ${a[i]=value} failed to assign the value and ${v[i]?error} failed to throw
+  an error.
+
+- Fixed: the -a/--allexport shell option incorrectly exported some variables
+  with names containing a dot to the environment. Note that the '-x' typeset
+  attribute may still be set for them, but this will now not have any
+  effect. Variables created in namespaces declared with the 'namespace'
+  keyword are only exported while their namespace is active.
+
+2022-02-04:
+
+- Fixed a bug in 'typeset -p': for an indexed array variable that is set
+  but empty, it will no longer output a nonexistent '[0]=' element.
+
+2022-02-02:
+
+- Fixed the -a/allexport option to export all variables that are assigned
+  values. Previously, arithmetic $((var=1)) or conditional ${var:=value}
+  assignments were not exported even with allexport on.
+
+- Fixed a memory leak that could occur when using traps.
+
+- Fixed a use after free issue that could occur when modifying or setting
+  a SIGCHLD trap.
+
+2022-02-01:
+
+- Upon invocation, the interactive shell no longer leaves the user without
+  a line editor if the VISUAL or EDITOR variable does not indicate emacs,
+  gmacs or vi; instead, it now turns on the emacs option by default.
+
+2022-01-31:
+
+- Improved keyboard support for the vi and emacs built-in line editors:
+  - Added support for Home key sequences ^[[1~ and ^[[7~ as well as End key
+    sequences ^[[4~ and ^[[8~.
+  - Added support for arrow key sequences ^[OA, ^[OB, ^[OC and ^[OD.
+  - Added support for the following keyboard shortcuts (if the platform
+    supports the expected escape sequence):
+    - Ctrl-Left Arrow:  Go back one word
+    - Alt-Left Arrow:   Go back one word        (Not supported on Haiku)
+    - Ctrl-Right Arrow: Go forward one word
+    - Alt-Right Arrow:  Go forward one word     (Not supported on Haiku)
+    - Ctrl-G:           Cancel reverse search
+    - Ctrl-Delete:      Delete next word        (Not supported on Haiku)
+  - Added a keybind for the Insert key, which differs in the emacs and vi
+    editing modes:
+    - In emacs mode, Insert escapes the next character.
+    - In vi mode, Insert will switch the editor to insert mode (like in vim).
+
+- Fixed a bug in SIGINT handling: if a script ran an external command that
+  interrupted itself (and only itself, not the process group) with SIGINT,
+  the script that ran the command was also interrupted.
+
+2022-01-28:
+
+- Fixed longstanding job control breakage that occurred on the interactive
+  shell when suspending (Ctrl+Z) an external command invoked by a dot script
+  or POSIX shell function, or via 'eval'.
+
+- Fixed a memory leak that occurred when running a command that was found on
+  the PATH.
+
+2022-01-26:
+
+- On Cygwin, ksh now executes scripts that do not have a #! path itself,
+  like it does on other systems, instead of with /bin/sh.
+
+- Fixed a spurious syntax error which occurred when attempting to use array
+  subscript expansion with unset variables (i.e., ${foo[${bar}..${baz}]}).
+
+2022-01-24:
+
+- Fixed a crashing bug in history expansion that could occur when using the "&"
+  modifier to repeat a substitution while there was no previous substitution.
+
+- History expansion is now documented in the ksh(1) manual page.
+
+- In history expansion, the history comment character '#' is now enabled by
+  default, as it is on bash.
+
+- In history expansion, the 'a' modifier is now a synonym for 'g', as on bash.
+
+- Fixed a bug in history expansion where the 'p' modifier had no effect if
+  the 'histverify' option is on.
+
+2022-01-20:
+
+- Disallow out-of-range event numbers in history expansion (-H/-o histexpand).
+  Previously these were accepted, resulting in corrupted expansions.
+
+- Fixed a potential crash in history expansion due to a buffer overflow.
+
+2022-01-12:
+
+- Added bash-inspired --histreedit and --histverify options that modify history
+  expansion (--histexpand), allowing editing on failure or before execution.
+
+2022-01-04:
+
+- Fixed an issue in vi mode that caused tab completion to fail if the
+  last character on the command line was a space.
+
+2021-12-29:
+
+- Fixed numerous build errors that prevented ksh from running on Haiku OS.
+
+- Added support for the SIGKILLTHR signal on operating systems that
+  implement it.
+
+2021-12-28:
+
+- Fixed a bug that caused CDPATH to continue working after unsetting it.
+
+- Added three options to the ulimit builtin with the same names and
+  functionality as in Bash:
+  - 'ulimit -k' sets the maximum number of kqueues.
+  - 'ulimit -P' sets the maximum number of pseudo-terminals.
+  - 'ulimit -R' sets the maximum time in microseconds a real-time process
+    can run before blocking.
+  Note that to use these options the operating system must support the
+  corresponding resource limit.
+
+- Ported performance optimizations from illumos to improve the performance
+  of the cksum builtin. (Note that the cksum builtin is not enabled by
+  default.)
+
+2021-12-27:
+
+- Two bash-like flags for 'whence' were backported from ksh 93v-:
+  - 'whence -P/type -P' is an alias to the existing -p flag.
+  - 'whence -t/type -t' will print only the type of a command in a simple
+    format that is designed to be easy to use for scripts. Example:
+        $ type -t typeset; whence -t sh
+        builtin
+        file
+
+- Fixed a crash or freeze that would occur on Linux when using Ctrl+C to
+  interrupt a command substitution containing a pipe in an interactive shell.
+
+- Fixed a crash that could occur while processing a here-document while
+  xtrace (set -x) is on and the $PS4 prompt contains parameter expansions or
+  command substitutions.
+
+- The mkservice and eloop builtins can now be built by enabling the
+  new SHOPT_MKSERVICE setting in src/cmd/ksh93/SHOPT.sh.
+
+2021-12-26:
+
+- Listing aliases or tracked aliases in a script no longer corrupts
+  shcomp's generated bytecode.
+
+- Listing specific aliases with 'alias -p' and specific tracked aliases
+  with 'alias -pt' now works as documented. This means that the following
+  string of commands now works as you would expect:
+	$ hash -r; unalias -a
+	$ alias foo=bar; hash cat
+	$ alias -p foo; alias -pt cat
+	alias foo=bar
+	alias -t cat
+
+- As a result of the above fix, listing all tracked aliases with 'alias -pt'
+  now prints commands that can be reused to recreate the tracked aliases.
+
+- Attempting to list a non-existent alias or tracked alias with the -p option
+  now causes an error and sets the exit status to the number of non-existent
+  aliases passed.
+
+- Attempting to list 256 non-existent aliases now errors out with the exit
+  status set to one.
+
+2021-12-22:
+
+- Process substitutions run in a profile script no longer print their
+  process ID when run.
+
+2021-12-21:
+
+- Fixed a bug that caused subshells (such as code blocks in parentheses) to
+  partially behave like the interactive main shell after running anything
+  that invokes the parser. For example:
+	$ (eval :; sleep 1 & echo done)
+	[1]	30909      <--- incorrect job control output from subshell
+	done
+
+- Fixed: after suspending (Ctrl+Z) a subshell that is running an external
+  command, resuming the subshell with 'fg' failed and the job was lost.
+	$ (vi)    <--- press Ctrl+Z
+	[2] + Stopped                  (vi)
+	$ fg
+	(vi)      <--- vi failed to resume; immediate return to command line
+	$ fg
+	ksh: no such job
+
+2021-12-17:
+
+- Release 1.0.0-beta.2.
+
+- Ksh no longer behaves badly when parsing a type definition command
+  ('typeset -T' or 'enum') without executing it or when executing it in
+  a subshell. Types can now safely be defined in subshells and defined
+  conditionally as in 'if condition; then enum ...; fi'.
+
+- Single digits can now be compared lexically in [[ ... ]] with the
+  < and > operators.
+
+2021-12-16:
+
+- Changed the default selection of compiled-in /opt/ast/bin built-in libcmd
+  commands to: basename, cat, cp, cut, dirname, getconf, ln, mktemp, mv.
+  Add /opt/ast/bin to your $PATH to use these. Type 'cp --man', etc. for info.
+
+- A bug introduced on 2020-09-17 was fixed that caused interactive ksh to exit
+  if Ctrl+C was pressed while SIGINT was being ignored (as in "trap '' INT").
+
+2021-12-13:
+
+- Fixed a bug introduced on 2020-08-09 that prevented '.' and '..' from
+  being completed when using file name tab completion.
+
+- Fixed a bug on illumos that caused the chown builtin to fail with 'Invalid
+  argument' after failing to change the ownership of a file twice using an ID
+  that doesn't exist in /etc/passwd. (Note that the chown builtin is not
+  enabled by default.)
+
+2021-12-11:
+
+- Fixed two more crashing bugs that occurred if ksh received a signal (such
+  as SIGINT due to Ctrl+C) while the user is entering a multi-line command
+  substitution in an interactive shell.
+
+- The shell linter's warning for variable expansion in ((...)) now tells the
+  user which variable is causing performance degradation.
+
+- The shell linter now warns the user x=$((expr)) is slower than ((x=expr))
+  when assigning a value to a variable.
+
+2021-12-09:
+
+- Increased the general robustness of discipline function handling, fixing
+  crashing bugs with PS2.get() and .sh.tilde.get() disciplines, among others.
+
+- Fixed a crash that occurred on the interactive shell if the PS1 prompt
+  contains multiple command substitutions and the user interrupts input
+  while the shell is on a PS2 prompt waiting for the user to complete a
+  command substitution of the form $( ... ).
+
+2021-12-08:
+
+- Fixed: if a function returned with a status > 256 using the 'return' command
+  and the return value corresponded to a value that could have resulted from a
+  signal, and an EXIT trap was active, then the shell mistakenly issued that
+  signal to itself. Depending on the signal, this could cause the shell to
+  terminate ungracefully, e.g. 'return 267' caused SIGSEGV ("memory fault").
+
+- For the 'return' built-in command, you can now freely specify any
+  return value that fits in a signed integer, typically a 32-bit value.
+  Note that $? is truncated to 8 bits when the current (sub)shell exits.
+
+- The head and tail builtins now correctly handle files that do not have an
+  ending newline. (Note that the tail builtin is not compiled in by default.)
+
+2021-12-05:
+
+- Fixed an issue on illumos that caused some parameters in the getconf
+  builtin to fail.
+
+- The cd built-in command now supports a -e option (as specified in
+  https://www.austingroupbugs.net/view.php?id=253). Passing -e alongside -P
+  is used to guarantee the cd built-in returns with exit status 1 if the
+  current working directory couldn't be determined after successfully changing
+  the directory.
+
+2021-12-01:
+
+- Fixed a memory fault that occurred when a discipline function exited
+  with an error from a special builtin or when a discipline function exited
+  because of a signal.
+
+2021-11-29:
+
+- Fixed a memory fault that prevented ksh from functioning on ARM-based Macs.
+
+- A bug that caused the time keyword to override the errexit shell option has
+  been fixed.
+
+- Fixed a crash that could occur when a KEYBD trap was set and a multi-line
+  command substitution was input in an interactive shell.
+
+- The shell linter's warnings for obsolete arithmetic operators in [[ ... ]]
+  and unnecessary variable expansion in ((...)) have been improved.
+
+2021-11-24:
+
+- The --posix mode was amended to stop the '.' command (but not 'source') from
+  looking up functions defined with the 'function' keyword. In the POSIX
+  standard and on other shells, the '.' command finds only script files.
+
+- The rm built-in's -d/--directory option has been fixed. It now properly
+  removes empty directories and refuses to remove non-empty directories
+  (as specified in https://www.austingroupbugs.net/view.php?id=802). Note
+  that the rm built-in command isn't compiled in by default.
+
+2021-11-23:
+
+- A bug was fixed that allowed arithmetic expressions to assign out-of-range
+  values to variables of an enumeration type defined with the 'enum' command,
+  causing undefined behavior. Within arithmetic expressions, enumeration
+  values translate to index numbers from 0 to the number of elements minus 1.
+  That range is now checked for. Decimal fractions are ignored.
+
+2021-11-21:
+
+- It is now possible to use types defined by 'enum' in contexts where the
+  script is entirely parsed before (or without) being executed, such as
+  dotted/sourced scripts and scripts compiled by shcomp.
+
+- Added support for the size mode to the stty(1) built-in. This mode is used
+  to display the terminal's number of rows and columns. Note that the stty
+  built-in is not compiled in by default. This can be changed by adding
+  stty to the table of built-ins in src/cmd/ksh93/data/builtins.c.
+
+2021-11-20:
+
+- Listing types with 'typeset -T' no longer displays incomplete versions of
+  types created by the enum built-in.
+
+2021-11-18:
+
+- The printf built-in command now supports a -v option as on bash and zsh.
+  This allows you to assign formatted output directly to a variable.
+
+- Fixed a performance regression introduced on 2021-05-03 that caused
+  the shbench[*] fibonacci benchmark to run slower.
+  [*]: https://github.com/ksh-community/shbench
+
+2021-11-16:
+
+- By default, arithmetic expressions in ksh no longer interpret a number
+  with a leading zero as octal in any context. Use 8#octalnumber instead.
+  Before, ksh would arbitrarily recognize the leading octal zero in some
+  contexts but not others, e.g., both of:
+	$ x=010; echo "$((x)), $(($x))"
+	$ set -o letoctal; x=010; let y=$x z=010; echo "$y, $z"
+  would output '10, 8'. These now output '10, 10' and '8, 8', respectively.
+  Arithmetic expressions now also behave identically within and outside
+  ((...)) and $((...)). Setting the --posix compliance option turns on the
+  recognition of the leading octal zero for all arithmetic contexts.
+
+2021-11-15:
+
+- In arithmetic evaluation, the --posix compliance option now disables the
+  special floating point constants Inf and NaN so that $((inf)) and $((nan))
+  refer to the variables by those names as the standard requires. (BUG_ARITHNAN)
+
+- Fixed two file descriptor leaks in the hist builtin that occurred when
+  the -s flag ran a command or encountered an error.
+
+2021-11-14:
+
+- Fixed: ksh crashed after unsetting .sh.match and then matching a pattern.
+
+- Another test/[ fix: "test \( string1 -a string2 \)" and "test \( string1 -o
+  string2 \)" no longer give an incorrect "argument expected" error message.
+
+2021-11-13:
+
+- The test/[ built-in command now supports the '<' and '=~' operators from [[.
+  As of now, test/[ supports the same operators as [[ except for the different
+  and/or operators. Note: test/[ remains deprecated due to its many pitfalls.
+
+- The test/[ built-in command is fixed so that the binary -a (and) and -o (or)
+  operators, as in [ "$a" -a "$b" ] or [ "$a" -o "$b" ], work even if "$a" is
+  '!' or '('. To avoid breaking backwards compatibility with the nonstandard
+  unary [ -a "$file" ] and [ -o "$option" ] operators in combination with '!'
+  or parentheses, this fix is only activated if the posix option is on.
+
+2021-11-07:
+
+- Fixed a bug that could corrupt output if standard output is closed upon
+  initializing the shell.
+
+- Improved BUG_PUTIOERR fix (2020-05-14) with more error checking. On
+  systems with the "disk full" error testing device /dev/full, an
+  echo/print/printf to /dev/full now always yields a non-zero exit status.
+
+2021-09-13:
+
+- Disable the POSIX arithmetic context while running a command substitution
+  invoked from within an arithmetic expression. This fixes a bug that caused
+  integer arguments with a leading zero to be incorrectly interpreted as octal
+  numbers in non-POSIX arithmetic contexts within such command substitutions.
+
+2021-09-12:
+
+- When invoking a script without an interpreter/hashbang path on Linux and
+  macOS, ksh can now update 'ps' output to show longer command lines.
+
+2021-08-13:
+
+- An issue was fixed that could cause old-style `backtick` command
+  substitutions to hang in certain cases.
+
+2021-06-03:
+
+- Fixed a bug in the [[ compound command: the '!' logical negation operator
+  now correctly negates another '!', e.g., [[ ! ! 1 -eq 1 ]] now returns
+  0/true. Note that this has always been the case for 'test'/'['.
+
+2021-05-18:
+
+- Fixed SHLVL so that replacing ksh by itself (exec ksh) will not increase it.
+
+- Fixed a regression introduced on 2020-08-05 that caused a non-interactive
+  shell to exit if an I/O redirection of a function call encountered an error.
+
+2021-05-13:
+
+- Fixed a bug with 'test -t 1' that was introduced on 2021-04-26:
+  v=$(test -t 1 >/dev/tty && echo ok) did not assign 'ok' to v.
+
+2021-05-10:
+
+- Release 1.0.0-beta.1.
+
+2021-05-07:
+
+- Backported three ksh 93v- math.tab changes, allowing for an exp10()
+  arithmetic function if one exists in the C library, a new float()
+  function, and lastly an updated int() function that rounds to zero
+  instead of being an alias to floor().
+
+2021-05-05:
+
+- Fixed: a preceding variable assignment like foo=bar in 'foo=bar command'
+  (with no command arguments after 'command') incorrectly survived the
+  'command' regular built-in command invocation.
+
+- Fixed: 'command -p some_utility' intermittently failed to find the utility
+  under certain conditions due to a memory corruption issue.
+
+2021-05-03:
+
+- Subshells (even if non-forked) now keep a properly separated state of the
+  pseudorandom generator used for $RANDOM, so that using $RANDOM in a
+  non-forked subshell no longer influences a reproducible $RANDOM sequence in
+  the parent environment. In addition, upon invoking a subshell, $RANDOM is now
+  reseeded (as mksh and bash do).
+
+- Fixed program flow corruption that occurred in scripts on executing a
+  background job in a nested subshell, as in ( ( simple_command & ) ).
+
+- Completed the 2021-04-30 fix for ${var<OP>'{}'} where <OP> is '-', '+',
+  ':-' or ':+' by fixing a bug that caused an extra '}' to be output.
+
+- Following the resolution of Austin Group bug 1393[*] that is set to be
+  included in the next version of the POSIX standard, the 'command' prefix
+  in POSIX mode (set -o posix) no longer disables the declaration properties
+  of declaration built-ins. This reverts a change introduced on 2020-09-11.
+  [*] https://austingroupbugs.net/view.php?id=1393
+
+- Fixed arithmetic assignment operations for multidimensional indexed arrays.
+
+2021-04-30:
+
+- The emacs 'ESC .' (M-.) and vi '_' commands now take shell quoting into
+  account when repeating a word from the previous command line. For example, if
+  the previous command is 'ls Stairway\ To\ Heaven.mp3', then they now insert
+  'Stairway\ To\ Heaven.mp3' instead of 'Heaven.mp3'. Thanks to Govind Kamat.
+
+- Fixed a bug introduced on 2020-09-05 that caused "echo ${var:+'{}'}"
+  to be misparsed.
+
+- Fixed: the effects of 'builtin', 'exec' and 'ulimit' leaked out of a parent
+  virtual subshell if run from a ${ shared-state; } command substitution.
+
+2021-04-26:
+
+- Fixed a bug introduced on 2021-02-20 in which a shared-state command
+  substitution stopped sharing its state with the calling shell environment
+  if it executed a command that locally redirected standard output.
+
+2021-04-22:
+
+- shcomp (the shell bytecode compiler) was fixed to correctly compile process
+  substitutions used as the file name to a redirection, as in 'cmd < <(cmd)'.
+
+- Fixed a bug introduced on 2020-07-13 that set LINENO to the wrong line
+  number after leaving a virtual subshell in which LINENO had been unset.
+
+2021-04-21:
+
+- Fixed a bug introduced on 2020-09-28 that caused an interactive ksh to exit
+  if a profile script (such as ~/.kshrc) contains a syntax error.
+
+2021-04-20:
+
+- Fixed three problems with the /opt/ast/bin/getconf built-in command:
+  1. The -l/--lowercase option did not change all variable names to lower case.
+  2. The -q/--quote option now quotes all string values. Previously, it only
+     quoted string values that had a space or other non-shellsafe character.
+  3. The -c/--call, -n/--name and -s/--standard options matched all variable
+     names provided by 'getconf -a', even if none were actual matches.
+
+- The readonly attribute of ksh variables is no longer imported from
+  or exported to other ksh shell instances through the environment.
+
+2021-04-16:
+
+- Fixed a bug in emacs mode: after using tab completion to complete the name
+  of a directory, it was not possible to type numbers after the slash.
+
+- Fixed an optimization bug that caused the <>; redirection operator to fail
+  when used with the last command in a -c script.
+
+2021-04-14:
+
+- Path-bound built-ins (such as /opt/ast/bin/cat) can now be executed by
+  invoking the canonical path, so the following will now work as expected:
+	$ /opt/ast/bin/cat --version
+	  version         cat (AT&T Research) 2012-05-31
+	$ (PATH=/opt/ast/bin:$PATH; "$(whence -p cat)" --version)
+	  version         cat (AT&T Research) 2012-05-31
+  Non-canonical paths such as /opt/ast/./bin/cat will not find the built-ins.
+
+- Path-bound built-ins will now also be found on a PATH set locally using an
+  assignment preceding the command, so the following will now work as expected:
+	$ PATH=/opt/ast/bin cat --version
+	  version         cat (AT&T Research) 2012-05-31
+
+2021-04-13:
+
+- Fixed a few bugs that could cause ksh to show the wrong error message and/or
+  return the wrong exit status if a command couldn't be executed. In
+  scenarios where the command was found in the PATH but it was not executable,
+  ksh now returns with exit status 126. Otherwise, ksh will return with exit
+  status 127 (such as if the command isn't found or if the command name is
+  too long).
+
+2021-04-12:
+
+- Corrected a memory fault when an attempt was made to unset the default
+  nameref KSH_VERSION from the shell environment prior to any other name
+  reference variable creation or modification.
+
+2021-04-11:
+
+- Fixed two related regressions introduced on 2020-06-16:
+  1. The += assignment failed to append the value of variables when used
+     in an invocation-local scope. The following should print '5', but
+     the regression resulted in '3' being printed instead:
+       $ integer foo=2; foo+=3 command eval 'echo $foo'
+       3
+  2. Any += assignment used in an invocation-local scope could modify
+     readonly variables.
+
+2021-04-10:
+
+- Fixed: the internal count of the recursion level for arithmetic expressions
+  was not reset when certain errors occurred in a virtual subshell. This could
+  cause an erroneous "recursion to deep" error when a loop executed many
+  subshells containing arithmetic expressions with errors, e.g. for testing.
+
+2021-04-09:
+
+- Fixed a bug that caused ksh to enable -c during the shell's initialization
+  if the only argument passed was --posix.
+
+- Fixed a related bug that caused 'set --posix' to leave the braceexpand and
+  letoctal shell options unchanged.
+
+- Fixed a bug that caused 'set --default' to unset the restricted option
+  in restricted shells.
+
+2021-04-08:
+
+- Path-bound builtins will now be used by restricted shells if /opt/ast/bin
+  is in the $PATH upon invoking the shell or before setting it to restricted.
+
+- Fixed a bug that caused "printf '%T\n' now" to ignore $LC_ALL and $LC_TIME
+  if the current locale was previously set, unset then set again.
+
+2021-04-07:
+
+- The $LC_TIME variable is now recognized by ksh and if set to an invalid
+  locale will show an error.
+
+- Fixed BUG_CSUBSTDO: If standard output is closed before running a command
+  substitution, redirecting any other file descriptor no longer closes standard
+  output inside of the command substitution.
+
+2021-04-05:
+
+- Fixed a regression, introduced in ksh 93t+ 2009-07-31, that caused a command
+  like 'unset arr[3]' to unset not just element 3 of the array but all elements
+  starting from 3, if a range expansion like ${arr[5..10]} was previously used.
+
+- Several fixes for arrays of a type created by 'enum' were backported from ksh
+  93v-, further to the two enum array fixes already applied on 2021-02-01:
+  1. The array[@]} expansion was fixed for associative arrays of an enum type.
+  2. Assignments now work correctly for all enum values for both indexed and
+     associative arrays.
+  3. 'unset' will now completely unset an associative array of an enum type.
+
+2021-04-04:
+
+- A bug was fixed that caused a broken prompt display upon redrawing the
+  command line if the last line of the prompt includes an xterm escape
+  sequence that is terminated by $'\a' (the bell character).
+
+- Harden readonly variables. Readonly variables or arrays no longer allow
+  attribute changes which would otherwise allow their value to be altered.
+  Expanded support for readonly variables within multidimensional arrays.
+
+2021-04-03:
+
+- Fixed a bug that caused the uname builtin's -d option to change the output
+  of the -o option.
+
+- Fixed a possible crash that could occur when showing the domain name
+  with the uname builtin's -d option.
+
+2021-03-31:
+
+- Fixed a bug that caused 'cd -' to ignore the current value of $OLDPWD
+  when it's set to a different directory in a new scope.
+
+- Fixed a related bug that caused ksh to use the wrong value for $PWD
+  when in a new scope.
+
+2021-03-29:
+
+- Fixed an intermittent crash that could occur in vi mode when using the 'b'
+  or 'B' commands to go back one word.
+
+2021-03-27:
+
+- The 'test' builtin will now show an error message when given the invalid ']]'
+  or '=~' operators; it also properly returns with exit status 2 now (instead
+  of exit status 1). If the invalid operator is supported by [[ ... ]] (such
+  as '=~'), test will now suggest the usage of [[ ... ]] instead.
+
+2021-03-22:
+
+- A new --globcasedetect shell option is added to ksh on OSs where we can check
+  for a case-insensitive file system (currently macOS, Windows/Cygwin, Linux
+  and QNX 7.0+). When this option is turned on, file name generation
+  (globbing), as well as file name tab completion on interactive shells,
+  automatically become case-insensitive on file systems where the difference
+  between upper- and lowercase is ignored for file names. This is transparently
+  determined for each directory, so a path pattern that spans multiple file
+  systems can be part case-sensitive and part case-insensitive.
+      The option is not compiled into ksh on systems where we do not know of a
+  method to check for file system case insensitivity. The shell option can be
+  force-compiled by setting SHOPT_GLOBCASEDET to 1 in src/cmd/ksh93/SHOPT.sh,
+  but it won't have any effect on non-supported systems, so this is not
+  recommended. It can be removed from ksh by setting SHOPT_GLOBCASEDET to 0.
+
+2021-03-17:
+
+- Fixed a bug with file name completion on the interactive shell in multibyte
+  locales. Upon encountering two filenames with multibyte characters starting
+  with the same byte, a partial multibyte character was autocompleted.
+
+2021-03-16:
+
+- Tilde expansion can now be extended or modified by defining a .sh.tilde.get
+  or .sh.tilde.set discipline function. This replaces a 2004 undocumented
+  attempt to add this functionality via a .sh.tilde built-in, which never
+  worked and crashed the shell. See the manual for details on the new method.
+
+- Fixed a bug in interactive shells: if a variable used by the shell called
+  a discipline function (such as PS1.get() or COLUMNS.set()), the value of $?
+  was set to the exit status of the discipline function instead of the last
+  command run.
+
+2021-03-15:
+
+- If the HOME variable is unset, the bare tilde ~ now expands to the current
+  user's system-configured home directory instead of merely the username.
+
+- Tighten up potential invalid typeset attribute combos when more than
+  one numeric type has been requested. In particular, -F and -i are no
+  longer masked over by previously given float types.
+
+2021-03-13:
+
+- Fixed a file descriptor leak that occurred when ksh used /dev/fd for
+  process substitutions passed to functions.
+
+- Fixed a separate file descriptor leak that happened when a process
+  substitution was passed to a nonexistent command.
+
+2021-03-11:
+
+- Fixed an intermittent bug that caused process substitutions to infinitely
+  loop in Linux virtual machines that use systemd.
+
+- Fixed a bug that caused process substitutions to leave lingering processes
+  if the command invoking them never reads from them.
+
+2021-03-09:
+
+- The ${!foo@} and ${!foo*} expansions yield variable names beginning with foo,
+  but excluded 'foo' itself. The fix for this is now backported from 93v- beta.
+
+- test -v var, [ -v var ], and [[ -v var ]] did not correctly test if a
+  variable is set or unset after it has been given a numeric attribute with
+  'typeset' but not yet assigned a value. This has been fixed so that
+  [[ -v var ]] is now equivalent to [[ -n ${var+set} ]] as documented.
+
+2021-03-07:
+
+- Fixed the typeset -p display of short integers without an assigned value.
+  Also, the last -s or -l attribute option supplied for an integer is used.
+
+- Fixed a bug with -G/--globstar introduced on 2020-08-09: patterns did not
+  match anything if any pathname component was '.' or '..', e.g. '**/./glob.c'
+  never matched. The 2020-08-09 fix does still apply to patterns like '.*'.
+
+- Enhancement to -G/--globstar: symbolic links to directories are now followed
+  if they match a normal (non-**) glob pattern. For example, if '/lnk' is a
+  symlink to a directory, '/lnk/**' and '/l?k/**' now work as you would expect.
+
+- Fixed a bug introduced on 2021-02-11 that caused job control on interactive
+  ksh sessions to misbehave if the login shell was replaced by ksh using 'exec'.
+
+2021-03-06:
+
+- Fixed an old expansion bug: expansions of type ${var=value} and ${var:=value}
+  did not perform an assignment and yielded the value 0 if 'var' was typeset as
+  numeric (integer or float) but had not yet been assigned a value.
+
+- Fixed a bug introduced on 2020-08-19: Ctrl+D would break after an
+  interactive shell received SIGWINCH.
+
+- Fixed a bug introduced on 2020-05-21: on an interactive shell, command lines
+  containing a syntax error were not added to the command history file and
+  sometimes corrupted the command history.
+
+2021-03-05:
+
+- Unbalanced quotes and backticks now correctly produce a syntax error
+  in -c scripts, 'eval', and backtick-style command substitutions.
+
+2021-03-04:
+
+- Fixed an arbitrary command execution vulnerability that occurred when
+  parsing the subscripts of arrays within arithmetic commands and expansion.
+
+2021-03-01:
+
+- Fixed the retention of size attributes when 'readonly' or 'typeset -r'
+  was applied to an existing variable.
+
+2021-02-26:
+
+- Fixed three long-standing bugs with tab completion in the emacs editor:
+
+  1. The editor accepted literal tabs without escaping in certain cases,
+     causing buggy and inconsistent completion behaviour. Details:
+     https://github.com/ksh93/ksh/issues/71#issuecomment-656970959
+     https://github.com/ksh93/ksh/issues/71#issuecomment-657216472
+     To enter a literal tab in emacs, you need to escape it with ^V or \.
+
+  2. After completing a filename by choosing from a file completion menu,
+     the terminal cursor was placed one position too far to the right,
+     corrupting command line display. This happened with multiline active.
+     Details: https://github.com/ksh93/ksh/issues/71#issue-655093805
+
+  3. A completion menu was displayed if the file name to be completed was
+     at the point where the rest of it started with a number, even if that
+     part uniquely identified it so the menu only showed one item. Details:
+     https://www.mail-archive.com/ast-users@lists.research.att.com/msg00436.html
+
+- A bug with ${.sh.fun} in combination with the DEBUG trap has been fixed.
+  The ${.sh.fun} variable wrongly continued to contain the name of the last
+  function executed by the DEBUG trap after the trap action completed.
+
+2021-02-21:
+
+- Fixed: The way that SIGWINCH was handled (i.e. the signal emitted when the
+  terminal window size changes) could cause strange emacs/vi editor behaviour.
+
+2021-02-20:
+
+- Fixed a bug introduced on 2021-01-20: if a DEBUG trap action yielded exit
+  status 2, the execution of the next command was not skipped as documented.
+
+- Fixed multiple buffer overflows causing crashes in typeset -L/-R-/-Z.
+
+- Fixed typeset -Z zero-filling: if the number was zero, all zeros
+  were skipped when changing the initial size value of the -Z attribute,
+  leaving an empty string.
+
+2021-02-18:
+
+- A bug was fixed in the 'read' builtin that caused it to fail to process
+  multibyte characters properly in Shift-JIS locales.
+
+2021-02-17:
+
+- Emacs mode fixes:
+  1. Erasing a backslash while doing a reverse search (^R) no longer deletes
+     extra characters.
+  2. The backslash now escapes a subsequent interrupt (^C) as documented.
+
+- Fixed a longstanding bug with shared-state command substitutions of the form
+  ${ command; }. If these were executed in a subshell, changes made within
+  could survive not only the command substitution but also the parent subshell.
+
+2021-02-15:
+
+- Fixed a regression introduced by ksh93 (was not in ksh88): an empty 'case'
+  list on a single line ('case x in esac') was a syntax error.
+
+- Fixed a bug in the emacs built-in editor, introduced on 2020-09-17, that
+  made the Meta-D and Meta-H keys delete single characters instead of words.
+
+- A new 'backslashctrl' shell option has been added. It is on by default.
+  Turning it off (set +o backslashctrl or set --nobackslashctrl) disables the
+  special escaping behaviour of the backslash character in the emacs and vi
+  built-in editors. Particularly in the emacs editor, this makes it much easier
+  to go back, insert a forgotten backslash into a command, and then continue
+  editing without having your next cursor key replace your backslash with
+  garbage. Note that Ctrl+V (or whatever other character was set using
+  'stty lnext') always escapes all control characters in either editing mode.
+
+2021-02-14:
+
+- Due to a deficiency in some UNIX variants, the 'sleep' built-in command could
+  occasionally sleep for slightly less than the time specified. It now performs
+  an additional check against the system clock to make sure it sleeps at least
+  the given amount of time. Thanks to Lev Kujawski for adding this feature.
+
+- A few bugs were fixed that 93u+m introduced along with the new '-o posix'
+  shell option on 2020-09-01:
+  1. 'set --posix' now works as the expected equivalent of 'set -o posix'.
+  2. As of 2020-09-18, the posix option turns off braceexpand and turns on
+     letoctal. Any attempt to override that in a single command such as
+     'set -o posix +o letoctal' was quietly ignored. This now works as long
+     as the overriding option follows the posix option on the command line.
+  3. The --default option to 'set' now stops the 'posix' option, if set or
+     unset in the same 'set' command, from changing other options. This allows
+     the command output by 'set +o' to correctly restore the current options.
+
+2021-02-11:
+
+- Fixed a bug that caused ksh to lose track of all running background jobs if
+  a shared-state command substitution of the form v=${ cmd; } was used twice.
+
+- Job control (the -m/-o monitor option) has been fixed for scripts. Background
+  jobs are now correctly assigned their own process group when run from
+  subshells (except command substitutions). The 'fg' command now also works for
+  scripts as it does on other shells, though 'wait' should be preferred.
+
+2021-02-05:
+
+- Fixed a longstanding bug that caused redirections that store a file
+  descriptor > 10 in a variable, such as {var}>file, to stop working if
+  brace expansion (the -B or -o braceexpand option) was turned off. (Note
+  that '{var}' is not a brace expansion as it does not contain ',' or '..'.)
+
+2021-02-04:
+
+- Fixed ksh crashing if an autoloaded function tried to autoload itself.
+  ksh now errors out gracefully with an "autoload loop" error message.
+
+- Fixed crash on trying a very long nonexistent command.
+
+2021-02-01:
+
+- Fixed a bug in 'typeset': the '-s' modifier option for short integer will
+  now only be applied if the integer option '-i' is also present, avoiding
+  inconsistent results and a crash.
+  
+- Fixed: scalar arrays (-a) and associative arrays (-A) of a type created by
+  'enum' allowed values not specified by the enum type, corrupting results.
+
+- Fixed: the "${array[@]}" expansion for associative arrays of a type created
+  by 'enum' expanded to random numbers instead of the array's values.
+
+2021-01-30:
+
+- The -x option to the 'command' built-in now causes it to bypass built-ins
+  so that it always runs/queries an external command. See 'command --man'.
+
+- Fixed a bug in 'command -x' that caused the minimum exit status to be 1 if
+  a command with many arguments was divided into several command invocations.
+
+- The 2020-08-16 fix is improved with a compile-time feature test that
+  detects if the OS requires extra bytes per argument in the arguments list,
+  maximising the efficiency of 'command -x' for the system it runs on.
+
+2021-01-24:
+
+- Fixed a bug in 'typeset': combining the -u option with -F or -E caused the
+  variable to become a hexadecimal floating point in error.
+
+- Fixed: an unquoted variable expansion evaluated in a DEBUG trap action caused
+  IFS field splitting to be deactivated in code executed after the trap action.
+  This bug was introduced in ksh 93t+ 2009-11-30.
+
+2021-01-23:
+
+- Fixed: when the DEBUG trap was redefined in a subshell, the DEBUG trap in
+  the parent environment was corrupted or the shell crashed.
+  When a redirection was used in a DEBUG trap action, the trap was disabled.
+  DEBUG traps were also incorrectly inherited by subshells and ksh functions.
+  All this was caused by a bug introduced in ksh 93t 2008-06-24.
+
+2021-01-22:
+
+- Compile-time shell options can now be edited in src/cmd/ksh93/SHOPT.sh
+  before building.
+
+2021-01-20:
+
+- Fixed: executing a DEBUG trap in a command substitution had side effects
+  on the exit status ($?) of non-trap commands.
+  This bug was introduced in ksh 93t 2008-09-21.
+
+- The typeset builtin command now gives an informative error message if an
+  incompatible combination of options is given.
+
+2021-01-19:
+
+- Fixed a crash when using 'cd' in a virtual/non-forking subshell in a
+  situation where the current working directory cannot be determined.
+
+2021-01-08:
+
+- Fixed a crash on exceeding the maximum size of the $PS1 prompt.
+  The maximum size is also increased from 160 to 256 bytes.
+
+2021-01-07:
+
+- Fixed a crash that could occur while ksh updated ${.sh.match}.
+
+- Any changes to the hash table (a.k.a. "tracked aliases", i.e. cached $PATH
+  searches) in a subshell now no longer affect the parent shell's hash table.
+
+2021-01-05:
+
+- Fixed a bug in 'cd' that caused 'cd ./foo' to search for 'foo' in $CDPATH.
+
+2021-01-03:
+
+- The invocation
+	$ ksh +s
+  caused an infinite loop and corrupted ~/.sh_history. This is now fixed so
+  that the '-s' option is automatically turned on if there are no non-option
+  command arguments, as documented in Bolsky & Korn (1995), p. 261.
+
+2020-10-22:
+
+- Fixed: 'typeset -F0', 'typeset -E0', and 'typeset -X0' floating point
+  numerics having a precision of 0 with variable assignment.
+  'typeset -F0 x; x=4.56' worked but not 'typeset -F0 x=4.56'.
+
+2020-10-21:
+
+- Fixed: More concisely correct the exporting of uppercase and lowercase
+  variables when only the export and change case attributes were applied.
+  This fix improves upon the previous 2020-09-30 modifications.
+
+2020-10-06:
+
+- The security of virtual/non-forking subshells that locally change the present
+  working directory (PWD) using 'cd' has been improved in two ways.
+  1. On entering a subshell, if the parent shell's PWD proves inaccessible upon
+     saving it, the subshell will now fork into a separate process so the
+     parent process never changes its PWD, avoiding the need to restore it.
+  2. If some attack renders the parent shell's PWD unrestorable *after* ksh
+     enters a virtual subshell, ksh will now error out on exiting it, as
+     continuing would mean running arbitrary commands in the wrong PWD.
+  Hopefully this is an acceptable compromise between performance and security.
+  The proper fix would be to always fork a subshell when changing the working
+  directory within it, but the resulting slowdown would likely be unpopular.
+
+2020-09-30:
+
+- Fixed: 'typeset -xu' and 'typeset -xl' (export + change case) failed to
+  change the case of a variable's value in certain conditions.
+
+- A ksh 93u+ regression was fixed in the combination of ERR trap handling and
+  the 'pipefail' option. A pipeline now triggers the ERR trap correctly again
+  if the 'pipefail' option is active and any of the pipeline elements return a
+  nonzero exit status. Similarly, if both the 'errexit' and 'pipefail' options
+  are active, ksh now correctly exits if any pipeline element returns nonzero.
+
+- Autoloading a function no longer causes the calling script's $LINENO to be
+  off by the number of lines in the function definition file that was loaded.
+  This also corrects line numbers in warnings and error messages.
+
+2020-09-28:
+
+- While executing a ksh-style function, ksh 93u+ ignored all signals for which
+  the function had not set a local trap, except for SIGINT and SIGQUIT. This
+  was contrary to the manual, which states that a "trap condition that is not
+  caught or ignored by the function causes the function to terminate and the
+  condition to be passed on to the caller". This has now been fixed in 93u+m to
+  match the documentation, so that e.g. global traps work as expected again.
+
+2020-09-27:
+
+- The shell's lexical analysis of a 'case' statement within a do...done block
+  within a command substitution of the form $(...) has been fixed so that code
+  like the following no longer throws a spurious syntax error:
+	x=$(for i in 1; do case $i in word) true;; esac; done)
+  Previously, this required a leading parenthesis before 'word', although the
+  syntax error claimed that the ';;' was unexpected.
+
+2020-09-26:
+
+- 'whence -f' now completely ignores the existence of functions, as documented.
+
+- ksh now does not import environment variables whose names are not valid in
+  the shell language, as it would be impossible to change or unset them.
+  However, they stay in the environment to be passed to child processes.
+
+2020-09-25:
+
+- whence -v/-a now reports the path to the file that an "undefined" (i.e.
+  autoloadable) function will be loaded from when invoked, if found in $FPATH.
+
+- When ksh invoked a shell script that does not have a leading
+  #!/hashbang/path, 'ps' and /proc/<PID>/cmdline showed corrupted output if
+  the new script's command line was shorter than that of the invoking script.
+  This has been fixed by wiping the arguments buffer correctly.
+
+2020-09-24:
+
+- An omission made it impossible to turn off brace expansion within command
+  substitutions (`...`, $(...) or ${ ...; }) as the code for parsing these
+  did not check the -B/braceexpand option. This check has now been added.
+
+2020-09-23:
+
+- Fixed a crash that could occur when running a pipeline containing
+  backtick-style command substitutions with job control enabled.
+
+- Fixed a crash that occurred when using 'typeset -u' or 'typeset -l' on a
+  special variable such as PATH, ENV or SHELL.
+
+2020-09-21:
+
+- A bug was fixed that caused command substitutions embedded in here-documents
+  to lose the output of the commands they ran. This bug occurred when ksh was
+  compiled with the SHOPT_SPAWN compile-time option.
+
+- Bugfix: var=$(< file) now reads the file even if the standard input, standard
+  output and/or standard error file descriptors are closed.
+
+2020-09-20:
+
+- Bugfix: when whence -v/-a found an "undefined" (i.e. autoloadable) function
+  in $FPATH, it actually loaded the function as a side effect of reporting on
+  its existence. Now it only reports, as documented.
+
+- 'whence' will now canonicalise paths properly, resolving '.' and '..'
+  elements in paths given to it. It also no longer prefixes a spurious
+  double slash when doing something like 'cd / && whence bin/echo'.
+
+2020-09-18:
+
+- Setting the 'posix' option now turns off the 'braceexpand' option, as brace
+  expansion is not specified by POSIX and potentially incompatible with sh
+  scripts. In addition, 'set -o posix' now turns on the 'letoctal' option
+  instead of controlling that behaviour directly. 'set +o posix' does the
+  reverse of these.
+
+2020-09-17:
+
+- In the vi and emacs line editors, repeat count parameters can now also be
+  used for the arrow keys and the forward-delete key. E.g., in emacs mode,
+  <ESC> 7 <left-arrow> will now move the cursor seven positions to the left.
+  In vi control mode, this would be entered as: 7 <left-arrow>.
+
+- When a background job on an interactive shell received SIGINT or SIGPIPE, the
+  job termination message was empty. It now shows "Interrupt" or "Broken Pipe".
+
+- The -m (-o monitor) option is no longer ignored when specified on the shell
+  invocation command line.
+
+- A script that is interrupted with Ctrl+C now terminates its background jobs
+  as expected, unless the -m (-o monitor) option was turned on.
+
+2020-09-14:
+
+- Corrected rounding of floating point values by ksh's printf %f formatting
+  operator. Fix contributed by @hyenias.
+
+- The forward-delete key now works as expected in emacs and vi editing modes.
+
+2020-09-11:
+
+- The 'command' regular builtin utility (which runs a simple command, removing
+  special properties) has been made fully POSIX compliant.
+  1. The 'command' name can now result from an expansion (fixing BUG_CMDEXPAN),
+     e.g. 'c=command; "$c" ls' and 'set -- command ls; "$@"' now work.
+  2. If and only if the POSIX mode (the new -o posix shell option) is active,
+     then the 'command' utility now disables not only "special" but also
+     "declaration" properties of builtin commands that it invokes, meaning:
+     a. arguments that start with a variable name followed by '=' are
+	always treated as regular words subject to normal shell syntax;
+     b. 'command' can now stop the shell from exiting if a command that it
+	invokes tries to modify a readonly variable (fixing BUG_CMDSPEXIT).
+
+- The 'history' (== 'hist -l') and 'r' (== 'hist -s') interactive shell
+  history commands have reverted to preset aliases and are now only loaded if
+  the shell is interactive and not initialised in POSIX mode. This avoids
+  unneeded conflicts with external commands by these names, particularly 'r'.
+
+2020-09-09:
+
+- Fixed BUG_LOOPRET2 and related bugs. The 'exit' and 'return' commands without
+  an argument now correctly default to passing down the exit status of the
+  last-run command. Tests like the following, in which the last-run command is
+  'false', now correctly output 1 instead of 0:
+	fn() { return || true; }; false; fn; echo "$?"
+	fn() { while return; do true; done; }; false; fn; echo "$?"
+	fn() { for i in 1; do return; done; }; false; fn; echo "$?"
+	fn() { case 1 in 1) return ;; esac; }; false; fn; echo "$?"
+	fn() { { return; } 2>&1; }; false; fn; echo "$?"
+
+2020-09-05:
+
+- Fixed erroneous syntax errors in parameter expansions such as ${var:-wor)d}
+  or ${var+w(ord}. The parentheses now correctly lose their normal grammatical
+  meaning within the braces. Fix by Eric Scrivner backported from ksh2020.
+
+2020-09-04:
+
+- Fixed a bug that caused a syntax error to be thrown if the special parameter
+  expansions ${!} and ${$} (including braces) were used within a here-document.
+  Bug reported by @Saikiran-m on GitHub.
+
+2020-09-01:
+
+- The bash-style '&>file' redirection shorthand (for '>file 2>&1') is now
+  always recognised and not only when running rc/profile init scripts. It no
+  longer issues a warning. This brings ksh93 in line with mksh, bash and zsh.
+
+- A long-form shell option '-o posix' has been added, which implements a
+  mode for better compatibility with the POSIX standard. It is automatically
+  turned on if ksh is invoked under the name 'sh'.
+  For now, it:
+  * disables the &> redirection shorthand
+  * causes the 'let' arithmetic command to recognise octal numbers by
+    leading zeros regardless of the setting of the 'letoctal' option
+  * causes file descriptors > 2 to be left open when invoking another program
+  * makes the <> redirection operator default to stdin instead of stdout
+    (this keeps the 2020-05-13 BUG_REDIRIO fix for the POSIX mode while
+    restoring traditional ksh93 behaviour for backwards compatibility)
+  * disables a noncompliant 'test -t' == 'test -t 1' compatibility hack
+  * disables passing an exported variable's attributes (such as integer or
+    readonly) to a new ksh process through the environment
+
+2020-08-19:
+
+- Sped up the 'read' command on most systems by 15-25%. Fixed a hanging bug
+  on reading from a FIFO that could occur on macOS.
+
+2020-08-17:
+
+- 'command -p' incorrectly used the hash table entry (a.k.a. tracked alias)
+  for a command if its path was previously hashed. It has now been fixed so
+  it never consults the hash table.
+
+2020-08-16:
+
+- Fixed 'command -x' on macOS, Linux and Solaris by accounting for a 16-byte
+  argument alignment. If execution does fail, it now aborts with an internal
+  error message instead of entering an infinite retry loop.
+
+2020-08-13:
+
+- Fixed memory leaks and a crashing bug that occurred when defining and
+  running functions in subshells.
+
+2020-08-11:
+
+- Fixed an intermittent crash upon running a large number of subshells.
+
+2020-08-10:
+
+- A number of fixes have been applied to the printf formatting directives
+  %H and %#H (as well as the undocumented equivalents %(html)q and %(url)q):
+  1. Both formatters have been made multibyte/UTF-8 aware, and no longer
+     delete multibyte characters. Invalid UTF-8 byte sequences are rendered
+     as ASCII question marks.
+  2. %H no longer wrongly changes spaces to non-breaking spaces (&nbsp;).
+  3. %H now converts the single quote (') to '%#39;' instead of '&apos;'
+     which is not a valid entity in all HTML versions.
+  4. %#H failed to encode some reserved characters (e.g. '?') while encoding
+     some unreserved ones (e.g. '~'). It now percent-encodes all characters
+     except those 'unreserved' as per RFC3986 (ASCII alphanumeric plus -._~).
+
+- Fixed a crash that occurred intermittently after running an external
+  command from a command substitution expanded from the $PS1 shell prompt.
+
+2020-08-09:
+
+- File name generation (a.k.a. pathname expansion, a.k.a. globbing) now
+  never matches the special navigational names '.' (current directory) and
+  '..' (parent directory). This change makes a pattern like .* useful; it
+  now matches all hidden files (dotfiles) in the current directory, without
+  the harmful inclusion of '.' and '..'.
+
+2020-08-08:
+
+- Argument checking in the 'redirect' builtin command (see 2020-06-11) has
+  been improved to error out before executing redirections. For example, an
+  error like 'redirect ls >foo.txt' now will not create 'foo.txt' and will
+  not leave your standard output permanently redirected to it.
+
+2020-08-06:
+
+- Added the '${.sh.pid}' variable as an alternative to Bash's '$BASHPID'.
+  This variable is set to the current shell's PID, unlike '$$' (which is
+  set to the main shell's PID). In virtual subshells '${.sh.pid}' is not
+  changed from its previous value, while in forked subshells '${.sh.pid}'
+  is set to the subshell's process ID.
+
+2020-08-05:
+
+- Fixed a bug in functions that caused ksh to crash when an array with an
+  unset method was turned into a multidimensional array.
+
+- Fixed a bug that caused scripts to continue running after over-shifting
+  in a function when the function call had a redirection.
+
+- When generating shellquoted strings (such as with 'printf %q'), the
+  hexadecimal value of a quoted unprintable character was not protected with
+  square braces, e.g. 0x12 followed by '3' would be quoted as '\x123', which
+  is a different value. Such strings are now quoted like '\x[12]3' if the
+  next character is a hexadecimal digit.
+
+2020-07-31:
+
+- Fixed a bug that caused multidimensional associative arrays to be created
+  with an extra array member.
+
+- Fixed a bug that caused the expansions of positional parameters $1 - $9,
+  as well as special parameters such as $? and $-, to corrupt any multibyte
+  characters immediately following the expansion if a UTF-8 locale is active.
+
+2020-07-29:
+
+- On a ksh compiled to use fork(2) to run external commands, a bug has been
+  fixed that caused signals (such as SIGINT, Ctrl+C) to be ignored within a
+  non-forked subshell after running an external command within that subshell.
+
+2020-07-25:
+
+- Fixed BUG_MULTIBIFS: Multibyte characters can now be used as IFS
+  delimiters. "$*" was incorrectly joining positional parameters on
+  the first byte of a multibyte character. This was due to truncation
+  based on the incorrect assumption the IFS would never be larger
+  than a single byte.
+
+- Fixed a bug that caused the sleep builtin to continue after being given
+  an unrecognized option. 'sleep -: 1' will now show a usage message and
+  exit instead of sleep for one second.
+
+- Fixed a bug that caused the 'typeset' variable attributes -a, -A, -l, and
+  -u to leak out of a subshell if they were set without assigning a value.
+
+2020-07-23:
+
+- Fixed an infinite loop that could occur when ksh is the system's /bin/sh.
+
+- A command substitution that is run on the same line as a here-document
+  will no longer cause a syntax error.
+
+2020-07-22:
+
+- Fixed two race conditions when running external commands on
+  interactive shells with job control active.
+
+2020-07-20:
+
+- If a shell function and a built-in command by the same name exist,
+  'whence -a' and 'type -a' now report both.
+
+- Fixed a bug that caused file descriptors opened with 'redirect' or 'exec'
+  to survive a subshell environment after exiting it.
+
+2020-07-19:
+
+- Fixed a crash that occurred in the '.' command when using kshdb.
+
+- Fixed a crash that occurred when attempting to use redirection with an
+  invalid file descriptor.
+
+2020-07-16:
+
+- The 'history' and 'r' default aliases have been made regular built-ins,
+  leaving zero default aliases.
+
+- Fixed a bug that caused 'sleep -s' to have no effect with intervals longer
+  than 30 seconds.
+
+- The accuracy of the sleep builtin has been improved. It no longer ignores
+  microseconds and doesn't add extra milliseconds when the interval is less
+  than 31 seconds.
+
+2020-07-15:
+
+- The 'autoload', 'compound', 'float', 'functions', 'integer' and 'nameref'
+  default aliases have been converted into regular built-in commands, so
+  that 'unalias -a' does not remove them. Shell functions can now use
+  these names, which improves compatibility with POSIX shell scripts.
+
+- The End key escape sequence '^[[F' is now handled in the emacs and vi editing
+  modes. The End key moves the cursor to the end of the line (in contrast to
+  the Home key doing the opposite).
+
+2020-07-14:
+
+- Fixed a bug that caused 'set -b' to have no effect.
+
+- Following the 'time' keyword, the 'times' builtin command now also
+  supports millisecond precision.
+
+2020-07-13:
+
+- Fixed a fork bomb that could occur when the vi editor was sent SIGTSTP
+  while running in a ksh script.
+
+- Appending a lone percent to the end of a format specifier no longer
+  causes a syntax error. The extra percent will be treated as a literal
+  '%', like in Bash and zsh.
+
+- The 'time' keyword now has proper support for millisecond precision.
+  Although this feature was previously documented, the 'time' keyword
+  only supported up to centisecond precision, which caused a command
+  like the one below to return '0.000' on certain operating systems:
+  $ TIMEFORMAT='%3R'; time sleep .003
+
+- The 'time' keyword now zero-pads seconds less than ten (like mksh).
+
+2020-07-10:
+
+- Fixed a bug that caused types created with 'typeset -T' to throw an error
+  when used if the type name started with a lowercase 'a'.
+
+- A potential crash due to memory corruption when using many file
+  descriptors has been fixed.
+
+2020-07-09:
+
+- Fixed a crash on syntax error when sourcing/dotting multiple files.
+
+- Fixed a crash when listing indexed arrays.
+
+- Fixed a memory leak when restoring PATH when temporarily setting PATH
+  for a command (e.g. PATH=/foo/bar command ...) or in a virtual subshell.
+
+- Combining ((...)) with redirections no longer causes a syntax error
+  due to the parser handling '>' incorrectly.
+
+- Fixed a bug that corrupted KIA/CQL cross-reference databases created using
+  ksh's -R option; shell warnings were wrongly included in the database file.
+
+- The shell's quoting algorithm (used in xtrace, printf %q, and more) has been
+  fixed for UTF-8 (Unicode) locales; it no longer needlessly and inconsistently
+  encodes normal printable UTF-8 characters into hexadecimal \u[xxxx] codes.
+
+2020-07-07:
+
+- Four of the date formats accepted by 'printf %()T' have had their
+  functionality altered to the common behavior of date(1):
+  - '%k' and '%l' print the current hour with blank padding, the former
+    based on a 24-hour clock and the latter a 12-hour clock. These are
+    common extensions present on Linux and *BSD.
+  - '%f' prints a date with the format string '%Y.%m.%d-%H:%M:%S' (BusyBox).
+  - '%q' prints the quarter of the year (GNU).
+
+2020-07-06:
+
+- 'notty' is now written to the ksh auditing file instead of '(null)' if
+  the user's tty could not be determined.
+
+- Unsetting an associative array no longer causes a memory leak to occur.
+
+2020-07-05:
+
+- In UTF-8 locales, fix corruption of the shell's internal string quoting
+  algorithm (as used by xtrace, 'printf %q', and more) that occurred when
+  the processing of a multibyte character was interrupted.
+
+2020-07-03:
+
+- Backslashes are no longer escaped in the raw Bourne Shell-like editing
+  mode in multibyte locales, i.e. backslashes are no longer treated like
+  Control-V if the emacs and vi modes are disabled.
+
+- Deleting a backslash in vi mode with Control-H or Backspace now only
+  escapes a backslash if it was the previous input. This means erasing a
+  string such as 'ab\\\' will only cause the first backslash to escape a
+  Backspace as '^?', like in emacs mode.
+
+- An odd interaction with Backspace when the last character of a separate
+  buffer created with Shift-C was '\' has been fixed. '^?' will no longer
+  be output repeatedly when attempting to erase a separate buffer with
+  a Backspace. Note that buffers created with Shift-C are not meant to be
+  erasable:
+  https://pubs.opengroup.org/onlinepubs/9699919799/utilities/vi.html#tag_20_152_13_49
+
+- The 'kill' builtin now supports the SIGINFO signal (on operating systems
+  with support for SIGINFO).
+
+2020-07-02:
+
+- Fixed a crash that occurred if a directory named '.paths' existed in any
+  directory listed in $PATH. The fix was to only read '.paths' if it is a
+  regular file or a symlink to a regular file.
+
+2020-06-30:
+
+- 'read -u' will no longer crash with a memory fault when given an out of
+  range or negative file descriptor.
+
+- The '=~' operator no longer raises an error if a regular expression
+  combines the '{x}' quantifier with a sub-expression.
+
+2020-06-28:
+
+- Variables created with 'typeset -RF' no longer cause a memory fault
+  when accessed.
+
+- Unsetting an array that was turned into a compound variable will no
+  longer cause silent memory corruption.
+
+- Variables created with 'readonly' in functions are now set to the
+  specified value instead of nothing. Note that 'readonly' does not
+  create a function-local scope, unlike 'typeset -r' which does.
+
+2020-06-26:
+
+- Changing to a directory that has a name starting with a '.' will no
+  longer fail if preceded by '../' (i.e. 'cd ../.local' will now work).
+
+2020-06-24:
+
+- Fixed buggy tab completion of tilde-expanded paths such as
+  ~/some in 'vi' mode.
+
+- In the raw/default Bourne Shell-like editing mode that occurs when neither
+  the 'emacs' nor the 'vi' shell option is active:
+  * tab completion is now correctly disabled, instead of enabled and broken;
+  * entering tab characters now moves the cursor the correct amount.
+
+2020-06-23:
+
+- Fixed a bug that caused combining process substitution with redirection
+  to create a bizarre file in the user's current working directory.
+
+- Using process substitution while the shell is interactive no longer
+  causes the process ID of the asynchronous process to be printed.
+
+2020-06-22:
+
+- The 'stop' and 'suspend' default aliases have been converted into regular
+  built-in commands, so that 'unalias -a' does not remove them, 'suspend'
+  can do a couple of sanity checks, and something like
+	cmd=stop; $cmd $!
+  will now work. See 'stop --man' and 'suspend --man' for more information.
+
+- Fixed a bug that caused the kill and stop commands to segfault when given
+  a non-existent job.
+
+- Nested functions no longer ignore variable assignments that were prefixed
+  to their parent function, i.e. 'VAR=foo func' will now set $VAR to 'foo'
+  in the scope of any nested function 'func' runs.
+
+2020-06-20:
+
+- Fixed a bug that caused setting the following variables as readonly in
+  a virtual subshell to affect the environment outside of the subshell:
+  $_
+  ${.sh.name}
+  ${.sh.subscript}
+  ${.sh.level}
+  $RANDOM
+  $LINENO
+
+- Fixed two bugs that caused 'unset .sh.lineno' to always produce a memory
+  fault and '(unset .sh.level)' to memory fault when run in nested
+  functions.
+
+2020-06-18:
+
+- A two decade old bug that caused 'whence -a' to base the path of
+  tracked aliases on the user's current working directory has been
+  fixed. Now the real path to tracked aliases is shown when '-a' is
+  passed to the whence command.
+
+2020-06-17:
+
+- A bug in 'unset -f' was fixed that prevented shell functions from
+  unsetting themselves while they were running. A POSIX function no longer
+  crashes when doing so, and a KornShell-style function no longer silently
+  ignores an 'unset -f' on itself. A function of either form now continues
+  running after unsetting itself, and is removed at the end of the run.
+
+2020-06-16:
+
+- Passing the '-d' flag to the read builtin will no longer cause the '-r'
+  flag to be discarded when 'read -r -d' is run.
+
+- Fix BUG_CMDSPASGN: preceding a "special builtin"[*] with 'command' now
+  prevents preceding invocation-local variable assignments from becoming global.
+  [*] https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_14
+
+2020-06-15:
+
+- The 'source' alias has been converted into a regular built-in command.
+
+- Functions that set variables in a virtual subshell will no longer affect
+  variables of the same name outside of the virtual subshell's environment.
+
+- Terse usage messages written by builtin commands now point the user to
+  the --help and --man options for more information.
+
+2020-06-14:
+
+- 'read -S' is now able to correctly handle strings with double quotes
+  nested inside of double quotes.
+
+2020-06-13:
+
+- Fixed a timezone name determination bug on FreeBSD that caused the
+  output from "LC_ALL=C printf '%T\n' now" to print the wrong time zone name.
+
+2020-06-11:
+
+- Fixed a bug that caused running 'builtin -d' on a special builtin to
+  delete it. The man page for the 'builtin' command documents that special
+  builtins cannot be deleted.
+
+- POSIX compliance fix: It is now possible to set shell functions named
+  'alias' or 'unalias', overriding the commands by the same names. In
+  technical terms, they are now regular builtins, not special builtins.
+
+- The redirect='command exec' alias has been converted to a regular
+  'redirect' builtin command that only accepts I/O redirections, which
+  persist as in 'exec'. This means that:
+  * 'unlias -a' no longer removes the 'redirect' command;
+  * users no longer accidentally get logged out of their shells if
+    they type something intuitive but wrong, like 'redirect ls >file'.
+
+- The undocumented 'login' and 'newgrp' builtin commands have been removed.
+  These replaced your shell session with the external commands by the same
+  name, as in 'exec'. If an error occurred (e.g. due to a typo), you would
+  end up immediately logged out.
+  If you do want this behaviour, you can restore it by setting:
+	alias login='exec login'
+	alias newgrp='exec newgrp'
+
+2020-06-10:
+
+- The 'hash' utility is now a regular builtin instead of an alias to
+  'alias -t --'. The functionality of the old command has been removed
+  from the alias builtin.
+
+- 'set +r' is no longer able to unset the restricted option. This change
+  makes the behavior of 'set +r' identical to 'set +o restricted'.
+
+2020-06-09:
+
+- The 'unalias' builtin will now return a non-zero status if it tries
+  to remove a previously set alias that is not currently set.
+
+2020-06-08:
+
+- Fix an issue with the up arrow key in Emacs editing mode.
+  Emacs editing mode is bugged in ksh93u+ and ksh2020. Let's
+  say you were to run the following commands after starting
+  a fresh instance of ksh:
+  $ alias foo=true
+  $ unalias foo
+  If you type 'a' and then press the up arrow on your keyboard,
+  ksh will complete 'a' to 'alias foo=true' by doing a reverse
+  search for the last command that starts with 'a'.
+  Run the alias command again, then type 'u' and press the up
+  arrow key again. If ksh is in Vi mode, you will get 'unalias foo',
+  but in Emacs mode you will get 'alias foo=true' again.
+  All subsequent commands were ignored as ksh was saving the first
+  command and only based later searches off of it.
+
+- If 'set -u'/'set -o nounset' is active, then the shell now errors out if a
+  nonexistent positional parameter such as $1, $2, ... is accessed, as other
+  shells do and POSIX requires. (This does *not* apply to "$@" and "$*".)
+
+- If 'set -u'/'set -o nounset' is active, then the shell now errors out if $!
+  is accessed before the shell has launched any background process.
+
+- Removed support for an obscure early 1990s Bell Labs file system research
+  project called 3DFS, which has not existed for decades. This removes:
+  - an obnoxious default alias 2d='set -f;_2d' that turned off your file name
+    wildcard expansion and then tried to run a nonexistent '_2d' command
+  - undocumented builtins 'vmap' and 'vpath' that only printed error messages
+  - a non-functional -V unary operator for the test and [[ commands
+
+- If the last program run by a ksh script exits with a signal (e.g. crashed),
+  ksh itself now exits normally instead of repeating that same signal.
+  In addition, using 'exit x' for x > 256 no longer makes ksh issue a signal.
+
+2020-06-06:
+
+- The 'times' command is now a builtin command that conforms to POSIX
+  instead of an alias for the 'time' command. It displays the accumulated
+  user and system CPU times, one line with the times used by the shell and
+  another with those used by all of the shell's child processes.
+  https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_27
+
+- The default aliases command='command ' and nohup='nohup ' have been
+  removed because they caused breakage in an attempt to circumvent other
+  breakage which is being fixed. In the unlikely even that anyone still
+  needs alias substitution to continue on the command argument following
+  'command' or 'nohup', it's easy to set these aliases yourself.
+
+2020-06-05:
+
+- Fix a bug that caused special variables such as PATH, LANG, LC_ALL,
+  etc. to lose their effect after being unset in a subshell. For example:
+    (unset PATH; PATH=/dev/null; ls); : wrongly ran 'ls'
+    (unset LC_ALL; LC_ALL=badlocale); : failed to print a diagnostic
+  This also fixes BUG_KUNSETIFS: unsetting IFS in a subshell failed if IFS
+  was set to the empty value in the parent shell.
+
+- Fix crashes on some systems, including at least a crash in 'print -v' on
+  macOS, by eliminating an invalid/undefined use of memccpy() on overlapping
+  buffers in the commonly used sfputr() function.
+
+- Fix the ${.sh.subshell} level counter; it is no longer reset to zero when a
+  non-forked subshell happens to fork into a separate process for some reason
+  (an internal implementation detail that should be unnoticeable to scripts).
+
+2020-06-04:
+
+- Fix BUG_KBGPID: the $! special parameter was not set if a background job
+  (somecommand &) or co-process (somecommand |&) was launched as the only
+  command within a braces block with an attached redirection, for example:
+	{
+		somecommand &
+	} >&2
+  With the bug, $! was unchanged; now it contains the PID of somecommand.
+
+2020-05-31:
+
+- Fix a bug in autoloading functions. Directories in the path search list
+  which should be skipped (e.g. because they don't exist) did not interact
+  correctly with autoloaded functions, so that a function to autoload was
+  not always found correctly.
+  Details: https://github.com/att/ast/issues/1454
+
+2020-05-30:
+
+- Fix POSIX compliance of 'test'/'[' exit status on error. The command now
+  returns status 2 instead of 1 when given an invalid number or arithmetic
+  expression, e.g.:
+	[ 123 -eq 123x ]; echo $?
+  now outputs 2 instead of 1.
+
+2020-05-29:
+
+- Fix BUG_FNSUBSH: functions can now be correctly redefined and unset in
+  subshell environments (such as ( ... ), $(command substitutions), etc).
+  Before this fix, this was silently ignored, causing the function by the
+  same name from the parent shell environment to be executed instead.
+	fn() { echo mainsh; }
+	(fn() { echo subsh; }; fn); fn
+  This now correctly outputs "subsh mainsh" instead of "mainsh mainsh".
+	ls() { echo "ls executed"; }
+	(unset -f ls; ls); ls
+  This now correctly lists your directory and then prints "ls executed",
+  instead of printing "ls executed" twice.
+
+- Fix a similar bug with aliases. These can now be correctly unset
+  in subshell environments.
+
+2020-05-21:
+
+- Fix truncating of files with the combined redirections '<>;file' and
+  '<#pattern'. The bug was caused by out-of-sync streams.
+  Details and discussion: https://github.com/att/ast/issues/61
+
+- Patched code injection vulnerability CVE-2019-14868. As a result, you can
+  no longer use expressions in imported numeric environment variables; only
+  integer literals are allowed.
+
+2020-05-20:
+
+- Fix BUG_ISSETLOOP. Expansions like ${var+set} remained static when used
+  within a 'for', 'while' or 'until' loop; the expansions din't change along
+  with the state of the variable, so they could not be used to check whether a
+  variable is set within a loop if the state of that variable changed in the
+  course of the loop.
+
+- Fix BUG_IFSISSET. ${IFS+s} always yielded 's', and [[ -v IFS ]] always
+  yielded true, even if IFS is unset. This applied to IFS only.
+
+2020-05-19:
+
+- Fix 'command -p'. The -p option causes the operating system's standard
+  utilities path (as output by 'getconf PATH') to be searched instead of $PATH.
+  Before this fix, this was broken on non-interactive shells as the internal
+  variable holding the default PATH value was not correctly initialised.
+
+2020-05-16:
+
+- Fix 'test -t 1', '[ -t 1 ]', '[[ -t 1 ]]' in command substitutions.
+  Standard output (file descriptor 1) tested as being on a terminal within a
+  command substitution, which makes no sense as the command substitution is
+  supposed to be catching standard output.
+	v=$(echo begincomsub
+	    [ -t 1 ] && echo oops
+	    echo endcomsub)
+	echo "$v"
+  This now does not output "oops".
+
+2020-05-14:
+
+- Fix syncing history when print -s -f is used. For example, the
+  following now correctly adds a 'cd' command to the history:
+	print -s -f 'cd -- %q\n' "$PWD"
+  Ref.:	https://github.com/att/ast/issues/425
+	https://github.com/att/ast/pull/442
+
+- Fix BUG_PUTIOERR: Output builtins now correctly detect
+  input/output errors. This allows scripts to check for a nonzero exit
+  status on the 'print', 'printf' and 'echo' builtins and prevent possible
+  infinite loops if SIGPIPE is ignored.
+
+- Add a convenient bin/run_ksh_tests script to the source tree that
+  sets up the necessary environment and runs the ksh regression tests.
+
+2020-05-13:
+
+- Fix BUG_CASELIT: an undocumented 'case' pattern matching misbehaviour that
+  goes back to the original Bourne shell, but wasn't discovered until 2018.
+  If a pattern doesn't match as a pattern, it was tried again as a literal
+  string. This broke common validation use cases, e.g.:
+      n='[0-9]'
+      case $n in
+      ( [0-9] )  echo "$n is a number" ;;
+      esac
+  would output "[0-9] is a number" as the literal string fallback matches the
+  pattern. As this misbehaviour was never documented anywhere (not for Bourne,
+  ksh88, or ksh93), and it was never replicated in other shells (not even in
+  ksh88 clones pdksh and mksh), it is unlikely any scripts rely on it.
+     Of course, a literal string fallback, should it be needed, is trivial to
+  implement correctly without this breakage:
+      case $n in
+      ( [0-9] | "[0-9]")  echo "$n is a number or the number pattern" ;;
+      esac
+  Ref.: https://github.com/att/ast/issues/476
+
+- Fix BUG_REDIRIO: ksh used to redirect standard output by default when no
+  file descriptor was specified with the rarely used '<>' reading/writing
+  redirection operator. It now redirects standard input by default, as POSIX
+  specifies and as all other POSIX shells do. To redirect standard output
+  for reading and writing, you now need '1<>'.
+  Ref.:	https://github.com/att/ast/issues/75
+	http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_07_07
+
+2020-05-12:
+
+- ksh development rebooted based on 93u+ 2012-08-01.

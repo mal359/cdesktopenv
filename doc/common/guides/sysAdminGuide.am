@@ -1,0 +1,67 @@
+# build a guide
+
+SYSADMINGUIDE_SRCS = \
+    sysAdminGuide/BEntity.sgm    sysAdminGuide/ch09.sgm \
+    sysAdminGuide/book.sgm       sysAdminGuide/ch10.sgm \
+    sysAdminGuide/ch01.sgm       sysAdminGuide/ch11.sgm \
+    sysAdminGuide/ch02.sgm       sysAdminGuide/ch12.sgm \
+    sysAdminGuide/ch03.sgm       sysAdminGuide/ch13.sgm \
+    sysAdminGuide/ch04.sgm       sysAdminGuide/ch14.sgm \
+    sysAdminGuide/ch05.sgm       sysAdminGuide/ch15.sgm \
+    sysAdminGuide/ch06.sgm       sysAdminGuide/ch16.sgm \
+    sysAdminGuide/ch07.sgm \
+    sysAdminGuide/ch08.sgm       sysAdminGuide/preface.sgm
+
+SYSADMINGUIDE_GRS = \
+    sysAdminGuide/graphics/ActIcon.tif \
+    sysAdminGuide/graphics/ActIconI.tif \
+    sysAdminGuide/graphics/CreActIc.tif \
+    sysAdminGuide/graphics/DtApps.tif \
+    sysAdminGuide/graphics/Open4Xwd.tif \
+    sysAdminGuide/graphics/TextPad.tif \
+    sysAdminGuide/graphics/XwdDispl.tif \
+    sysAdminGuide/graphics/actionfs.tif \
+    sysAdminGuide/graphics/actionic.tif \
+    sysAdminGuide/graphics/actionna.tif \
+    sysAdminGuide/graphics/actions1.tif \
+    sysAdminGuide/graphics/adddtype.tif \
+    sysAdminGuide/graphics/advcract.tif \
+    sysAdminGuide/graphics/appgath.tif \
+    sysAdminGuide/graphics/appgroup.tif \
+    sysAdminGuide/graphics/appmgrwc.tif \
+    sysAdminGuide/graphics/appmgrwi.tif \
+    sysAdminGuide/graphics/appserv.tif \
+    sysAdminGuide/graphics/appserv1.tif \
+    sysAdminGuide/graphics/colorset.tif \
+    sysAdminGuide/graphics/complexa.tif \
+    sysAdminGuide/graphics/connect.tif \
+    sysAdminGuide/graphics/connecti.tif \
+    sysAdminGuide/graphics/content.tif \
+    sysAdminGuide/graphics/creatact.tif \
+    sysAdminGuide/graphics/datatype.tif \
+    sysAdminGuide/graphics/fileserv.tif \
+    sysAdminGuide/graphics/findset.tif \
+    sysAdminGuide/graphics/fpboxes.tif \
+    sysAdminGuide/graphics/fpmainbo.tif \
+    sysAdminGuide/graphics/fpsubbox.tif \
+    sysAdminGuide/graphics/idchar.tif \
+    sysAdminGuide/graphics/idname.tif \
+    sysAdminGuide/graphics/inclfile.tif \
+    sysAdminGuide/graphics/login.tif \
+    sysAdminGuide/graphics/nfsbased.tif \
+    sysAdminGuide/graphics/permpat.tif \
+    sysAdminGuide/graphics/sesserve.tif
+
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(SYSADMINGUIDE_GRS)
+
+SYSADMINGUIDE_ID = cde.sysAdminGuide.toc
+include sysAdminGuide/Title.am
+
+SYSADMINGUIDE_TOC = sysAdminGuide/TOC.sgm
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(SYSADMINGUIDE_TOC)
+
+$(SYSADMINGUIDE_TOC): $(SYSADMINGUIDE_SRCS)
+	$(DGENV) $(DTINFOGEN) tocgen -T $(DTINFOGENTMPDIR) $(DTINFOGENOPTIONS) -f $(SYSADMINGUIDE_TOC) -id $(SYSADMINGUIDE_ID) -title $(SYSADMINGUIDE_TITLE) sysAdminGuide/book.sgm
+
+BUILT_SOURCES += $(SYSADMINGUIDE_TOC)
+CLEANFILES += $(SYSADMINGUIDE_TOC)

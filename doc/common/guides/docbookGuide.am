@@ -1,0 +1,16 @@
+# build a guide
+
+DOCBOOKGUIDE_SRCS = \
+    docbookGuide/book.sgm
+
+DOCBOOKGUIDE_ID = cde.docbookGuide.toc
+include docbookGuide/Title.am
+
+DOCBOOKGUIDE_TOC = docbookGuide/TOC.sgm
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(DOCBOOKGUIDE_TOC)
+
+$(DOCBOOKGUIDE_TOC): $(DOCBOOKGUIDE_SRCS)
+	$(DGENV) $(DTINFOGEN) tocgen -T $(DTINFOGENTMPDIR) $(DTINFOGENOPTIONS) -f $(DOCBOOKGUIDE_TOC) -id $(DOCBOOKGUIDE_ID) -title $(DOCBOOKGUIDE_TITLE) docbookGuide/book.sgm
+
+BUILT_SOURCES += $(DOCBOOKGUIDE_TOC)
+CLEANFILES += $(DOCBOOKGUIDE_TOC)

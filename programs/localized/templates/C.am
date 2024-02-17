@@ -1,0 +1,4 @@
+#  This file is a template for setting the platform-specific LANG
+#  variable for the C locale.
+
+LANG=C

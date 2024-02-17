@@ -1,0 +1,27 @@
+# build a guide
+
+PROGOVIEW_SRCS = \
+    progOview/BEntity.sgm  progOview/ch02.sgm     progOview/ch07.sgm \
+    progOview/appa.sgm     progOview/ch03.sgm     progOview/credits.sgm \
+    progOview/ch04.sgm     progOview/part1.sgm \
+    progOview/book.sgm     progOview/ch05.sgm     progOview/part2.sgm \
+    progOview/ch01.sgm     progOview/ch06.sgm     progOview/preface.sgm
+
+PROGOVIEW_GRS = \
+    progOview/graphics/ComboBo3.tif  progOview/graphics/SpinBox.tif \
+    progOview/graphics/ComboBox.tif  progOview/graphics/fpanel.tif \
+    progOview/graphics/MenuBut2.tif
+
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(PROGOVIEW_GRS)
+
+PROGOVIEW_ID = cde.progOview.toc
+include progOview/Title.am
+
+PROGOVIEW_TOC = progOview/TOC.sgm
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(PROGOVIEW_TOC)
+
+$(PROGOVIEW_TOC): $(PROGOVIEW_SRCS)
+	$(DGENV) $(DTINFOGEN) tocgen -T $(DTINFOGENTMPDIR) $(DTINFOGENOPTIONS) -f $(PROGOVIEW_TOC) -id $(PROGOVIEW_ID) -title $(PROGOVIEW_TITLE) progOview/book.sgm
+
+BUILT_SOURCES += $(PROGOVIEW_TOC)
+CLEANFILES += $(PROGOVIEW_TOC)

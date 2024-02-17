@@ -1,0 +1,29 @@
+# make include file: env variables needed for the guides
+
+INFOLIB = ../cde.dti
+BOOKCASE = CDEDOC
+
+INFOLIBNAME = -n cde
+# INFOLIBDESC must be set in the per-lang guides/Makefile.am (without
+# the -d option) prior to including this file.
+# orig: INFOLIBDESC = -d InfoLibDesc
+
+SSENTS = -m common/catalog
+DGENV = SGML_SEARCH_PATH=".:.."
+DTINFOGENOPTIONS = -L $(LANG) $(SSENTS) $(INFOLIBNAME) -d $(INFOLIBDESC)
+
+# Note the quad-dollar sign - this escapes $$ (pid) for the tmp
+# dir. This is required for multi-core builds to work.
+DTINFOGENTMPDIR = /tmp/dtinfogen-guides.$$$$
+
+DTSRDIR = $(top_builddir)/programs/dtsr
+
+SGMLDIR  = $(top_srcdir)/programs/dtdocbook/sgml
+SGMLDEPS = $(SGMLDIR)/docbook.dtd $(SGMLDIR)/isobox.gml \
+    $(SGMLDIR)/isodia.gml $(SGMLDIR)/isogrk3.gml $(SGMLDIR)/isolat1.gml \
+    $(SGMLDIR)/isolat2.gml $(SGMLDIR)/isonum.gml $(SGMLDIR)/isopub.gml \
+    $(SGMLDIR)/isotech.gml
+
+DTINFOGEN = \
+	PATH=$(PATH):$(DTSRDIR) \
+	$(top_srcdir)/programs/dtdocbook/doc_utils/dtdocbook2infolib

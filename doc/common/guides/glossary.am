@@ -1,0 +1,16 @@
+# build a guide
+
+GLOSSARY_SRCS = \
+    glossary/book.sgm       glossary/glossary.sgm
+
+GLOSSARY_ID = cde.glossary.toc
+include glossary/Title.am
+
+GLOSSARY_TOC = glossary/TOC.sgm
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(GLOSSARY_TOC)
+
+$(GLOSSARY_TOC): $(GLOSSARY_SRCS)
+	$(DGENV) $(DTINFOGEN) tocgen -T $(DTINFOGENTMPDIR) $(DTINFOGENOPTIONS) -f $(GLOSSARY_TOC) -id $(GLOSSARY_ID) -title $(GLOSSARY_TITLE) glossary/book.sgm
+
+BUILT_SOURCES += $(GLOSSARY_TOC)
+CLEANFILES += $(GLOSSARY_TOC)

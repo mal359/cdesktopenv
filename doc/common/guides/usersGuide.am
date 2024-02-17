@@ -1,0 +1,122 @@
+# build a guide
+
+USERSGUIDE_SRCS = \
+    usersGuide/BEntity.sgm   usersGuide/ch07.sgm \
+    usersGuide/appa.sgm      usersGuide/ch08.sgm \
+    usersGuide/appb.sgm      usersGuide/ch09.sgm \
+    usersGuide/book.sgm      usersGuide/ch10.sgm \
+    usersGuide/ch01.sgm      usersGuide/ch11.sgm \
+    usersGuide/ch02.sgm      usersGuide/ch12.sgm \
+    usersGuide/ch03.sgm      usersGuide/ch13.sgm \
+    usersGuide/ch04.sgm      usersGuide/credits.sgm \
+    usersGuide/ch05.sgm      usersGuide/glossary.sgm \
+    usersGuide/ch06.sgm      usersGuide/preface.sgm
+
+USERSGUIDE_GRS1 = \
+    usersGuide/graphics/3clck.tif     usersGuide/graphics/SMKey.tif \
+    usersGuide/graphics/3drg.tif      usersGuide/graphics/SMMainPa.tif \
+    usersGuide/graphics/AMaddapp.tif  usersGuide/graphics/SMMouse.tif \
+    usersGuide/graphics/BSAMIcon.tif  usersGuide/graphics/SMScreen.tif \
+    usersGuide/graphics/BSAppMgr.tif  usersGuide/graphics/SMStartu.tif \
+    usersGuide/graphics/BSFMIcon.tif  usersGuide/graphics/SMWindow.tif \
+    usersGuide/graphics/BSFilMgr.tif  usersGuide/graphics/Screen1.tif \
+    usersGuide/graphics/BSHlpmnu.tif  usersGuide/graphics/Screen2.tif \
+    usersGuide/graphics/BSMinBut.tif  usersGuide/graphics/TECopyTo.tif \
+    usersGuide/graphics/BSObjpop.tif  usersGuide/graphics/TEbutton.tif \
+    usersGuide/graphics/BSPullmn.tif  usersGuide/graphics/TEdataf.tif \
+    usersGuide/graphics/BSSMIcon.tif  usersGuide/graphics/TEfindch.tif \
+    usersGuide/graphics/BSWSObjs.tif  usersGuide/graphics/TEformat.tif \
+    usersGuide/graphics/BSWSmenu.tif  usersGuide/graphics/TEinclud.tif \
+    usersGuide/graphics/BSWinmnu.tif  usersGuide/graphics/TEopenfi.tif \
+    usersGuide/graphics/BSchkbx.tif   usersGuide/graphics/TEprint.tif \
+    usersGuide/graphics/BSlsts.tif    usersGuide/graphics/TEsaveas.tif \
+    usersGuide/graphics/BSpushb.tif   usersGuide/graphics/TEspell.tif \
+    usersGuide/graphics/BSresize.tif  usersGuide/graphics/TEstatus.tif \
+    usersGuide/graphics/BSscroll.tif  usersGuide/graphics/TEsubpan.tif \
+    usersGuide/graphics/BStxtfld.tif  usersGuide/graphics/TEwindow.tif \
+    usersGuide/graphics/CRaeicon.tif  usersGuide/graphics/TEwrapto.tif \
+    usersGuide/graphics/CRapptls.tif  usersGuide/graphics/WinFrmCs.tif \
+    usersGuide/graphics/CRdayico.tif  usersGuide/graphics/WndwIcns.tif \
+    usersGuide/graphics/CRdayvw.tif   usersGuide/graphics/admpasad.tif \
+    usersGuide/graphics/CRfpnl.tif    usersGuide/graphics/apmappic.tif \
+    usersGuide/graphics/CRmonthi.tif  usersGuide/graphics/apmcreat.tif \
+    usersGuide/graphics/CRmonthv.tif  usersGuide/graphics/apmfp.tif \
+    usersGuide/graphics/CRnextic.tif  usersGuide/graphics/apmicons.tif \
+    usersGuide/graphics/CRopalp.tif   usersGuide/graphics/apmlabel.tif
+
+USERSGUIDE_GRS2 = \
+    usersGuide/graphics/CRprevic.tif  usersGuide/graphics/apmpasub.tif \
+    usersGuide/graphics/CRtdicon.tif  usersGuide/graphics/apmwin.tif \
+    usersGuide/graphics/CRtodayi.tif  usersGuide/graphics/appgroup.tif \
+    usersGuide/graphics/CRtodols.tif  usersGuide/graphics/fpanel.tif \
+    usersGuide/graphics/CRv5alp.tif   usersGuide/graphics/fpappmag.tif \
+    usersGuide/graphics/CRweekic.tif  usersGuide/graphics/fpbusy.tif \
+    usersGuide/graphics/CRweekvw.tif  usersGuide/graphics/fpcal.tif \
+    usersGuide/graphics/CRyearic.tif  usersGuide/graphics/fpclock.tif \
+    usersGuide/graphics/CRyearvw.tif  usersGuide/graphics/fpconwsu.tif \
+    usersGuide/graphics/CompWind.tif  usersGuide/graphics/fpcopyma.tif \
+    usersGuide/graphics/FMFPctrl.tif  usersGuide/graphics/fpexit.tif \
+    usersGuide/graphics/FMFPtrsh.tif  usersGuide/graphics/fpfile.tif \
+    usersGuide/graphics/FMaction.tif  usersGuide/graphics/fphelp.tif \
+    usersGuide/graphics/FMdirlk.tif   usersGuide/graphics/fphelpfp.tif \
+    usersGuide/graphics/FMdirnw.tif   usersGuide/graphics/fphelpin.tif \
+    usersGuide/graphics/FMdragic.tif  usersGuide/graphics/fphelpoi.tif \
+    usersGuide/graphics/FMfind.tif    usersGuide/graphics/fphelpsu.tif \
+    usersGuide/graphics/FMiconbr.tif  usersGuide/graphics/fpicon.tif \
+    usersGuide/graphics/FMmain.tif    usersGuide/graphics/fpiconed.tif \
+    usersGuide/graphics/FMpopupm.tif  usersGuide/graphics/fpinstal.tif \
+    usersGuide/graphics/FMtreevw.tif  usersGuide/graphics/fploadsw.tif \
+    usersGuide/graphics/FSBOpen.tif   usersGuide/graphics/fplock.tif \
+    usersGuide/graphics/H4Hdapps.tif  usersGuide/graphics/fpmail1.tif \
+    usersGuide/graphics/H4Hfhelp.tif  usersGuide/graphics/fpmail2.tif \
+    usersGuide/graphics/fpmin.tif \
+    usersGuide/graphics/H4Hgsash.tif  usersGuide/graphics/fpmove.tif \
+    usersGuide/graphics/H4Hhctrl.tif  usersGuide/graphics/fpnlext.tif \
+    usersGuide/graphics/H4Hhist.tif   usersGuide/graphics/fpnllck.tif \
+    usersGuide/graphics/H4Hhmenu.tif  usersGuide/graphics/fpperapp.tif \
+    usersGuide/graphics/H4Hhmngr.tif  usersGuide/graphics/fpperpri.tif
+
+USERSGUIDE_GRS3 = \
+    usersGuide/graphics/H4Hhorg.tif   usersGuide/graphics/fppopcon.tif \
+    usersGuide/graphics/H4Hhyper.tif  usersGuide/graphics/fppopsub.tif \
+    usersGuide/graphics/H4Hindex.tif  usersGuide/graphics/fppopwk1.tif \
+    usersGuide/graphics/H4Hmanac.tif  usersGuide/graphics/fppopwk2.tif \
+    usersGuide/graphics/H4Hmandi.tif  usersGuide/graphics/fpprint.tif \
+    usersGuide/graphics/H4Hpopup.tif  usersGuide/graphics/fpstyle.tif \
+    usersGuide/graphics/H4Hprint.tif  usersGuide/graphics/fpsubclo.tif \
+    usersGuide/graphics/fpswitch.tif \
+    usersGuide/graphics/fpswiton.tif \
+    usersGuide/graphics/H4Htopic.tif  usersGuide/graphics/fpterm.tif \
+    usersGuide/graphics/IEmain.tif    usersGuide/graphics/fptexed.tif \
+    usersGuide/graphics/MailAttI.tif  usersGuide/graphics/fptext.tif \
+    usersGuide/graphics/MailFind.tif  usersGuide/graphics/fptrash.tif \
+    usersGuide/graphics/MailFndC.tif  usersGuide/graphics/fpwkbut.tif \
+    usersGuide/graphics/MailIcon.tif  usersGuide/graphics/icontool.tif \
+    usersGuide/graphics/MailOptD.tif  usersGuide/graphics/prtmgric.tif \
+    usersGuide/graphics/MailRcpt.tif  usersGuide/graphics/prtsetup.tif \
+    usersGuide/graphics/Mailbox.tif   usersGuide/graphics/subarrow.tif \
+    usersGuide/graphics/PMMainW.tif   usersGuide/graphics/ugamgrfp.tif \
+    usersGuide/graphics/PMprops.tif   usersGuide/graphics/ugappmgr.tif \
+    usersGuide/graphics/PMscreen.tif  usersGuide/graphics/ugdtterm.tif \
+    usersGuide/graphics/SMBack.tif    usersGuide/graphics/ugfilemg.tif \
+    usersGuide/graphics/SMBeep.tif    usersGuide/graphics/ugfmicon.tif \
+    usersGuide/graphics/SMColBox.tif  usersGuide/graphics/ugglobop.tif \
+    usersGuide/graphics/SMColor.tif   usersGuide/graphics/ugpamenu.tif \
+    usersGuide/graphics/SMFont.tif    usersGuide/graphics/ugtermop.tif \
+    usersGuide/graphics/SMFront.tif   usersGuide/graphics/ugtermpo.tif
+
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(USERSGUIDE_GRS1) \
+		$(USERSGUIDE_GRS2) $(USERSGUIDE_GRS3)
+
+USERSGUIDE_ID = cde.usersGuide.toc
+include usersGuide/Title.am
+
+USERSGUIDE_TOC = usersGuide/TOC.sgm
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(USERSGUIDE_TOC)
+
+$(USERSGUIDE_TOC): $(USERSGUIDE_SRCS)
+	$(DGENV) $(DTINFOGEN) tocgen -T $(DTINFOGENTMPDIR) $(DTINFOGENOPTIONS) -f $(USERSGUIDE_TOC) -id $(USERSGUIDE_ID) -title $(USERSGUIDE_TITLE) usersGuide/book.sgm
+
+BUILT_SOURCES += usersGuide/TOC.sgm
+CLEANFILES += usersGuide/TOC.sgm
+

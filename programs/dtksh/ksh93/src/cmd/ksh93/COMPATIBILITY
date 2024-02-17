@@ -1,0 +1,320 @@
+		ksh 93u+m/1.0.0 vs. ksh 93u+
+
+The following is a list of changes between ksh 93u+ 2012-08-01 and the new
+ksh 93u+m reboot that could cause incompatibilities in rare corner cases.
+Fixes of clear bugs in ksh 93u+ are not included here, even though any bugfix
+could potentially cause an incompatibility in a script that relies on the bug.
+For more details, see the NEWS file and for complete details, see the git log.
+
+0.	A new '-o posix' shell option has been added to ksh 93u+m that makes
+	the ksh language more compatible with other shells by following the
+	POSIX standard more closely. See the manual page for details. It is
+	enabled by default if ksh is invoked as sh.
+
+1.	Bytecode compiled by shcomp 93u+m will not run on older ksh versions.
+	(However, bytecode compiled by older shcomp will run on ksh 93u+m.)
+
+2.	Pathname expansion (a.k.a. filename generation, a.k.a. globbing) now
+	never matches the special navigational names '.' (current directory)
+	and '..' (parent directory). This change makes a pattern like .*
+	useful; it now matches all hidden 'dotfiles' in the current directory.
+
+3.	The bash-style &>foo redirection operator (shorthand for >foo 2>&1) can
+	now always be used if -o posix is off, and not only in profile scripts.
+
+4.	Redirections that store a file descriptor > 9 in a variable, such as
+	{var}>file, now continue to work if brace expansion is turned off.
+
+5.	Most predefined aliases have been converted to regular built-in
+	commands that work the same way. 'unalias' no longer removes these.
+	To remove a built-in command, use 'builtin -d'. The 'history' and 'r'
+	predefined aliases remain, but are now only set on interactive shells.
+	There are some minor changes in behavior in some former aliases:
+	-  'redirect' now checks if all arguments are valid redirections
+	   before performing them. If an error occurs, it issues an error
+	   message instead of terminating the shell.
+	-  'suspend' now refuses to suspend a login shell, as there is probably
+	   no parent shell to return to and the login session would freeze.
+	   If you really want to suspend a login shell, use 'kill -s STOP $$'.
+	-  'times' now gives high precision output in a POSIX compliant format.
+
+6.	'command' and 'nohup' no longer expand aliases in their first argument,
+	as this is no longer required after the foregoing change. In the
+	unlikely event that you still need this behavior, you can set:
+		alias command='command '
+		alias nohup='nohup '
+
+7.	The 'login' and 'newgrp' special built-in commands have been removed,
+	so it is no longer an error to define shell functions by these names.
+	These built-ins replaced your shell session with the external commands
+	by the same name, as in 'exec'. If an error occurred (e.g. due to a
+	typo), you would end up immediately logged out, except on a few
+	commercial Unix systems whose 'login' and 'newgrp' cope with this
+	by starting a new shell session upon error. If you do want the old
+	behavior, you can restore it by setting:
+		alias login='exec login'
+		alias newgrp='exec newgrp'
+
+8.	'case' no longer retries to match patterns as literal strings if they
+	fail to match as patterns. This undocumented behaviour broke validation
+	use cases that are expected to work. For example:
+		n='[0-9]'
+		case $n in
+		[0-9])	echo "$n is a digit" ;;
+		esac
+	would output "[0-9] is a digit". In the unlikely event that a script
+	does rely on this behavior, it can be fixed like this:
+		case $n in
+		[0-9] | "[0-9]")
+			echo "$n is a digit or the digit pattern" ;;
+		esac
+
+9.	If 'set -u'/'set -o nounset' is active, then the shell now errors out
+	if a nonexistent positional parameter such as $1, $2, ... is accessed.
+	(This does *not* apply to "$@" and "$*".)
+
+10.	If 'set -u'/'set -o nounset' is active, then the shell now errors out
+	if $! is accessed before the shell has launched any background process.
+
+11.	The 'print', 'printf' and 'echo' built-in commands now return a nonzero
+	exit status if an input/output error occurs.
+
+12.	Four obsolete date format specifiers for 'printf %(format)T' were
+	changed to make them compatible with modern date(1) commands:
+	- %k and %l now return a blank-padded hour (24-hour and 12-hour clock).
+	- %f now returns a date with the format '%Y.%m.%d-%H:%M:%S'.
+	- %q now returns the quarter of the current year.
+
+13.	The 'typeset' built-in now properly detects and reports options that
+	cannot be used together if they are given as part of the same command.
+
+14.	The DEBUG trap has reverted to pre-93t behavior. It is now once again
+	reset like other traps upon entering a subshell or ksh-style function,
+	as documented, and it is no longer prone to crash or get corrupted.
+
+15.	'command -x' now always runs an external command, bypassing built-ins.
+
+16.	Unbalanced quotes and backticks now correctly produce a syntax error
+	in -c scripts, 'eval', and backtick-style command substitutions.
+
+17.	-G/--globstar: Symbolic links to directories are now followed if they
+	match a normal (non-**) glob pattern. For example, if '/lnk' is a
+	symlink to a directory, '/lnk/**' and '/l?k/**' now work as expected.
+
+18.	The variable name search expansions ${!prefix@} and ${!prefix*} now
+	also include the variable 'prefix' itself in the possible results.
+
+19.	[[ -v var ]] is now properly equivalent to [[ -n ${var+set} ]].
+	Undocumented special-casing for numeric types has been removed.
+	For example, the following no longer produces an unexpected error:
+	    $ ksh -o nounset -c 'float n; [[ -v n ]] && echo $n'
+
+20.	If the HOME variable is unset, the bare tilde ~ now expands to the
+	current user's system home directory instead of merely the username.
+
+21.	On Windows/Cygwin, globbing is no longer case-insensitive by default.
+	Turning on the new --globcasedetect shell option restores
+	case-insensitive globbing for case-insensitive file systems.
+
+22.	If $PWD or $OLDPWD are passed as invocation-local assignments to cd,
+	their values are no longer altered in the outer scope when cd finishes.
+	For example:
+		ksh -c 'OLDPWD=/bin; OLDPWD=/tmp cd - > /dev/null; echo $OLDPWD'
+		ksh -c 'cd /var; PWD=/tmp cd /usr; echo $PWD'
+	now prints '/bin' followed by '/var'.
+
+23.	Path-bound built-ins (such as /opt/ast/bin/cat) can now be executed
+	by invoking the canonical path, so the following will now work:
+		$ /opt/ast/bin/cat --version
+		  version         cat (AT&T Research) 2012-05-31
+		$ (PATH=/opt/ast/bin:$PATH; "$(whence -p cat)" --version)
+		  version         cat (AT&T Research) 2012-05-31
+	In the event an external command by that path exists, the path-bound
+	built-in will now override it when invoked using the canonical path.
+	To invoke a possible external command at that path, you can still use
+	a non-canonical path, e.g.: /opt//ast/bin/cat or /opt/ast/./bin/cat
+
+24.	The readonly attribute of ksh variables is no longer imported from
+	or exported to other ksh shell instances through the environment.
+
+25.	Subshells (even if non-forked) now keep a properly separated state
+	of the pseudorandom generator used for $RANDOM, so that using
+	$RANDOM in a non-forked subshell no longer influences a reproducible
+	$RANDOM sequence in the parent environment. In addition, upon
+	invoking a subshell, $RANDOM is now reseeded (as mksh and bash do).
+
+26.	The built-in arithmetic function int() has changed to round towards
+	zero instead of negative infinity. Previously, int() was an alias to
+	floor(), but now it behaves like trunc().
+
+27.	The '!' logical negation operator in the '[[' compound command now
+	correctly negates another '!', e.g., [[ ! ! 1 -eq 1 ]] now returns
+	0/true. Note that this has always been the case for 'test'/'['.
+
+28.	By default, arithmetic expressions in ksh no longer interpret a number
+	with a leading zero as octal in any context. Use 8#octalnumber instead.
+	Before, ksh would arbitrarily recognize the leading octal zero in some
+	contexts but not others. One of several examples is:
+		x=010; echo "$((x)), $(($x))"
+	would output '10, 8'. This now outputs '10, 10'. Arithmetic
+	expressions now also behave identically within and outside ((...))
+	and $((...)). Setting the --posix compliance option turns on the
+	recognition of the leading octal zero for all arithmetic contexts.
+
+29.	It is now an error for arithmetic expressions to assign an out-of-range
+	index value to a variable of an enumeration type created with 'enum'.
+
+30.	For the 'return' built-in command, you can now freely specify any
+	return value that fits in a signed integer, typically a 32-bit value.
+	Note that $? is truncated to 8 bits when the current (sub)shell exits.
+
+31.	The 'enum' and 'typeset -T' commands are no longer allowed to
+	override and replace special built-in commands, except for type
+	definition commands previously created by these commands.
+
+32.	The .sh.level variable is now read-only except inside a DEBUG trap.
+	The current level/scope is now restored when the DEBUG trap run ends.
+
+____________________________________________________________________________
+
+		KSH-93 VS. KSH-88
+
+(Written by David Korn for ksh 93u+ 2012-08-01)
+
+The following is a list of known incompatibilities between ksh-93 and ksh-88.
+I have not included cases that are clearly bugs in ksh-88.  I also have
+omitted features that are completely upward compatible.
+
+1.	Functions, defined with name() with ksh-93 are compatible with
+	the POSIX standard, not with ksh-88.  No local variables are
+	permitted, and there is no separate scope.  Functions defined
+	with the function name syntax have local variables as in ksh-88,
+	but are statically scoped as in C so that a function does not
+	automatically have access to local variables of the caller.
+	This change also affects function traces.
+
+2.	! is now a reserved word.  As a result, any command by that
+	name will no longer work with ksh-93.
+
+3.	The -x attribute of alias and typeset -f is no longer
+	effective and the ENV file is only read for interactive
+	shells.  You need to use FPATH to make function definitions
+	visible to scripts.
+
+4.	A built-in command named command has been added which is
+	always found before the PATH search.  Any script which uses
+	this name as the name of a command (or function) will not
+	be compatible.
+
+5.	The output format for some built-ins has changed.  In particular
+	the output format for set, typeset and alias now have single
+	quotes around values that have special characters.  The output
+	for trap without arguments has a format that can be used as input.
+
+6.	With ksh-88, a dollar sign ($') followed by a single quote was
+	interpreted literally.  Now it is an ANSI C string.  You
+	must quote the dollar sign to get the previous behavior.
+	Also, a $ in front of a " indicates that the string needs
+	to be translated for locales other than C or POSIX.  The $
+	is ignored in the C and POSIX locale.
+
+7.	With ksh-88, tilde expansion did not take place inside ${...}.
+	with ksh-93, ${foo-~} will cause tilde expansion if foo is
+	not set.  You need to escape the ~ for the previous behavior.
+
+8.      Some changes in the tokenizing rules were made that might
+	cause some scripts with previously ambiguous use of quoting
+	to produce syntax errors.
+
+9.	Programs that rely on specific exit values for the shell,
+	(rather than 0 or non-zero) may not be compatible.  The
+	exit status for many shell failures has been changed.
+
+10.	Built-ins in ksh-88 were always executed before looking for
+	the command in the PATH variable.  This is no longer true.
+	Thus, with ksh-93, if you have the current directory first
+	in your PATH, and you have a program named test in your
+	directory, it will be executed when you type test; the
+	built-in version will be run at the point /bin is found
+	in your PATH.
+
+11.	Some undocumented combinations of argument passing to ksh
+	builtins no longer works since ksh-93 is getopts conforming
+	with respect to its built-ins.  For example, typeset -8i
+	previously would work as a synonym for typeset -i8.
+
+12.	Command substitution and arithmetic expansion are now performed
+	on PS1, PS3, and ENV when they are expanded.  Thus,  ` and $(
+	as part of the value of these variables must be preceded by a \
+	to preserve their previous behavior.
+
+13.	The ERRNO variable has been dropped.
+
+14.	If the file name following a redirection symbol contain pattern
+	characters they will only be expanded for interactive shells.
+
+15.	The arguments to a dot script will be restored when it completes.
+
+16.	The list of tracked aliases is not displayed with alias unless
+	the -t option is specified.
+
+17.	The POSIX standard requires that test "$arg" have exit status
+	of 0, if and only if $arg is null.  However, since this breaks
+	programs that use test -t, ksh-93 treats an explicit test -t
+	as if the user had entered test -t 1.
+
+18.	The ^T directive of emacs mode has been changed to work the
+	way it does in gnu-emacs.
+
+19.	ksh-88 allowed unbalanced parentheses within ${name op val} whereas
+	ksh-93 does not.  Thus, ${foo-(} needs to be written as ${foo-\(}
+	which works with both versions.
+	[2021 UPDATE: This is now once again allowed in ksh 93u+m. Note that
+	balanced parentheses ${foo-()} were also broken and are now fixed.]
+
+20.     kill -l in ksh-93 lists only the signal names, not their numerical
+	values.
+
+21.	Local variables defined by typeset are statically scoped in
+	ksh-93.  In ksh-88 they were dynamically scoped although this
+	behavior was never documented.
+
+22.	The value of the variable given to getopts is set to ? when
+	the end-of-options is reached to conform to the POSIX standard.
+
+23.	Since the POSIX standard requires that octal constants be
+	recognized, doing arithmetic on typeset -Z variables can
+	yield different results that with ksh-88.  Most of these
+	differences were eliminated in ksh-93o.  Starting in ksh-93u+, the
+	let command no longer recognizes octal constants starting with 0
+	for compatibility with ksh-88 unless the option letoctal is on.
+
+24.	Starting after ksh-93l, If you run ksh name, where name does
+	not contain a /, the current directory will be searched
+	before doing a path search on name as required by the POSIX
+	shell standard.
+
+25.	In ksh-93, cd - will output the directory that it changes
+	to on standard output as required by X/Open.  With ksh-88,
+	this only happened for interactive shells.
+
+26.	As an undocumented feature of ksh-88, a leading 0 to an
+	assignment of an integer variable caused that variable
+	to be treated as unsigned.  This behavior was removed
+	starting in ksh-93p.
+
+27.	The getopts builtin in ksh-93 requires that optstring contain
+	a leading + to allow options to begin with a +.
+
+28.	In emacs/gmacs mode, control-v will not display the version when
+	the stty lnext character is set to control-v or is unset.
+	The sequence escape control-v will display the shell version.
+
+29.	In ksh-88, DEBUG traps were executed after each command.  In ksh-93
+	DEBUG traps are executed before each command.
+
+30.	In ksh-88, a redirection to a file name given by an empty string was
+	ignored.  In ksh-93, this is an error.
+
+I am interested in expanding this list so please let me know if you
+uncover any others.

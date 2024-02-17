@@ -1,0 +1,30 @@
+# build a guide
+
+DTKSHGUIDE_SRCS = \
+    dtkshGuide/BEntity.sgm    dtkshGuide/ch02.sgm \
+    dtkshGuide/appa.sgm       dtkshGuide/ch03.sgm \
+    dtkshGuide/appb.sgm       dtkshGuide/ch04.sgm \
+    dtkshGuide/appc.sgm \
+    dtkshGuide/book.sgm       dtkshGuide/preface.sgm \
+    dtkshGuide/ch01.sgm
+
+DTKSHGUIDE_GRS = \
+    dtkshGuide/graphics/area1.tif     dtkshGuide/graphics/finderr.tif \
+    dtkshGuide/graphics/area2.tif     dtkshGuide/graphics/findterm.tif \
+    dtkshGuide/graphics/area3.tif     dtkshGuide/graphics/findwin.tif \
+    dtkshGuide/graphics/area4.tif     dtkshGuide/graphics/labfindw.tif \
+    dtkshGuide/graphics/dttest1.tif
+
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(DTKSHGUIDE_GRS)
+
+DTKSHGUIDE_ID = cde.dtkshGuide.toc
+include dtkshGuide/Title.am
+
+DTKSHGUIDE_TOC = dtkshGuide/TOC.sgm
+$(INFOLIB)/$(BOOKCASE)/dtsearch/dtsearch.ocf: $(DTKSHGUIDE_TOC)
+
+$(DTKSHGUIDE_TOC): $(DTKSHGUIDE_SRCS)
+	$(DGENV) $(DTINFOGEN) tocgen -T $(DTINFOGENTMPDIR) $(DTINFOGENOPTIONS) -f $(DTKSHGUIDE_TOC) -id $(DTKSHGUIDE_ID) -title $(DTKSHGUIDE_TITLE) dtkshGuide/book.sgm
+
+BUILT_SOURCES += $(DTKSHGUIDE_TOC)
+CLEANFILES += $(DTKSHGUIDE_TOC)

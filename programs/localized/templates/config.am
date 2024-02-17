@@ -1,0 +1,79 @@
+# process the config files...
+
+BUILT_SOURCES = sys.resources sys.session sys.font sys.dtwmrc	\
+	Xresources dtfile.config home.session current.session	\
+	display.home.session display.current.session 0100.session \
+	0120.session 0140.session 0160.session
+
+if SOLARIS
+BUILT_SOURCES += Xresources.ow
+endif
+
+CLEANFILES = $(BUILT_SOURCES)
+
+cfgmaindir = $(CDE_INSTALLATION_TOP)/config/$(LANG)
+dist_cfgmain_DATA = dtfile.config sys.dtwmrc sys.resources Xresources	\
+	sys.font sys.session
+
+cfgrsrcdir = $(CDE_INSTALLATION_TOP)/config/$(LANG)/Xresources.d
+dist_cfgrsrc_DATA = 0100.session 0120.session 0140.session	\
+	0160.session
+
+TOP = $(top_builddir)/programs
+MERGE = $(top_builddir)/programs/localized/util/merge
+
+# these are the names these 4 file are really installed as, so create
+# symlinks to them for installation
+0100.session: current.session
+	$(RM) $@
+	$(LN_S) $< $@
+
+0120.session: home.session
+	$(RM) $@
+	$(LN_S) $< $@
+
+0140.session: display.current.session
+	$(RM) $@
+	$(LN_S) $< $@
+
+0160.session: display.home.session
+	$(RM) $@
+	$(LN_S) $< $@
+
+
+# these are the real targets
+sys.resources: $(TOP)/dtsession/sys.resources sys.resources.tmsg
+	$(MERGE) -lang $(LANG) $@.tmsg < $< > $@ || $(RM) $@
+
+sys.session: $(TOP)/dtsession/sys.session sys.session.tmsg
+	$(MERGE) -lang $(LANG) $@.tmsg < $< > $@ || $(RM) $@
+
+sys.font: $(TOP)/dtsession/sys.font sys.font.tmsg
+	$(MERGE) -lang $(LANG) $@.tmsg < $< > $@ || $(RM) $@
+
+sys.dtwmrc: $(TOP)/dtwm/sys.dtwmrc sys.dtwmrc.tmsg
+	$(MERGE) -lang $(LANG) $@.tmsg < $< > $@ || $(RM) $@
+
+Xresources: $(TOP)/dtlogin/config/Xresources Xresources.tmsg
+	$(MERGE) -lang $(LANG) $@.tmsg < $< > $@ || $(RM) $@
+
+if SOLARIS
+Xresources.ow: $(TOP)/dtlogin/config/Xresources.ow Xresources.ow.tmsg
+	$(MERGE) -lang $(LANG) $@.tmsg < $< > $@ || $(RM) $@
+endif
+
+dtfile.config: $(TOP)/dtfile/dtfile.config dtfile.config.tmsg
+	$(MERGE) -lang $(LANG) $@.tmsg < $< > $@ || $(RM) $@
+
+home.session: $(TOP)/dtlogin/config/home.session _common.session.tmsg
+	$(MERGE) -lang $(LANG) _common.session.tmsg < $< > $@ || $(RM) $@
+
+current.session: $(TOP)/dtlogin/config/current.session _common.session.tmsg
+	$(MERGE) -lang $(LANG) _common.session.tmsg < $< > $@ || $(RM) $@
+
+display.home.session: $(TOP)/dtlogin/config/display.home.session _common.session.tmsg
+	$(MERGE) -lang $(LANG) _common.session.tmsg < $< > $@ || $(RM) $@
+
+display.current.session: $(TOP)/dtlogin/config/display.current.session _common.session.tmsg
+	$(MERGE) -lang $(LANG) _common.session.tmsg < $< > $@ || $(RM) $@
+

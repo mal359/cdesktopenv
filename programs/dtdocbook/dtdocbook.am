@@ -1,0 +1,3 @@
+dtdocbookdatadir = $(pkgdatadir)/dtdocbook
+dtdocbooklibdir = $(pkglibdir)/dtdocbook
+dtdocbooklibexecdir = $(pkglibexecdir)/dtdocbook

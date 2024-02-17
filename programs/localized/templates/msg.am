@@ -1,0 +1,26 @@
+# message files for non-C locales - ie: local .msg files.  So much
+# nicer :)
+
+BUILT_SOURCES = $(shell ls *.msg |grep -v libAB |sed -e 's/.msg/.cat/g')
+CLEANFILES = $(BUILT_SOURCES)
+
+msgcatdir = $(CDE_INSTALLATION_TOP)/lib/nls/msg/$(LANG)
+dist_msgcat_DATA = $(BUILT_SOURCES)
+
+SUFFIXES = .msg .cat
+
+.msg.cat:
+	$(RM) $@
+	LANG=$(LANG) $(GENCAT) $@ $^ || $(RM) $@
+
+SYM2NUM_CMD = $(KSH) $(top_builddir)/programs/dtprintinfo/sym2num
+
+dtprintinfo.cat: export CPP := $(CPP) -
+dtprintinfo.cat: export LANG := $(LANG)
+dtprintinfo.cat: export LC_COLLATE = C
+
+dtprintinfo.cat: dtprintinfo.msg
+	$(RM) $@
+	$(SYM2NUM_CMD) $(@:.cat=) $(@:.cat=.msg) > tmp.msg
+	$(GENCAT) $@ tmp.msg
+	$(RM) tmp.msg $(@:.cat=_msg.h)

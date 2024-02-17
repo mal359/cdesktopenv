@@ -1,0 +1,140 @@
+ksh 93u+m general copyright notice
+
+########################################################################
+#                                                                      #
+#                   The KornShell 93u+m distribution                   #
+#          Copyright (c) 2020-2022 Contributors to ksh 93u+m           #
+#                    <https://github.com/ksh93/ksh>                    #
+#             Derived from AT&T's ast package (see below)              #
+#       Licensed under the Eclipse Public License, Version 2.0         #
+#                                                                      #
+#                A copy of the License is available at                 #
+#      https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html      #
+#         (with md5 checksum 84283fa8859daf213bdda5a9f8d1be1d)         #
+#                                                                      #
+#                             CONTRIBUTORS                             #
+#                                                                      #
+#                  Martijn Dekker <martijn@inlv.org>                   #
+#            Johnothan King <johnothanking@protonmail.com>             #
+#         hyenias <58673227+hyenias@users.noreply.github.com>          #
+#               Anuradha Weeraman <anuradha@debian.org>                #
+#                  Lev Kujawski <int21h@mailbox.org>                   #
+#          atheik <14833674+atheik@users.noreply.github.com>           #
+#               K. Eugene Carlson <kvngncrlsn@gmail.com>               #
+#                Ryan Schmidt <ryandesign@macports.org>                #
+#                   Chase <nicetrynsa@protonmail.ch>                   #
+#               Vincent Mihalkovic <vmihalko@redhat.com>               #
+#                      Trey Valenta <t@trey.net>                       #
+#  Sterling Jensen <5555776+sterlingjensen@users.noreply.github.com>   #
+#                   Marc Wilson <posguy99@gmail.com>                   #
+#                 Harald van Dijk <harald@gigawatt.nl>                 #
+#                Govind Kamat <govind_kamat@yahoo.com>                 #
+#                  Andy Fiddaman <andy@omniosce.org>                   #
+#                                                                      #
+#              ALSO INCLUDES BACKPORTED CONTRIBUTIONS BY               #
+#                                                                      #
+#                  David Korn <dgk@research.att.com>                   #
+#                 Glenn Fowler <gsf@research.att.com>                  #
+#              Lefteris Koutsofios <ek@research.att.com>               #
+#              Siteshwar Vashisht <svashisht@redhat.com>               #
+#                 Kurtis Rader <krader@skepticism.us>                  #
+#               Roland Mainz <roland.mainz@nrubsig.org>                #
+#                Finnbarr P. Murphy <fpm@hotmail.com>                  #
+#               Lijo George <lijo.x.george@oracle.com>                 #
+#                  OpenSUSE ksh 93u+ patch authors                     #
+#                    Red Hat ksh 93u+ path authors                     #
+#                   Solaris ksh 93u+ patch authors                     #
+#                    Debian ksh 93u+ patch authors                     #
+#                    Apple ksh 93u+ patch authors                      #
+#                 Graphviz maintainers (libast, sfio)                  #
+#                                                                      #
+########################################################################
+
+ast package general copyright notice
+
+########################################################################
+#                                                                      #
+#               This software is part of the ast package               #
+#          Copyright (c) 1986-2014 AT&T Intellectual Property          #
+#                      and is licensed under the                       #
+#                 Eclipse Public License, Version 1.0                  #
+#                    by AT&T Intellectual Property                     #
+#                                                                      #
+#                A copy of the License is available at                 #
+#          http://www.eclipse.org/org/documents/epl-v10.html           #
+#         (with md5 checksum b35adb5213ca9657e911e9befb180842)         #
+#                                                                      #
+#              Information and Software Systems Research               #
+#                            AT&T Research                             #
+#                           Florham Park NJ                            #
+#                                                                      #
+#                             CONTRIBUTORS                             #
+#                                                                      #
+#                 Glenn Fowler <gsf@research.att.com>                  #
+#                  David Korn <dgk@research.att.com>                   #
+#                   Phong Vo <kpv@research.att.com>                    #
+#                Roland Mainz <roland.mainz@nrubsig.org>               #
+#               Karsten Fleischer <K.Fleischer@omnium.de>              #
+#                 Adam Edgar <aedgar@research.att.com>                 #
+#                Adam Buchsbaum <alb@adambuchsbaum.com>                #
+#                Aman Shaikh <ashaikh@research.att.com>                #
+#              Bala Krishnamurthy <bala@research.att.com>              #
+#              Brian Russell <brussell@research.att.com>               #
+#                  Robin Chen <chen@research.att.com>                  #
+#                 Don Caldwell <dfwc@research.att.com>                 #
+#                Lefty Koutsofios <ek@research.att.com>                #
+#                  Bob Gruber <bob.gruber@gmail.com>                   #
+#                 Jia Wang <jiawang@research.att.com>                  #
+#                  Jeff Fellin <jkf@research.att.com>                  #
+#                       Jeff Korn <@google.com>                        #
+#              Kathleen Fisher <kfisher@research.att.com>              #
+#                     Ken Church <@microsoft.com>                      #
+#             Brian Kernighan <bwk@research.bell-labs.com>             #
+#             Dennis Ritchie <dmr@research.bell-labs.com>              #
+#              Doug McIlroy <doug@research.bell-labs.com>              #
+#                   Eduardo Krell <ekrell@adexus.cl>                   #
+#                     John Snyder <jjs@adexus.cl>                      #
+#                Herman Rao <rao@fareastone.att.com.tw>                #
+#           AST users mailgroup <ast-users@research.att.com>           #
+#      AST developers mailgroup <ast-developers@research.att.com>      #
+#                                                                      #
+########################################################################
+
+bsd package general copyright notice
+
+########################################################################
+#                                                                      #
+#               This software is part of the BSD package               #
+# Copyright (c) 1979-2012 The Regents of the University of California  #
+#                                                                      #
+# Redistribution and use in source and binary forms, with or without   #
+# modification, are permitted provided that the following conditions   #
+# are met:                                                             #
+# 1. Redistributions of source code must retain the above copyright    #
+#    notice, this list of conditions and the following disclaimer.     #
+# 2. Redistributions in binary form must reproduce the above copyright #
+#    notice, this list of conditions and the following disclaimer in   #
+#    the documentation and/or other materials provided with the        #
+#    distribution.                                                     #
+# 3. Neither the name of the University nor the names of its           #
+#    contributors may be used to endorse or promote products derived   #
+#    from this software without specific prior written permission.     #
+#                                                                      #
+# THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS "AS IS"    #
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED    #
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A      #
+# PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS    #
+# OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,      #
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT     #
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF     #
+# USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND  #
+# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,   #
+# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT   #
+# OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF   #
+# SUCH DAMAGE.                                                         #
+#                                                                      #
+#                             CONTRIBUTORS                             #
+#                                                                      #
+#                               Bill Joy                               #
+#                                                                      #
+########################################################################

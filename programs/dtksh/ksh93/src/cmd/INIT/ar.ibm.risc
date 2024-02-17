@@ -1,0 +1,9 @@
+: ar requires a non-standard option to work : 2009-10-06 :
+
+op=$1
+shift
+case $op in
+-*)	;;
+*)	op=-$op ;;
+esac
+/usr/bin/ar -Xany "$op" "$@"
