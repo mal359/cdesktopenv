@@ -61,7 +61,7 @@ XCOMM ##########################################################################
 #  define cpp_HELLO "$DT_BINPATH/dthello -file $DT_INSTALL/copyright &"
 #endif
 
-#ifdef linux
+#ifdef __linux__
 #  define cpp_MAIL "/var/mail/$USER"
 #  define cpp_XDIR "/usr/bin"
 #  define cpp_XINITUSER "$HOME/.xinitrc"
