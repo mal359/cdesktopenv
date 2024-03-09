@@ -222,7 +222,7 @@ getSessionPath(
       int len = strlen(tmpPath);
 
       (void)strcat(tmpPath, "dtXXXXXX");
-      (void)mktemp(tmpPath);
+      (void)mkdtemp(tmpPath);
 
       *saveFile = (char *) XtMalloc(15 * sizeof(char));
       if(*saveFile == NULL) goto abort;

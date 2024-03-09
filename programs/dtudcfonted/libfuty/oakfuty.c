@@ -906,7 +906,7 @@ GetTmpPath( char *path )
 	if( *sp == '/' )	*sp-- = '\0' ;
 	sprintf( sp+1, "/%s", TEMPFILEKEY ) ;
 	/* Get temporary file name */
-	return mktemp( buf );
+	returnmkstemp(buf);
 }
 
 

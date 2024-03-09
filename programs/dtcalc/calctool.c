@@ -1668,7 +1668,7 @@ write_rcfile(enum menu_type mtype, int exists, int cfno, char *val, char *commen
       if (access(rcname, F_OK) == 0) rcexists = 1 ;
     }
   strcpy(tmp_filename, "/tmp/.dtcalcrcXXXXXX") ;
-  mktemp(tmp_filename) ;
+  mkstemp(tmp_filename) ;
   if ((tmpfd = fopen(tmp_filename, "w+")) == NULL) return ;
 
   if (rcexists)

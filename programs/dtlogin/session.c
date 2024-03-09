@@ -685,7 +685,7 @@ LoadXloginResources( struct display *d )
 	LoadAltDtsResources(d); 
 
         strcpy(tmpname,"/var/dt/dtlogin_XXXXXX");
-        (void) mktemp(tmpname);
+        (void)mkstemp(tmpname);
 
         XrmPutFileDatabase(XresourceDB, tmpname);
 

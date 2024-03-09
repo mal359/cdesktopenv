@@ -272,7 +272,7 @@ SPC_Make_Log_Filename(XeString name,
     /* Add the extension.  No strlen checking is done */
     strcat(spc_logfile, TEMPLATE_EXTENSION);
 
-    cp = (XeString) mktemp(spc_logfile);
+    cp = (XeString)mkstemp(spc_logfile);
     if (!cp || !*cp) {
       /* Sorry, but this is the best we can do */
       strcpy(spc_logfile, (log_file_path) ? log_file_path : name);
