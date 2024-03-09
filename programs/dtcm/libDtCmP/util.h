@@ -269,7 +269,6 @@ extern void print_tick(time_t);
 extern boolean_t same_path(char*, char*);
 extern boolean_t same_user(char*, char*);
 extern char * str_to_cr(char*);
-extern char * strncat(char *, const char *, size_t n);
 extern char * substr(char*, int, int n);
 extern void syserr(char*, int, int, int);
 extern Lines * text_to_lines	(char*, int);

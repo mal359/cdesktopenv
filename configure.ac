@@ -378,7 +378,10 @@ AC_PATH_PROG(KSH, ksh)
 if test -z "$ac_cv_path_KSH"; then
    AC_PATH_PROG(KSH, ksh93)
    if test -z "$ac_cv_path_KSH"; then
-      MISSING_PROGS="[ksh or ksh93] ${MISSING_PROGS}"
+      AC_PATH_PROG(KSH, mksh)
+      if test -z "$ac_cv_path_KSH"; then
+         MISSING_PROGS="[ksh or ksh93] ${MISSING_PROGS}"
+      fi
    fi
 fi
 
