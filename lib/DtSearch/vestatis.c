@@ -1017,7 +1017,7 @@ void            load_ditto_str (void)
 	    release_shm_mem ();
 	    return;
 	}
-	d_recread ((char *)&cur_rec, saveusr.vistano);
+	d_recread (&cur_rec, saveusr.vistano);
 	if (db_status < 0) {
 	    fprintf (aa_stderr, CATGETS(dtsearch_catd, MS_vestatis, 437,
 		    "%s: db_status = %d, dba = %d:%ld (x'%08.8lx'), vistano = %d\n"),
@@ -1104,7 +1104,7 @@ void            load_ditto_str (void)
 	    SETOR (PROGNAME "2270", OR_OBJ_MISCS, saveusr.vistano);
 	    FINDFM (PROGNAME "2271", OR_OBJ_MISCS, saveusr.vistano);
 	    while (db_status == S_OKAY) {
-		RECREAD (PROGNAME "549", (char *)&rec_data, saveusr.vistano);
+		RECREAD (PROGNAME "549", &rec_data, saveusr.vistano);
 		NTOHS (rec_data.or_misctype);
 		if (rec_data.or_misctype == ORM_FZKABS) {
 		    src = (char *) rec_data.or_misc;

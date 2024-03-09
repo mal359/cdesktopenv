@@ -506,7 +506,7 @@ NOTHING_TO_DO:
     KEYFRST (PROGNAME "203", OR_SWORDKEY, vistano);
     while (db_status == S_OKAY) {
 	print_dots();
-	RECREAD (PROGNAME "182", (char *)&got_sword, vistano);
+	RECREAD (PROGNAME "182", &got_sword, vistano);
 	got_hword.or_hwoffset =		ntohl (got_sword.or_swoffset);
 	got_hword.or_hwaddrs =		ntohl (got_sword.or_swaddrs);
 	got_hword.or_hwfree =		ntohl (got_sword.or_swfree);
@@ -516,7 +516,7 @@ NOTHING_TO_DO:
 	    got_sword.or_swoffset =	htonl (got_hword.or_hwoffset);
 	    got_sword.or_swaddrs =	htonl (got_hword.or_hwaddrs);
 	    got_sword.or_swfree =	htonl (got_hword.or_hwfree);
-	    RECWRITE (PROGNAME "183", (char *)&got_sword, vistano);
+	    RECWRITE (PROGNAME "183", &got_sword, vistano);
 	}
 	else if (ret_code == DELETE_WORD) {
 	    DELETE (PROGNAME "184", vistano);
@@ -540,7 +540,7 @@ NOTHING_TO_DO:
     KEYFRST (PROGNAME "243", OR_LWORDKEY, vistano);
     while (db_status == S_OKAY) {
 	print_dots();
-	RECREAD (PROGNAME "246", (char *)&got_lword, vistano);
+	RECREAD (PROGNAME "246", &got_lword, vistano);
 	got_hword.or_hwoffset =		ntohs (got_lword.or_lwoffset);
 	got_hword.or_hwaddrs =		ntohs (got_lword.or_lwaddrs);
 	got_hword.or_hwfree =		ntohs (got_lword.or_lwfree);
@@ -550,7 +550,7 @@ NOTHING_TO_DO:
 	    got_lword.or_lwoffset =	htons (got_hword.or_hwoffset);
 	    got_lword.or_lwaddrs =	htons (got_hword.or_hwaddrs);
 	    got_lword.or_lwfree =	htons (got_hword.or_hwfree);
-	    RECWRITE (PROGNAME "252", (char *)&got_lword, vistano);
+	    RECWRITE (PROGNAME "252", &got_lword, vistano);
 	}
 	else if (ret_code == DELETE_WORD) {
 	    DELETE (PROGNAME "256", vistano);
@@ -572,7 +572,7 @@ NOTHING_TO_DO:
     KEYFRST (PROGNAME "280", OR_HWORDKEY, vistano);
     while (db_status == S_OKAY) {
 	print_dots();
-	RECREAD (PROGNAME "284", (char *)&got_hword, vistano);
+	RECREAD (PROGNAME "284", &got_hword, vistano);
 	NTOHS (got_hword.or_hwoffset);
 	NTOHS (got_hword.or_hwaddrs);
 	NTOHS (got_hword.or_hwfree);
@@ -582,7 +582,7 @@ NOTHING_TO_DO:
 	    HTONS (got_hword.or_hwoffset);
 	    HTONS (got_hword.or_hwaddrs);
 	    HTONS (got_hword.or_hwfree);
-	    RECWRITE (PROGNAME "289", (char *)&got_hword, vistano);
+	    RECWRITE (PROGNAME "289", &got_hword, vistano);
 	}
 	else if (ret_code == DELETE_WORD) {
 	    DELETE (PROGNAME "293", vistano);
@@ -646,7 +646,7 @@ NOTHING_TO_DO:
     if (db_status != S_OKAY)
 	vista_abort (PROGNAME"356");
     HTONL (*reccount);
-    CRWRITE (PROGNAME "341", OR_RECCOUNT, (char *)reccount, vistano);
+    CRWRITE (PROGNAME "341", OR_RECCOUNT, reccount, vistano);
     if (db_status != S_OKAY)
 	vista_abort (PROGNAME"342");
 

@@ -13,7 +13,7 @@ libDtHelp_la_CFLAGS = -I./il -I./jpeg -I../DtSvc/DtUtil2 -DDTLIB \
 		      -DCDE_CONFIGURATION_TOP='"$(CDE_CONFIGURATION_TOP)"' \
 		      @DT_INCDIR@ @DTI_INCDIR@
 
-libDtHelp_la_LIBADD = $(JPEGLIB) $(XTOOLLIB) il/libil.la $(LTLIBICONV)
+libDtHelp_la_LIBADD = $(JPEGLIB) il/libil.la $(LTLIBICONV)
 
 if SOLARIS
 libDtHelp_la_LIBADD += -lw -lgen

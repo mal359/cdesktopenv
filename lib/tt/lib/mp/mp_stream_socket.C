@@ -188,7 +188,7 @@ init(int init_as_source)
 	_is_source = init_as_source;
 	if (init_as_source) { /* 'from' end of socket */
 #if !defined(OPT_TLI)
-#ifndef __linux__
+#ifndef linux
 		if (setsockopt(_sock, SOL_SOCKET, SO_USELOOPBACK,
 			       (char *)&optval, sizeof(int)) == -1) {
 			_tt_syslog( 0, LOG_ERR, "_Tt_stream_socket::init(): "
@@ -289,7 +289,7 @@ init(int init_as_source)
 		}
 
 
-#ifndef __linux__
+#ifndef linux
 		if (setsockopt(_sock, SOL_SOCKET, SO_USELOOPBACK,
 			       (char *)&optval, sizeof(int)) == -1) {
 			_tt_syslog( 0, LOG_ERR, "_Tt_stream_socket::init(): "

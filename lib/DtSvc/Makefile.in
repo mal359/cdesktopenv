@@ -1092,7 +1092,7 @@ DtUtil2/libDtSvc_la-SvcPam.lo: DtUtil2/$(am__dirstamp) \
 	DtUtil2/$(DEPDIR)/$(am__dirstamp)
 
 libDtSvc.la: $(libDtSvc_la_OBJECTS) $(libDtSvc_la_DEPENDENCIES) $(EXTRA_libDtSvc_la_DEPENDENCIES) 
-	$(AM_V_CXXLD)$(libDtSvc_la_LINK) -rpath $(libdir) $(libDtSvc_la_OBJECTS) $(libDtSvc_la_LIBADD) $(LIBS) $(XTOOLLIB) $(LIBTT)
+	$(AM_V_CXXLD)$(libDtSvc_la_LINK) -rpath $(libdir) $(libDtSvc_la_OBJECTS) $(libDtSvc_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)

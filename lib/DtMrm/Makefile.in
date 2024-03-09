@@ -489,7 +489,7 @@ clean-libLTLIBRARIES:
 	}
 
 libDtMrm.la: $(libDtMrm_la_OBJECTS) $(libDtMrm_la_DEPENDENCIES) $(EXTRA_libDtMrm_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libDtMrm_la_LINK) -rpath $(libdir) $(libDtMrm_la_OBJECTS) $(libDtMrm_la_LIBADD) $(LIBPRINT) $(LIBHELP) $(LIBWIDGET) $(LIBTERM) $(LIBS)
+	$(AM_V_CCLD)$(libDtMrm_la_LINK) -rpath $(libdir) $(libDtMrm_la_OBJECTS) $(libDtMrm_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)

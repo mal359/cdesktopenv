@@ -105,7 +105,7 @@ void            read_wordstr (struct or_hwordrec * glob_word, int vista_num)
 
     len = strlen (glob_word->or_hwordkey);
     if (len < sizeof (Swordbuf.or_swordkey)) {
-	RECREAD (PROGNAME "61", (const char *)&Swordbuf, vista_num);
+	RECREAD (PROGNAME "61", &Swordbuf, vista_num);
 	if (db_status != S_OKAY)
 	    return;
 	strncpy (glob_word->or_hwordkey, Swordbuf.or_swordkey,
@@ -116,7 +116,7 @@ void            read_wordstr (struct or_hwordrec * glob_word, int vista_num)
 	glob_word->or_hwaddrs =		ntohl (Swordbuf.or_swaddrs);
     }
     else if (len < sizeof (Lwordbuf.or_lwordkey)) {
-	RECREAD (PROGNAME "69", (const char *)&Lwordbuf, vista_num);
+	RECREAD (PROGNAME "69", &Lwordbuf, vista_num);
 	if (db_status != S_OKAY)
 	    return;
 	strncpy (glob_word->or_hwordkey, Lwordbuf.or_lwordkey,
@@ -127,7 +127,7 @@ void            read_wordstr (struct or_hwordrec * glob_word, int vista_num)
 	glob_word->or_hwaddrs =		ntohl (Lwordbuf.or_lwaddrs);
     }
     else {
-	RECREAD (PROGNAME "78", (const char *)glob_word, vista_num);
+	RECREAD (PROGNAME "78", glob_word, vista_num);
 	glob_word->or_hwordkey[DtSrMAXWIDTH_HWORD - 1] = 0;
 	NTOHL (glob_word->or_hwoffset);
 	NTOHL (glob_word->or_hwfree);
@@ -156,14 +156,14 @@ void            write_wordstr (struct or_hwordrec * glob_word, int vista_num)
 	Swordbuf.or_swoffset =	htonl (glob_word->or_hwoffset);
 	Swordbuf.or_swfree =	htonl (glob_word->or_hwfree);
 	Swordbuf.or_swaddrs =	htonl (glob_word->or_hwaddrs);
-	RECWRITE (PROGNAME "102", (const char *)&Swordbuf, vista_num);
+	RECWRITE (PROGNAME "102", &Swordbuf, vista_num);
     }
     else if (len < sizeof (Lwordbuf.or_lwordkey)) {
 	strcpy (Lwordbuf.or_lwordkey, glob_word->or_hwordkey);
 	Lwordbuf.or_lwoffset =	htonl (glob_word->or_hwoffset);
 	Lwordbuf.or_lwfree =	htonl (glob_word->or_hwfree);
 	Lwordbuf.or_lwaddrs =	htonl (glob_word->or_hwaddrs);
-	RECWRITE (PROGNAME "111", (const char *)&Lwordbuf,
+	RECWRITE (PROGNAME "111", &Lwordbuf,
 	    vista_num);
     }
     else {
@@ -176,7 +176,7 @@ void            write_wordstr (struct or_hwordrec * glob_word, int vista_num)
 	HTONL (glob_word->or_hwoffset);
 	HTONL (glob_word->or_hwfree);
 	HTONL (glob_word->or_hwaddrs);
-	RECWRITE (PROGNAME "115", (const char *)glob_word, vista_num);
+	RECWRITE (PROGNAME "115", glob_word, vista_num);
 	NTOHL (glob_word->or_hwoffset);
 	NTOHL (glob_word->or_hwfree);
 	NTOHL (glob_word->or_hwaddrs);
@@ -206,16 +206,14 @@ void            fillnew_wordrec (struct or_hwordrec * glob_word, int vista_num)
 	Swordbuf.or_swoffset =	htonl (glob_word->or_hwoffset);
 	Swordbuf.or_swfree =	htonl (glob_word->or_hwfree);
 	Swordbuf.or_swaddrs =	htonl (glob_word->or_hwaddrs);
-	FILLNEW (PROGNAME "137", OR_SWORDREC, (const char *)&Swordbuf,
-		vista_num);
+	FILLNEW (PROGNAME "137", OR_SWORDREC, &Swordbuf, vista_num);
     }
     else if (len < sizeof (Lwordbuf.or_lwordkey)) {
 	strcpy (Lwordbuf.or_lwordkey, glob_word->or_hwordkey);
 	Lwordbuf.or_lwoffset =	htonl (glob_word->or_hwoffset);
 	Lwordbuf.or_lwfree =	htonl (glob_word->or_hwfree);
 	Lwordbuf.or_lwaddrs =	htonl (glob_word->or_hwaddrs);
-	FILLNEW (PROGNAME "147", OR_LWORDREC, (const char *)&Lwordbuf,
-		vista_num);
+	FILLNEW (PROGNAME "147", OR_LWORDREC, &Lwordbuf, vista_num);
     }
     else {
 	if (len >= DtSrMAXWIDTH_HWORD) {
@@ -227,8 +225,7 @@ void            fillnew_wordrec (struct or_hwordrec * glob_word, int vista_num)
 	HTONL (glob_word->or_hwoffset);
 	HTONL (glob_word->or_hwfree);
 	HTONL (glob_word->or_hwaddrs);
-	FILLNEW (PROGNAME "151", OR_HWORDREC, (const char *)glob_word,
-		vista_num);
+	FILLNEW (PROGNAME "151", OR_HWORDREC, glob_word, vista_num);
 	NTOHL (glob_word->or_hwoffset);
 	NTOHL (glob_word->or_hwfree);
 	NTOHL (glob_word->or_hwaddrs);

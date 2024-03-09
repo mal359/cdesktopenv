@@ -1,5 +1,5 @@
 %{
-/* $XCausdopen.consortium: boolyac.y /main/1 1996/03/29 17:04:13 cde-ibm $
+/* $XConsortium: boolyac.y /main/1 1996/03/29 17:04:13 cde-ibm $
  *
  * (c) Copyright 1996 Digital Equipment Corporation.
  * (c) Copyright 1996 Hewlett-Packard Company.
@@ -40,11 +40,7 @@
  *
  */
 #include <stddef.h>
-#include <stdio.h>
 #include "boolpars.h"
-
-int yylex(void);
-int yyerror();
 %}
 
 %union {

@@ -207,7 +207,7 @@ int             ve_initialize (void)
 	    DtSearchAddMessage (msgbuf);
 	    goto DELETE_DB;
 	}
-	RECREAD (PROGNAME "302", (char *)&db->dbrec, db->vistano);
+	RECREAD (PROGNAME "302", &db->dbrec, db->vistano);
 	if (db_status != S_OKAY)
 	    goto NO_DBREC;
 	swab_dbrec (&db->dbrec, NTOH);
@@ -537,7 +537,7 @@ int             ve_append_notes (void)
 	}
 	miscrec.or_misctype = ORM_OLDNOTES;
 	HTONS (miscrec.or_misctype);
-	FILLNEW (PROGNAME "169", OR_MISCREC, (char *)&miscrec, vistano);
+	FILLNEW (PROGNAME "169", OR_MISCREC, &miscrec, vistano);
 	CONNECT (PROGNAME "170", OR_OBJ_MISCS, vistano);
     }	/* end of vista append loop */
 
@@ -736,7 +736,7 @@ int             ve_getrec_dba (LLIST ** bloblist)
 	OE_flags |= OE_PERMERR;
 	return OE_ABORT;
     }
-    RECREAD (PROGNAME "143", (char *)&myobjbuf, vistano);
+    RECREAD (PROGNAME "143", &myobjbuf, vistano);
     if (db_status != S_OKAY)
 	return OE_NOTAVAIL;
     swab_objrec (&myobjbuf, NTOH);
@@ -768,7 +768,7 @@ int             ve_getrec_dba (LLIST ** bloblist)
 	 */
 	if (debugging)
 	    fputc ('b', aa_stderr);
-	RECREAD (PROGNAME "151", (char *)&myblobuf, vistano);
+	RECREAD (PROGNAME "151", &myblobuf, vistano);
 	if (db_status != S_OKAY)
 	    vista_abort (PROGNAME "152");
 	NTOHS (myblobuf.or_bloblen);
@@ -796,7 +796,7 @@ int             ve_getrec_dba (LLIST ** bloblist)
 	 * If abstract or fzkey, move to appropriate usrblk field.
 	 * Each debug char ids the type of miscrec.
 	 */
-	RECREAD (PROGNAME "168", (char *)&mymiscrec, vistano);
+	RECREAD (PROGNAME "168", &mymiscrec, vistano);
 	if (db_status != S_OKAY)
 	    vista_abort (PROGNAME "169");
 	NTOHS (mymiscrec.or_misctype);
@@ -872,7 +872,7 @@ LLIST          *ve_getblobs (DtSrINT32 dba, int vistano)
     if (dba == NULL_DBA)
 	return NULL;
     CRSET (PROGNAME "401", &dba, vistano);
-    RECREAD (PROGNAME "402", (char *)&myobjbuf, vistano);
+    RECREAD (PROGNAME "402", &myobjbuf, vistano);
     if (db_status != S_OKAY)
 	return NULL;
     swab_objrec (&myobjbuf, NTOH);
@@ -893,7 +893,7 @@ LLIST          *ve_getblobs (DtSrINT32 dba, int vistano)
     SETOR (PROGNAME "406", OR_OBJ_BLOBS, vistano);
     FINDFM (PROGNAME "407", OR_OBJ_BLOBS, vistano);
     while (db_status == S_OKAY) {
-	RECREAD (PROGNAME "413", (char *)&myblobuf, vistano);
+	RECREAD (PROGNAME "413", &myblobuf, vistano);
 	if (db_status != S_OKAY)
 	    vista_abort (PROGNAME "414");
 	NTOHS (myblobuf.or_bloblen);

@@ -196,7 +196,7 @@ NO_DBREC:
 	    DtSearchAddMessage (sprintbuf);
 	    return FALSE;
 	}
-	RECREAD (PROGNAME "302", (char *)dbrec, 0);
+	RECREAD (PROGNAME "302", dbrec, 0);
 	if (db_status != S_OKAY)
 	    goto NO_DBREC;
 	swab_dbrec (dbrec, NTOH);

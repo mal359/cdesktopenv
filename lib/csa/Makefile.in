@@ -570,7 +570,7 @@ clean-libLTLIBRARIES:
 	}
 
 libcsa.la: $(libcsa_la_OBJECTS) $(libcsa_la_DEPENDENCIES) $(EXTRA_libcsa_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libcsa_la_LINK) -rpath $(libdir) $(libcsa_la_OBJECTS) $(libcsa_la_LIBADD) $(XTOOLLIB) $(LIBS)
+	$(AM_V_CCLD)$(libcsa_la_LINK) -rpath $(libdir) $(libcsa_la_OBJECTS) $(libcsa_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
