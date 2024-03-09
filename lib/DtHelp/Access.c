@@ -590,7 +590,7 @@ FileOpenRtnFd (
 	/*
 	 * get a temporary name
 	 */
-	(void) tmpnam (tmpName);
+	(void)mkstemp(tmpName);
 
 	/*
 	 * malloc memory for the dot Z file name.
@@ -1089,7 +1089,7 @@ _DtHelpCeGetUncompressedFileName (
 	/*
 	 * get a temporary name
 	 */
-	(void) tmpnam (tmpName);
+	(void)mkstemp(tmpName);
 
 	/*
 	 * malloc memory for the dot Z file name.

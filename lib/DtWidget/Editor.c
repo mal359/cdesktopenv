@@ -6873,7 +6873,8 @@ DoAdjust(
         XmTextPosition	start,
         XmTextPosition	end)
 {
-    char tempName1[L_tmpnam], tempName2[L_tmpnam];
+    char tempName1[]="/tmp/dtXXXXXX";
+    char tempName2[]="/tmp/dtXXXXXX";
     DtEditorErrorCode returnVal;
     AdjRec adjRec;
 
@@ -6961,8 +6962,8 @@ DoAdjust(
        /*
         * Create the two temp files
         */
-       (void)tmpnam(tempName1);
-       (void)tmpnam(tempName2);
+       (void)mkstemp(tempName1);
+       (void)mkstemp(tempName2);
        if ((adjRec.infp = fopen(tempName1, "w+")) != (FILE *)NULL) {
 
          /* 

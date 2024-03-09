@@ -34,6 +34,12 @@
  *
  * Implementation of the _Tt_auth class.
  */
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <memory>
+#include <filesystem>
+
 #include <unistd.h>
 #include <sys/stat.h>
 #include "mp/mp_auth.h"
@@ -256,15 +262,15 @@ modify_auth_entry(_tt_AuthFileEntry *entry, _tt_AuthFileEntryList **headp)
 
 
 Tt_status _Tt_auth::
-write_auth_file(char *filename)
+write_auth_file(const std::string& filename)
 {
-    static const char			*funcname = "Tt_auth::write_auth_file()";
-    static const char			*suffix = "-n";
-    FILE			*fp;
+    static const char		*funcname = "Tt_auth::write_auth_file()";
+    static const char		*suffix = "-n";
     _tt_AuthFileEntryList	*list;
-    char			*tmpnam;
+    std::string			tmpnam = filename + suffix;
 
     tmpnam = (char*) malloc(strlen(filename) + strlen(suffix) + 1);
+    
     if (NULL == tmpnam) {
 	_tt_syslog(0, LOG_ERR,
 		   "%s:  memory error.  New entry not written.\n",
@@ -287,7 +293,7 @@ write_auth_file(char *filename)
     for (list=_entries_head; list; list=list->next)
       _tt_WriteAuthFileEntry (fp, list->entry);
 
-    (void) fclose (fp);
+    fp.close();
 
     (void) unlink(filename);
     if (link (tmpnam, filename) == -1)

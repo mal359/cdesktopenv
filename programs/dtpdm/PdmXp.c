@@ -490,7 +490,7 @@ PdmXpUpdateAttributes(PdmXp* me)
 #if 0 && defined(PRINTING_SUPPORTED)
     char fname[L_tmpnam];
     
-    if(tmpnam(fname))
+    if(mkstemp(fname))
     {
 	int i;
 	XrmDatabase pool;

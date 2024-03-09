@@ -258,7 +258,7 @@ GetTempFile(void)
     char *tempname = (char *)XtMalloc(L_tmpnam); /* Temporary file name. */
     FILE *tfp;
 
-    (void)tmpnam(tempname);
+    (void)mkstemp(tempname);
     if ((tfp = fopen(tempname, "w")) == NULL)
     {
         pid_t pid;

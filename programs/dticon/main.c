@@ -515,7 +515,7 @@ if (tt_message_status(msg) == TT_WRN_START_MESSAGE) tt_message_reply(msg);
              }
              else
              {
-                (void) tmpnam(start_file);
+                (void)mkstemp(start_file);
                 if( (buf) && (!strncmp((char *)buf, "/* XPM */", 9)) )
                 {
                    /* Format XPM */

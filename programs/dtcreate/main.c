@@ -871,7 +871,7 @@ Tt_callback_action IconEdit_tt_handler( Tt_message m, Tt_pattern p )
            if (pIconData->pmDirtyBit) {
               tmpIconFile = pIconData->pmFileName;
            } else {
-              tmpnam(pIconData->pmFileName);
+              mkstemp(pIconData->pmFileName);
               bIsNewFile = True;
               tmpIconFile = pIconData->pmFileName;
            }
@@ -879,7 +879,7 @@ Tt_callback_action IconEdit_tt_handler( Tt_message m, Tt_pattern p )
            if (pIconData->bmDirtyBit) {
               tmpIconFile = pIconData->bmFileName;
            } else {
-              tmpnam(pIconData->bmFileName);
+              mkstemp(pIconData->bmFileName);
               bIsNewFile = True;
               tmpIconFile = pIconData->bmFileName;
            }

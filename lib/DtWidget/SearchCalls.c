@@ -96,7 +96,8 @@ DtEditorInvokeSpellDialog(
 	Widget widget)
 {
     DtEditorWidget pPriv = (DtEditorWidget) widget;
-    char fileName[L_tmpnam], com[L_tmpnam + 7], *string, newline[1];
+    char fileName[] = "/tmp/dtXXXXXX"
+    char com[L_tmpnam + 7], *string, newline[1];
     char *line;
     FILE *fp;           /* pipe to read words from */
     int len = 0;        /* length of line read in */
@@ -119,7 +120,7 @@ DtEditorInvokeSpellDialog(
        /* 
         * Write out to a tmp file, getting the name back
         */
-       (void)tmpnam(fileName);
+       (void)mkstemp(fileName);
        if((fp = fopen(fileName, "w")) != (FILE *)NULL) 
        {
           /* 

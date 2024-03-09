@@ -545,21 +545,17 @@ _DtDtsMMPathHash(DtDirPaths *dirs)
 char *
 _DtDtsMMCacheName(int override)
 {
-	char	*dsp = getenv("DISPLAY");
-	char	*results = 0;
-	char	*c;
+	const char	*dsp = getenv("DISPLAY");
+	char	*results = NULL;
 
 	if(override && dsp)
 	{
-		results = malloc(strlen(_DTDTSMMTEMPDIR)+
-				 strlen(_DTDTSMMTEMPFILE)+
-				strlen(dsp)+3);
-		sprintf(results, "%s/%s%s",
+		asprintf(&results, "%s/%s%s",
 				_DTDTSMMTEMPDIR,
 				_DTDTSMMTEMPFILE,
 				dsp);
-		c = strchr(results, ':');
-		c = strchr(c, '.');
+				
+		char *c = strtok(results, ':');
 		if(c)
 		{
 			*c = '\0';
@@ -567,19 +563,13 @@ _DtDtsMMCacheName(int override)
 	}
 	else
 	{
-	/* tempnam(3) is affected by the TMPDIR environment variable. */
-	/* This creates problems for rename() if "tmpfile" and "cacheFile" */
-	/* are on different file systems.  Use tmpnam(3) to create the */
-	/* unique file name instead. */
 		char tmpnam_buf[L_tmpnam + 1];
-
-		results = (char *)malloc(strlen(_DTDTSMMTEMPDIR) +
-					 strlen(_DTDTSMMTEMPFILE) +
-					 L_tmpnam + 3);
-		tmpnam(tmpnam_buf);
-		sprintf(results, "%s/%s%s", _DTDTSMMTEMPDIR, _DTDTSMMTEMPFILE,
+		mkstemp(tmpnam_buf);
+		
+		asprintf(&results, "%s/%s%s", _DTDTSMMTEMPDIR, _DTDTSMMTEMPFILE,
 			basename(tmpnam_buf));
 	}
+	
 	return(results);
 }
 

@@ -363,7 +363,7 @@ void mgr_launch_pdm( XpPdmServiceRec *rec )
 	 * Create new .Xauthority file.
 	 */
 	original_umask = umask (0077);      /* disallow non-owner access */
-	tmpnam( rec->auth_filename );
+	mkstemp( rec->auth_filename );
 	rec->auth_file = fopen( rec->auth_filename, "w" );
 
 	if (rec->auth_file) {

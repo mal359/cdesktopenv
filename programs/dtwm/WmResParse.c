@@ -5958,7 +5958,7 @@ PreprocessConfigFile (void)
 	pConfigStackTop->cppName = XtMalloc (CPP_NAME_SIZE * sizeof(char));
 	if (pConfigStackTop->cppName)
 	{
-	    (void) tmpnam (pConfigStackTop->cppName);
+	    (void)mkstemp(pConfigStackTop->cppName);
 
 	    /*
 	     * Build up the command line.

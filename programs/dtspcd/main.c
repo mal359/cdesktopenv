@@ -560,7 +560,7 @@ int Client_Register(protocol_request_ptr prot)
      * tmppath.  The protocol will fail when this occurs.  The fix is
      * to construct the tmpfile name.
      */
-    tmpnam(tmpnam_buf);
+    mkstemp(tmpnam_buf);
     spc_suffix = basename(tmpnam_buf); /* Don't free result - not alloc'd! */
 
     /* Allocate space for tmppath, spc_prefix, and spc_suffix. */
