@@ -942,7 +942,7 @@ rfp_form_flags_to_appt(RFP *rfp, Dtcm_appointment *a, char *name, int *flagsP)
                                 memset(a->repeat_type, 0, sizeof(CSA_attribute));
 
                                 _DtCm_set_sint32_attrval(rfp->repeat_type,
-							 &a->repeat_type->value);
+							 (cms_attribute_value **)&a->repeat_type->value);
                         }
                         else a->repeat_type->value->item.sint32_value = rfp->repeat_type;
                 }
@@ -958,7 +958,8 @@ rfp_form_flags_to_appt(RFP *rfp, Dtcm_appointment *a, char *name, int *flagsP)
 
                         memset(a->repeat_type, 0, sizeof(CSA_attribute));
 
-                        _DtCm_set_sint32_attrval(rfp->repeat_type,&a->repeat_type->value);
+                        _DtCm_set_sint32_attrval(rfp->repeat_type,
+				(cms_attribute_value **)&a->repeat_type->value);
                 }
                 else a->repeat_type->value->item.sint32_value = rfp->repeat_type;
 	}

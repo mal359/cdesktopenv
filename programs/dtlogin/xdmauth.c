@@ -236,10 +236,12 @@ void XdmGetXdmcpAuth (struct protoDisplay *pdpy, unsigned short authorizationNam
     memmove( fileauth->name, xdmcpauth->name, xdmcpauth->name_length);
     memmove( fileauth->data, pdpy->authenticationData.data, 8);
     memmove( fileauth->data + 8, xdmcpauth->data, 8);
-    XdmPrintDataHex ("Accept packet auth", xdmcpauth->data, xdmcpauth->data_length);
+    XdmPrintDataHex ("Accept packet auth", xdmcpauth->data, 
+                    xdmcpauth->data_length);
     XdmPrintDataHex ("Auth file auth", fileauth->data, fileauth->data_length);
     /* encrypt the session key for its trip back to the server */
-    XdmcpWrap (xdmcpauth->data, &pdpy->key, xdmcpauth->data, 8);
+    XdmcpWrap((unsigned char *)xdmcpauth->data, (unsigned char *)&pdpy->key, 
+             (unsigned char *)xdmcpauth->data, 8);
     pdpy->fileAuthorization = fileauth;
     pdpy->xdmcpAuthorization = xdmcpauth;
 }
@@ -318,7 +320,8 @@ int XdmGetKey (struct protoDisplay *pdpy, ARRAY8Ptr displayID)
 
 /*ARGSUSED*/
 int XdmCheckAuthentication (struct protoDisplay *pdpy, ARRAY8Ptr displayID,
-                        ARRAY8Ptr authenticationName, ARRAY8Ptr authenticationData)
+                        ARRAY8Ptr authenticationName, 
+			ARRAY8Ptr authenticationData)
 {
     XdmAuthKeyPtr   incoming;
 
@@ -326,15 +329,17 @@ int XdmCheckAuthentication (struct protoDisplay *pdpy, ARRAY8Ptr displayID,
 	return FALSE;
     if (authenticationData->length != 8)
 	return FALSE;
-    XdmcpUnwrap (authenticationData->data, &pdpy->key,
-		  authenticationData->data, 8);
+    XdmcpUnwrap((unsigned char *)authenticationData->data, 
+               (unsigned char *)&pdpy->key, 
+	       (unsigned char *)authenticationData->data, 8);
     XdmPrintArray8Hex ("Request packet auth", authenticationData);
     if (!XdmcpCopyARRAY8(authenticationData, &pdpy->authenticationData))
 	return FALSE;
     incoming = (XdmAuthKeyPtr) authenticationData->data;
     XdmcpIncrementKey (incoming);
-    XdmcpWrap (authenticationData->data, &pdpy->key,
-		  authenticationData->data, 8);
+    XdmcpWrap((unsigned char *)authenticationData->data, 
+    	     (unsigned char *)&pdpy->key, 
+	     (unsigned char *)authenticationData->data, 8);
     return TRUE;
 }
 

@@ -397,7 +397,7 @@ static void     read_dbrec (void)
 	    PROGNAME"296 ", dicname);
 	DtSearchExit (8);
     }
-    RECREAD (PROGNAME "302", &dbrec, 0);
+    RECREAD (PROGNAME "302", (char *)&dbrec, 0);
     if (db_status != S_OKAY)
 	vista_abort (PROGNAME "303");
     swab_dbrec (&dbrec, NTOH);
@@ -489,16 +489,16 @@ static void     write_dbrec (void)
     if (db_status != S_OKAY)
 	vista_abort (PROGNAME "356");
     int32 = htonl (system_reccount);
-    CRWRITE (PROGNAME "341", OR_RECCOUNT, &int32, 0);
+    CRWRITE (PROGNAME "341", OR_RECCOUNT, (char *)&int32, 0);
     int32 = htonl (maxdba);
-    CRWRITE (PROGNAME "342", OR_MAXDBA, &int32, 0);
+    CRWRITE (PROGNAME "342", OR_MAXDBA, (char *)&int32, 0);
 
     /* If this was the first load of a new database,
      * save the huffman encode table id.
      */
     if (blobs_are_used && dbrec_hufid == -1) {
 	int32 = htonl ((DtSrINT32)gen_vec_hufid);
-	CRWRITE (PROGNAME "343", OR_HUFID, &int32, 0);
+	CRWRITE (PROGNAME "343", OR_HUFID, (char *)&int32, 0);
     }
     if (db_status != S_OKAY)
 	vista_abort (PROGNAME "344");
@@ -698,7 +698,7 @@ static void     create_object (char *key)
     if (!blobs_are_used)
 	objrec.or_objflags |= DtSrFlNOTAVAIL;
     swab_objrec (&objrec, HTON);
-    FILLNEW (PROGNAME "487", OR_OBJREC, &objrec, 0);
+    FILLNEW (PROGNAME "487", OR_OBJREC, (char *)&objrec, 0);
     if (db_status != S_OKAY)
 	vista_abort (PROGNAME "495");
     CRGET (PROGNAME "375", &objdba, 0);	/* save object's dba */
@@ -717,7 +717,7 @@ static void     create_object (char *key)
     if (load_next_miscrec (TRUE))
 	do {
 	    HTONS (miscrec.or_misctype);
-	    FILLNEW (PROGNAME "501", OR_MISCREC, &miscrec, 0);
+	    FILLNEW (PROGNAME "501", OR_MISCREC, (char *)&miscrec, 0);
 	    CRGET (PROGNAME "503", &tempdba, 0);
 	    UPDATE_MAXDBA (tempdba);
 	    CONNECT (PROGNAME "505", OR_OBJ_MISCS, 0);
@@ -771,9 +771,9 @@ static void     update_object (char *key)
      * Objdate will be rewritten if .fzk file has valid
      * DtSrObjdate format in line #4.
      */
-    CRWRITE (PROGNAME "472", OR_OBJSIZE, &zero_objsize, 0);
+    CRWRITE (PROGNAME "472", OR_OBJSIZE, (char *)&zero_objsize, 0);
     int32 = htonl (starttimeobjd);
-    CRWRITE (PROGNAME "681", OR_OBJDATE, &int32, 0);
+    CRWRITE (PROGNAME "681", OR_OBJDATE, (char *)&int32, 0);
 
     /* Make current object record the owner of all its sets */
     SETOR (PROGNAME "475", OR_OBJ_BLOBS, 0);
@@ -794,7 +794,7 @@ static void     update_object (char *key)
     first_fzkabstr = TRUE;
     FINDFM (PROGNAME "480", OR_OBJ_MISCS, 0);
     while (db_status == S_OKAY) {
-	CRREAD (PROGNAME "496", OR_MISCTYPE, &misctype, 0);
+	CRREAD (PROGNAME "496", OR_MISCTYPE, (char *)&misctype, 0);
 	NTOHS (misctype);
 	switch (misctype) {
 	    case ORM_OLDNOTES:
@@ -804,7 +804,7 @@ static void     update_object (char *key)
 	    case ORM_FZKABS:	/* combined fzkey-abstract rec */
 		if (load_next_miscrec (first_fzkabstr)) {
 		    HTONS (miscrec.or_misctype);
-		    RECWRITE (PROGNAME "601", &miscrec, 0);
+		    RECWRITE (PROGNAME "601", (char *)&miscrec, 0);
 		    CRGET (PROGNAME "605", &tempdba, 0);
 		    UPDATE_MAXDBA (tempdba);
 		    first_fzkabstr = FALSE;
@@ -853,7 +853,7 @@ static void	call_encoder (UCHAR *ucharbuf, int buflen)
 	    sumlines = 0;
 	}
 	HTONS (blobrec.or_bloblen);
-	FILLNEW (PROGNAME "572", OR_BLOBREC, &blobrec, 0);
+	FILLNEW (PROGNAME "572", OR_BLOBREC, (char *)&blobrec, 0);
 	CONNECT (PROGNAME "578", OR_OBJ_BLOBS, 0);
     }
     return;
@@ -1169,7 +1169,7 @@ int             main (int argc, char *argv[])
 	    if (db_status != S_OKAY)
 		vista_abort (PROGNAME "1101");
 	    HTONL (objdate);	/* ready for record writes */
-	    CRWRITE (PROGNAME "1102", OR_OBJDATE, &objdate, 0);
+	    CRWRITE (PROGNAME "1102", OR_OBJDATE, (char *)&objdate, 0);
 	}
 
 	/*----- READ TO ETX, record text ---------------------
@@ -1249,7 +1249,7 @@ int             main (int argc, char *argv[])
 	    call_encoder ((UCHAR *)linebuf, linelen);
 	CRSET (PROGNAME "685", &objdba, 0);
 	int32 = htonl (objsize);
-	CRWRITE (PROGNAME "686", OR_OBJSIZE, &int32, 0);
+	CRWRITE (PROGNAME "686", OR_OBJSIZE, (char *)&int32, 0);
 	if (hc_encode (&blobrec, (UCHAR *)"", 0, TRUE)) {
 	    if (debug_encode) {
 		sumblobs += blobrec.or_bloblen;
@@ -1259,7 +1259,7 @@ int             main (int argc, char *argv[])
 		    (long)sumblobs, (long)objsize);
 	    }
 	    HTONS (blobrec.or_bloblen);
-	    FILLNEW (PROGNAME "624", OR_BLOBREC, &blobrec, 0);
+	    FILLNEW (PROGNAME "624", OR_BLOBREC, (char *)&blobrec, 0);
 	    CONNECT (PROGNAME "625", OR_OBJ_BLOBS, 0);
 	}
 

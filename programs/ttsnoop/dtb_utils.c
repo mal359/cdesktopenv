@@ -40,6 +40,8 @@
 #define ABS(x) ((x) >= 0? (x):(-(x)))
 #endif
 
+Boolean	_DtHelped(Widget helpDialog); /* from DtTt.h */
+
 typedef struct
 {
     Widget              widget;

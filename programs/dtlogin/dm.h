@@ -519,7 +519,7 @@ extern void ForEachChooserHost(
 #else
                         CARD16 connectionType,
 #endif /* NeedWidePrototypes */
-                        int (*function)(),
+                        int (*function)(CARD16, ARRAY8Ptr, char *),
                         char *closure) ;
 extern int  ForEachMatchingIndirectHost( 
                         ARRAY8Ptr clientAddress,

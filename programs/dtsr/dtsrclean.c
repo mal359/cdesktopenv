@@ -567,7 +567,7 @@ static void     copy_old_d2x_to_new
 void            read_d2x (struct or_hwordrec * glob_word, long field)
 {
     if (field == OR_SWORDKEY) {
-	RECREAD (PROGNAME "061", &d21old, 0);
+	RECREAD (PROGNAME "061", (char *)&d21old, 0);
 	if (db_status != S_OKAY)
 	    return;
 	strncpy (glob_word->or_hwordkey, d21old.or_swordkey,
@@ -578,7 +578,7 @@ void            read_d2x (struct or_hwordrec * glob_word, long field)
 	glob_word->or_hwaddrs =		ntohl (d21old.or_swaddrs);
     }
     else if (field == OR_LWORDKEY) {
-	RECREAD (PROGNAME "069", &d22old, 0);
+	RECREAD (PROGNAME "069", (char *)&d22old, 0);
 	if (db_status != S_OKAY)
 	    return;
 	strncpy (glob_word->or_hwordkey, d22old.or_lwordkey,
@@ -589,7 +589,7 @@ void            read_d2x (struct or_hwordrec * glob_word, long field)
 	glob_word->or_hwaddrs =		ntohl (d22old.or_lwaddrs);
     }
     else {
-	RECREAD (PROGNAME "078", glob_word, 0);
+	RECREAD (PROGNAME "078", (char *)glob_word, 0);
 	glob_word->or_hwordkey[DtSrMAXWIDTH_HWORD - 1] = 0;
 	NTOHL (glob_word->or_hwoffset);
 	NTOHL (glob_word->or_hwfree);
@@ -614,20 +614,20 @@ static void     write_d2x (struct or_hwordrec * glob_word, long field)
 	d21new.or_swoffset =	htonl (glob_word->or_hwoffset);
 	d21new.or_swfree =	htonl (glob_word->or_hwfree);
 	d21new.or_swaddrs =	htonl (glob_word->or_hwaddrs);
-	RECWRITE (PROGNAME "102", &d21new, 0);
+	RECWRITE (PROGNAME "102", (char *)&d21new, 0);
     }
     else if (field == OR_LWORDKEY) {
 	snprintf(d22new.or_lwordkey, 40, "%s", glob_word->or_hwordkey);
 	d22new.or_lwoffset =	htonl (glob_word->or_hwoffset);
 	d22new.or_lwfree =	htonl (glob_word->or_hwfree);
 	d22new.or_lwaddrs =	htonl (glob_word->or_hwaddrs);
-	RECWRITE (PROGNAME"112", &d22new, 0);
+	RECWRITE (PROGNAME"112", (char *)&d22new, 0);
     }
     else {
 	HTONL (glob_word->or_hwoffset);
 	HTONL (glob_word->or_hwfree);
 	HTONL (glob_word->or_hwaddrs);
-	RECWRITE (PROGNAME "115", glob_word, 0);
+	RECWRITE (PROGNAME "115", (char *)glob_word, 0);
     }
     return;
 }  /* write_d2x() */

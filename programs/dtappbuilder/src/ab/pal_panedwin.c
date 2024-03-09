@@ -306,7 +306,7 @@ panedwin_prop_init(
         item[n] = cgen->init_state_cbox_items.Active_item;
         item_val[n] = AB_STATE_ACTIVE; n++;
         prop_checkbox_init(&(pws->init_state),cgen->init_state_cbox_label,
-                cgen->init_state_cbox, n, item, item_val,
+                cgen->init_state_cbox, n, item, (XtArgVal *)item_val,
                 cgen->init_state_cb);
 
         /* Pane Minimum/Maximum Setting */

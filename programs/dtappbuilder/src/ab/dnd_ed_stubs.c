@@ -255,7 +255,7 @@ dnd_ed_editor_init(
     item_val[n++] = (int)ABDndOpLink;
     prop_checkbox_init(&(dds->drag_ops_checkbox),
 	dnd_ed->drag_op_checkbox_label, dnd_ed->drag_op_checkbox,
-	n, item, item_val,
+	n, item, (XtArgVal *)item_val,
 	dnd_ed->drag_op_cb);
 
     /* drag icon text */
@@ -289,7 +289,7 @@ dnd_ed_editor_init(
     item_val[n++] = (int)ABDndOpLink;
     prop_checkbox_init(&(dds->drop_ops_checkbox),
 	dnd_ed->drop_op_checkbox_label, dnd_ed->drop_op_checkbox,
-	n, item, item_val,
+	n, item, (XtArgVal *)item_val,
 	dnd_ed->drop_op_cb);
 
     /* drop data types checkbox */
@@ -302,7 +302,7 @@ dnd_ed_editor_init(
     item_val[n++] = (int)ABDndTypeUserDef;
     prop_checkbox_init(&(dds->drop_types_checkbox),
 	dnd_ed->drop_data_checkbox_label, dnd_ed->drop_data_checkbox,
-	n, item, item_val,
+	n, item, (XtArgVal *)item_val,
 	dnd_ed->drop_data_cb);
 
     /* allow drops on children checkbox */
@@ -311,7 +311,7 @@ dnd_ed_editor_init(
     item_val[n++] = 0;
     prop_checkbox_init(&(dds->drop_child_checkbox),
 	dnd_ed->drop_child_checkbox_label, dnd_ed->drop_child_checkbox,
-	n, item, item_val,
+	n, item, (XtArgVal *)item_val,
 	dnd_ed->drop_child_cb);
 
     /* 

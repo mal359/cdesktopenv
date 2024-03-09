@@ -72,8 +72,8 @@ void main(int argc, char **argv)
       if (! m_curcon) {
         if (m_token != M_ENDFILE) {
           m_error("Parsing table error") ;
-          sprintf(buffer, parserr, m_token, m_prevcon, m_scanval) ;
-          m_errline(buffer) ;
+          sprintf((char * restrict)buffer, parserr, m_token, m_prevcon, m_scanval) ;
+          m_errline((char *)buffer) ;
           }
         else {
           m_error("Unexpected end of document") ;
@@ -92,17 +92,17 @@ void main(int argc, char **argv)
         m_aftereod = TRUE ;
         }
       if (m_scantrace) {
-        sprintf(buffer, sopt,
+        sprintf((char * restrict)buffer, sopt,
           m_prevcon, m_token, m_curcon, m_scanval ? m_scanval : ' ',
           m_scanval, m_line[m_sysecnt], m_netlevel) ;
-        m_trace(buffer) ;
+        m_trace((char *)buffer) ;
         if (m_token == M_NAME) {
-          sprintf(buffer, name, m_name) ;
-          m_trace(buffer) ;
+          sprintf((char * restrict)buffer, name, m_name) ;
+          m_trace((char *)buffer) ;
           }
         if (m_token == M_LITERAL) {
-          sprintf(buffer, literal, m_literal) ;
-          m_trace(buffer) ;
+          sprintf((char * restrict)buffer, literal, m_literal) ;
+          m_trace((char *)buffer) ;
           }
         }
 #include "case.c"

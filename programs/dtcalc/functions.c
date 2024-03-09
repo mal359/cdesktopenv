@@ -37,7 +37,8 @@
 #include <errno.h>
 #include <string.h>
 #include <math.h>
-#if defined(sun)
+#include <fenv.h>
+#if defined(__sun)
 #include <ieeefp.h>
 #endif
 #include "calctool.h"
@@ -647,7 +648,6 @@ do_expno(void)           /* Get exponential number. */
   MPstr_to_num(v->display, v->base, v->MPdisp_val) ;
 }
 
-
 void
 do_factorial(int *MPval, int *MPres)     /* Calculate the factorial of MPval. */
 {
@@ -677,21 +677,30 @@ do_factorial(int *MPval, int *MPres)     /* Calculate the factorial of MPval. */
         }
       mpcim(&i, MPa) ;
       mpcmi(MP1, &i) ;
-      if (!i) matherr((struct exception *) NULL) ;
-      else
-        while (i > 0)
-          {
-            mpmuli(MPa, &i, MPa) ;
-            mpcmd(MPa, &val) ;
-            if (v->error) break ;
-            i-- ;
-          }
+      feclearexcept(FE_ALL_EXCEPT);
+      fenv_t current_env;
+      feholdexcept(&current_env);      
+      if (!i) {
+        fesetenv(&current_env);
+        return;
+      }
+      else {
+        while (i > 0) {
+                mpmuli(MPa, &i, MPa);
+                mpcmd(MPa, &val);
+                if (v->error) {
+                    break;
+                }
+                i--;
+            }
+        }
+
+        fesetenv(&current_env);
     }
-  else matherr((struct exception *) NULL) ;
   mpstr(MPa, MPres) ;
 }
 
-
+      
 void
 do_frame(void)    /* Exit dtcalc. */
 {

@@ -174,16 +174,16 @@ struct AuthProtocol {
 
 static struct AuthProtocol AuthProtocols[] = {
 { (unsigned short) 18,	"MIT-MAGIC-COOKIE-1",
-    MitInitAuth, MitGetAuth, NULL
+    (int (*)(unsigned short, char *))MitInitAuth, (Xauth *(*)(unsigned short, char *))MitGetAuth, NULL
 },
 #ifdef HASXDMAUTH
 { (unsigned short) 19,	"XDM-AUTHORIZATION-1",
-    XdmInitAuth, XdmGetAuth, XdmGetXdmcpAuth,
+    (int (*)(unsigned short, char *))XdmInitAuth, (Xauth *(*)(unsigned short, char *))XdmGetAuth, (void (*)())XdmGetXdmcpAuth,
 },
 #endif
 #ifdef SECURE_RPC
 { (unsigned short) 9, "SUN-DES-1",
-    SecureRPCInitAuth, SecureRPCGetAuth, NULL,
+    (int (*)(unsigned short, char *))SecureRPCInitAuth, (Xauth *(*)(unsigned short, char *))SecureRPCGetAuth, NULL,
 },
 #endif
 #ifdef K5AUTH
@@ -1153,7 +1153,7 @@ SetUserAuthorization (struct display *d, struct verify_info *verify)
 	    	    writeLocalAuth (new, auths[i], d->name);
 #ifdef XDMCP
 	    	else
-	    	    writeRemoteAuth (new, auths[i], d->peer, d->peerlen, d->name);
+	    	    writeRemoteAuth (new, auths[i], (XdmcpNetaddr)d->peer, d->peerlen, d->name);
 #endif
 		break;
 	    }
@@ -1175,7 +1175,7 @@ SetUserAuthorization (struct display *d, struct verify_info *verify)
 	    	    writeLocalAuth (new, auths[i], d->name);
 #ifdef XDMCP
 	    	else
-	    	    writeRemoteAuth (new, auths[i], d->peer, d->peerlen, d->name);
+	    	    writeRemoteAuth (new, auths[i], (XdmcpNetaddr)d->peer, d->peerlen, d->name);
 #endif
 		auths[i]->data_length = data_len;
 	    }
@@ -1284,7 +1284,7 @@ RemoveUserAuthorization (struct display *d, struct verify_info *verify)
 	    	writeLocalAuth (new, auths[i], d->name);
 #ifdef XDMCP
 	    else
-	    	writeRemoteAuth (new, auths[i], d->peer, d->peerlen, d->name);
+	    	writeRemoteAuth (new, auths[i], (XdmcpNetaddr)d->peer, d->peerlen, d->name);
 #endif
 	}
 	doWrite = 1;

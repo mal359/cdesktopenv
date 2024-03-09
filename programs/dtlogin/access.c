@@ -147,7 +147,7 @@ static int scanHostlist(
 #else
                         CARD16 connectionType,
 #endif /* NeedWidePrototypes */
-                        int (*function)(),
+                        int (*function)(CARD16, ARRAY8Ptr, char *),
                         char *closure,
                         int depth,
                         int broadcast) ;
@@ -162,7 +162,7 @@ static int indirectAlias(
 #else
                         CARD16 connectionType,
 #endif /* NeedWidePrototypes */
-                        int (*function)(),
+                        int (*function)(CARD16, ARRAY8Ptr, char *),
                         char *closure,
                         int depth,
                         int broadcast) ;
@@ -625,7 +625,7 @@ scanHostlist(
 #else
         CARD16 connectionType,
 #endif /* NeedWidePrototypes */
-        int (*function)(),
+        int (*function)(CARD16, ARRAY8Ptr, char *),
         char *closure,
         int depth,
         int broadcast )
@@ -675,7 +675,7 @@ indirectAlias(
 #else
         CARD16 connectionType,
 #endif /* NeedWidePrototypes */
-        int (*function)(),
+        int (*function)(CARD16, ARRAY8Ptr, char *),
         char *closure,
         int depth,
         int broadcast )
@@ -822,14 +822,14 @@ UseChooser(
 
 void 
 ForEachChooserHost(
-        ARRAY8Ptr clientAddress,
+    ARRAY8Ptr clientAddress,
 #if NeedWidePrototypes
-        int connectionType,
+    int connectionType,
 #else
-        CARD16 connectionType,
+    CARD16 connectionType,
 #endif /* NeedWidePrototypes */
-        int (*function)(),
-        char *closure )
+    int (*function)(CARD16, ARRAY8Ptr, char *),
+    char *closure )
 {
     int		    haveLocalhost = 0;
     DisplayEntry    *d;

@@ -801,7 +801,7 @@ DBD_OKAY:
     swab_dbrec (&dbrec, HTON);
     if (debug_mode)
 	printf ("060*** fillnew dbrec.\n");
-    d_fillnew (OR_DBREC, &dbrec, 0);
+    d_fillnew (OR_DBREC, (const char *)&dbrec, 0);
     if (db_status != S_OKAY) {
 	printf ("%s", CATGETS(dtsearch_catd, MS_initausd, 509,
 		PROGNAME "509 Could not initialize database header record.\n"));

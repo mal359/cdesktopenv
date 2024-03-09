@@ -1344,7 +1344,7 @@ Initialize(Widget ref_w, Widget w, Arg *args, Cardinal *num_args)
 
     tw->term.log_on = False ;
     if (tw->term.logging) {
-       _DtTermPrimStartLog(tw) ;
+       _DtTermPrimStartLog((Widget)tw) ;
      }
 
     Debug('T', timeStamp("TermPrim Initialize() finished"));
@@ -2675,7 +2675,7 @@ Destroy(Widget w)
 
     /* flush the log file */
     if (tw->term.logging ) {
-      _DtTermPrimCloseLog(tw) ;
+      _DtTermPrimCloseLog((Widget)tw) ;
      }
 
     if (tw->term.boldFont) {

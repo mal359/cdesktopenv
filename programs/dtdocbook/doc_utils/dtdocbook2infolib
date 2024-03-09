@@ -188,7 +188,7 @@ func_exec_program ()
 
   if test -f "$progdir/$program"; then
     # Add our own library path to LD_LIBRARY_PATH
-    LD_LIBRARY_PATH="/home/matt/cdesktopenv-code/cde/lib/DtPrint/.libs:/home/matt/cdesktopenv-code/cde/lib/DtHelp/.libs:/home/matt/cdesktopenv-code/cde/lib/DtWidget/.libs:/home/matt/cdesktopenv-code/cde/lib/DtSvc/.libs:/home/matt/cdesktopenv-code/cde/lib/tt/lib/.libs:/home/matt/cdesktopenv-code/cde/lib/DtXinerama/.libs:$LD_LIBRARY_PATH"
+    LD_LIBRARY_PATH="/home/matt/git_stuff/cdesktopenv-code/cde/lib/DtPrint/.libs:/home/matt/git_stuff/cdesktopenv-code/cde/lib/DtHelp/.libs:/home/matt/git_stuff/cdesktopenv-code/cde/lib/DtWidget/.libs:/home/matt/git_stuff/cdesktopenv-code/cde/lib/DtSvc/.libs:/home/matt/git_stuff/cdesktopenv-code/cde/lib/tt/lib/.libs:/home/matt/git_stuff/cdesktopenv-code/cde/lib/DtXinerama/.libs:/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH"
 
     # Some systems cannot cope with colon-terminated LD_LIBRARY_PATH
     # The second colon is a workaround for a bug in BeOS R4 sed

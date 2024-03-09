@@ -136,19 +136,19 @@ void            count_words (int index)
 
 	    switch (index) {
 		case 0:
-		    CRREAD (PROGNAME"66", OR_SWOFFSET, &offset, 0);
-		    CRREAD (PROGNAME"67", OR_SWFREE, &free, 0);
-		    CRREAD (PROGNAME"68", OR_SWADDRS, &addrs, 0);
+		    CRREAD (PROGNAME"66", OR_SWOFFSET, (char *)&offset, 0);
+		    CRREAD (PROGNAME"67", OR_SWFREE, (char *)&free, 0);
+		    CRREAD (PROGNAME"68", OR_SWADDRS, (char *)&addrs, 0);
 		    break;
 		case 2:
-		    CRREAD (PROGNAME"76", OR_LWOFFSET, &offset, 0);
-		    CRREAD (PROGNAME"77", OR_LWFREE, &free, 0);
-		    CRREAD (PROGNAME"78", OR_LWADDRS, &addrs, 0);
+		    CRREAD (PROGNAME"76", OR_LWOFFSET, (char *)&offset, 0);
+		    CRREAD (PROGNAME"77", OR_LWFREE, (char *)&free, 0);
+		    CRREAD (PROGNAME"78", OR_LWADDRS, (char *)&addrs, 0);
 		    break;
 		case 4:
-		    CRREAD (PROGNAME"86", OR_HWOFFSET, &offset, 0);
-		    CRREAD (PROGNAME"87", OR_HWFREE, &free, 0);
-		    CRREAD (PROGNAME"88", OR_HWADDRS, &addrs, 0);
+		    CRREAD (PROGNAME"86", OR_HWOFFSET, (char *)&offset, 0);
+		    CRREAD (PROGNAME"87", OR_HWFREE, (char *)&free, 0);
+		    CRREAD (PROGNAME"88", OR_HWADDRS, (char *)&addrs, 0);
 		    break;
 	    }
 	    NTOHL (offset);

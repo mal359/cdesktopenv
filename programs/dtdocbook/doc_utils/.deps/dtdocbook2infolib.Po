@@ -1,5 +1,5 @@
 dtdocbook2infolib.o: dtdocbook2infolib.c /usr/include/stdc-predef.h \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h /usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/14/include/stdbool.h /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -8,8 +8,8 @@ dtdocbook2infolib.o: dtdocbook2infolib.c /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/long-double.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
+ /usr/lib/gcc/x86_64-linux-gnu/14/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/14/include/stdarg.h \
  /usr/include/x86_64-linux-gnu/bits/types.h \
  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
  /usr/include/x86_64-linux-gnu/bits/time64.h \
@@ -87,8 +87,8 @@ dtdocbook2infolib.o: dtdocbook2infolib.c /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/sys/sysmacros.h \
  /usr/include/x86_64-linux-gnu/bits/sysmacros.h \
  /usr/include/x86_64-linux-gnu/sys/param.h \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/14/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/14/include/syslimits.h \
  /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
  /usr/include/linux/limits.h \
@@ -102,7 +102,7 @@ dtdocbook2infolib.o: dtdocbook2infolib.c /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
  ../../../include/Dt/Utility.h
 /usr/include/stdc-predef.h:
-/usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h:
+/usr/lib/gcc/x86_64-linux-gnu/14/include/stdbool.h:
 /usr/include/stdio.h:
 /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
 /usr/include/features.h:
@@ -113,8 +113,8 @@ dtdocbook2infolib.o: dtdocbook2infolib.c /usr/include/stdc-predef.h \
 /usr/include/x86_64-linux-gnu/bits/long-double.h:
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
-/usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h:
-/usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h:
+/usr/lib/gcc/x86_64-linux-gnu/14/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/14/include/stdarg.h:
 /usr/include/x86_64-linux-gnu/bits/types.h:
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 /usr/include/x86_64-linux-gnu/bits/time64.h:
@@ -203,8 +203,8 @@ dtdocbook2infolib.o: dtdocbook2infolib.c /usr/include/stdc-predef.h \
 /usr/include/x86_64-linux-gnu/sys/sysmacros.h:
 /usr/include/x86_64-linux-gnu/bits/sysmacros.h:
 /usr/include/x86_64-linux-gnu/sys/param.h:
-/usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h:
-/usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h:
+/usr/lib/gcc/x86_64-linux-gnu/14/include/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/14/include/syslimits.h:
 /usr/include/limits.h:
 /usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
 /usr/include/x86_64-linux-gnu/bits/local_lim.h:

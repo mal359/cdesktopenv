@@ -1,2 +1,2 @@
 #!/usr/bin/ksh
-dtdcbk_libdir=/home/matt/cdesktopenv-code/cde/programs/dtdocbook 	dtdcbk_libexecdir=/home/matt/cdesktopenv-code/cde/programs/dtdocbook 	dtdcbk_datarootdir=/home/matt/cdesktopenv-code/cde/programs/dtdocbook 	/usr/bin/ksh /home/matt/cdesktopenv-code/cde/programs/dtdocbook/doc_utils/../dtdocbook2sdl $@
+dtdcbk_libdir=/home/matt/git_stuff/cdesktopenv-code/cde/programs/dtdocbook 	dtdcbk_libexecdir=/home/matt/git_stuff/cdesktopenv-code/cde/programs/dtdocbook 	dtdcbk_datarootdir=/home/matt/git_stuff/cdesktopenv-code/cde/programs/dtdocbook 	/usr/bin/ksh /home/matt/git_stuff/cdesktopenv-code/cde/programs/dtdocbook/doc_utils/../dtdocbook2sdl $@

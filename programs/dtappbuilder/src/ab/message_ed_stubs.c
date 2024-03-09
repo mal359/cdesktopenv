@@ -419,7 +419,8 @@ msg_editor_init(
         item[n] = msg_cgen->action1_cbox_items.nolabel_item;
         item_val[n] = ACTION1_ITEM_KEY; n++;
         prop_checkbox_init(&(mes->action1_button), msg_cgen->action1_cbox_label,
-                msg_cgen->action1_cbox, n, item, item_val, msg_cgen->action1_cb);
+                msg_cgen->action1_cbox, n, item, (XtArgVal *)item_val, 
+		msg_cgen->action1_cb);
 
 	/* buttonCB makes the corresponding label textfield 
 	 * active/inactive and resets the Action button label
@@ -437,7 +438,8 @@ msg_editor_init(
         item[n] = msg_cgen->action2_cbox_items.nolabel_item;
         item_val[n] = ACTION2_ITEM_KEY; n++;
         prop_checkbox_init(&(mes->action2_button), msg_cgen->action2_cbox_label,
-	    msg_cgen->action2_cbox, n, item, item_val, msg_cgen->action2_cb);
+	    msg_cgen->action2_cbox, n, item, (XtArgVal *)item_val, 
+	    msg_cgen->action2_cb);
 
 	/* buttonCB makes the corresponding label textfield 
 	 * active/inactive and resets the Action button label
@@ -455,7 +457,8 @@ msg_editor_init(
         item[n] = msg_cgen->action3_cbox_items.nolabel_item;
         item_val[n] = ACTION3_ITEM_KEY; n++;
         prop_checkbox_init(&(mes->action3_button), msg_cgen->action3_cbox_label,
-            msg_cgen->action3_cbox, n, item, item_val, msg_cgen->action3_cb);
+            msg_cgen->action3_cbox, n, item, (XtArgVal *)item_val, 
+	    msg_cgen->action3_cb);
 
 	/* buttonCB makes the corresponding label textfield 
 	 * active/inactive and resets the Action button label
@@ -473,14 +476,16 @@ msg_editor_init(
         item[n] = msg_cgen->cancel_cbox_items.nolabel_item;
         item_val[n] = CANCEL_ITEM_KEY; n++;
         prop_checkbox_init(&(mes->cancel_button), msg_cgen->cancel_cbox_label,
-                msg_cgen->cancel_cbox, n, item, item_val, msg_cgen->cancel_cb);
+                msg_cgen->cancel_cbox, n, item, (XtArgVal *)item_val, 
+		msg_cgen->cancel_cb);
 
         /* Help Button */
         n = 0;
         item[n] = msg_cgen->help_cbox_items.nolabel_item;
         item_val[n] = HELP_ITEM_KEY; n++;
         prop_checkbox_init(&(mes->help_button), msg_cgen->help_cbox_label,
-                msg_cgen->help_cbox, n, item, item_val, msg_cgen->help_cb);
+                msg_cgen->help_cbox, n, item, (XtArgVal *)item_val, 
+		msg_cgen->help_cb);
  
         /* Default Button */
         n = 0;

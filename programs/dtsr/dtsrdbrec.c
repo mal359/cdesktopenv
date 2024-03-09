@@ -335,7 +335,7 @@ int	main (int argc, char *argv[])
 		argv[1]);
 	return 4;
     }
-    d_recread (&dbrec, 0);
+    d_recread ((char *)&dbrec, 0);
     if (db_status != S_OKAY) {
 	printf (CATGETS(dtsearch_catd, MS_dbrec, 350,
 		"Can't read dbrec record in database '%s'.\n%s\n"),

@@ -227,7 +227,7 @@ BAD_DBA:
 	}
 	return FALSE;
     }
-    d_recread (&objrec, vistano);
+    d_recread ((char *)&objrec, vistano);
     if (db_status != S_OKAY)
 	goto BAD_DBA;
     swab_objrec (&objrec, NTOH);
@@ -472,7 +472,7 @@ static void	stuff_DtSrResult (
 	FINDFM (PROGNAME"228", OR_OBJ_MISCS, saveusr.vistano);
 
 	while (db_status == S_OKAY) {
-	    RECREAD (PROGNAME"2209", &miscrecbuf, saveusr.vistano);
+	    RECREAD (PROGNAME"2209", (char *)&miscrecbuf, saveusr.vistano);
 	    NTOHS (miscrecbuf.or_misctype);
 	    if (miscrecbuf.or_misctype == ORM_FZKABS) {
 		src = (char *) miscrecbuf.or_misc;

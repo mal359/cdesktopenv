@@ -218,8 +218,8 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/copyright.in \
 	$(top_srcdir)/doc/ja_JP.UTF-8/help/common/Desktop.hf.in \
 	$(top_srcdir)/doc/ja_JP.UTF-8/help/common/DesktopIntro.hf.in \
 	$(top_srcdir)/include/Dt/Dt.h.in COPYING README.md compile \
-	config.guess config.rpath config.sub depcomp install-sh \
-	ltmain.sh missing ylwrap
+	config.guess config.rpath config.sub install-sh ltmain.sh \
+	missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)

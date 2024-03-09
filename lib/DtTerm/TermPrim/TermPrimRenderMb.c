@@ -621,7 +621,7 @@ DoInsertWc(Widget w, wchar_t *wcBuffer, int wcBufferLen, Boolean *wrapped)
 	    wcBuffer,	                	        /* newChars	    */
 	    wcBufferLen,			        /* numChars         */
 	    tpd->insertCharMode != DtTERM_INSERT_CHAR_OFF,  /* insert flag	    */
-	    &returnChars,			        /* return char ptr  */
+	    (termChar **)&returnChars,			        /* return char ptr  */
 	    &returnCount);			        /* return count ptr */
 
     if ((tpd->insertCharMode != DtTERM_INSERT_CHAR_ON_WRAP) || (returnCount <= 0)) {
@@ -659,7 +659,7 @@ DoInsertWc(Widget w, wchar_t *wcBuffer, int wcBufferLen, Boolean *wrapped)
 	    wcBuffer,                 	                /* newChars	    */
 	    wcBufferLen,		                /* numChars	    */
 	    tpd->insertCharMode != DtTERM_INSERT_CHAR_OFF,  /* insert flag	    */
-	    &returnChars,		                /* return char ptr  */
+	    (termChar **)&returnChars,		                /* return char ptr  */
 	    &returnCount);		                /* return count ptr */
     (void) XtFree((char *) wcBuffer);
     (void) XtFree((char *) returnChars);

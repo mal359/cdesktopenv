@@ -215,7 +215,7 @@ appfw_editor_init(
         item[n] = appfw_cgen->i18n_checkbox_items.nolabel_item;
         item_val[n] = APPFW_I18N_KEY; n++;
         prop_checkbox_init(&(afs->i18n), appfw_cgen->i18n_checkbox_label,
-                appfw_cgen->i18n_checkbox, n, item, item_val,
+                appfw_cgen->i18n_checkbox, n, item, (XtArgVal *)item_val,
                 appfw_cgen->i18n_cb);
 
 
@@ -237,7 +237,7 @@ appfw_editor_init(
 	item[n] = dtb_appfw_dialog.gencode_res_checkbox_items.Initial_Values_item;
 	item_val[n++] = (int)AB_ARG_CLASS_VALUE;
 	prop_checkbox_init(&(afs->gencode_res_file), appfw_cgen->gencode_label,
-		appfw_cgen->gencode_res_checkbox, n, item, item_val,
+		appfw_cgen->gencode_res_checkbox, n, item, (XtArgVal *)item_val,
 		appfw_cgen->gencode_res_cb);
 
 	appfw_editor_load_gencode(proj_get_project(), afs);
