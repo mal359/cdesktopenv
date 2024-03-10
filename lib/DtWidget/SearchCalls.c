@@ -96,7 +96,7 @@ DtEditorInvokeSpellDialog(
 	Widget widget)
 {
     DtEditorWidget pPriv = (DtEditorWidget) widget;
-    char fileName[] = "/tmp/dtXXXXXX"
+    char fileName[] = "/tmp/dtXXXXXX";
     char com[L_tmpnam + 7], *string, newline[1];
     char *line;
     FILE *fp;           /* pipe to read words from */

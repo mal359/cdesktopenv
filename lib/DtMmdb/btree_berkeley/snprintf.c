@@ -28,6 +28,7 @@
 
 #ifdef __STDC__
 #include <stdarg.h>
+#include <stdio.h>
 #else
 #include <varargs.h>
 #endif

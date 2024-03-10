@@ -260,7 +260,7 @@ WillingMsg( void )
     strcat(tmpbuf,"awk '{printf(\"%s %-.5s  load: %.3s, %.3s, %.3s\",$(NF-6),$(NF-5),$(NF-2),$(NF-1),$NF)}'");
     strcat(tmpbuf," > ");
 
-    if (mkstemp(tmpfilename) != (char *)NULL ) {
+    if (mkstemp(tmpfilename) != -1) {
 
 	strcat(tmpbuf,tmpfilename);
 

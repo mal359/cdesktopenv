@@ -55,6 +55,7 @@
 #include <X11/IntrinsicP.h>
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
+#include <X11/XKBlib.h>
 #include <Xm/MwmUtil.h>
 #include <Xm/Xm.h>
 #include <Xm/ColorObjP.h>

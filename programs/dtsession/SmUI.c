@@ -55,8 +55,8 @@
  **
  *****************************************************************************
  *************************************<+>*************************************/
-#if defined(__linux__) && !defined(_XOPEN_SOURCE)
-# define _XOPEN_SOURCE 600
+#if (defined(__linux__) || defined(BSD) || defined(__illumos__)) && !defined(_XOPEN_SOURCE)
+# define _XOPEN_SOURCE 700
 #endif
 
 #include <signal.h>
@@ -1164,6 +1164,15 @@ ImmediateExit(
     old = sigblock(sigmask(SIGTERM));
     sigblock(sigmask(SIGHUP));
     sigblock(sigmask(SIGPIPE));
+#elif defined(_XOPEN_SOURCE) && (_XOPEN_SOURCE >= 600)
+    struct sigaction signew, sigold;
+    
+    sigemptyset(&signew.sa_mask);
+    signew.sa_handler = SIG_BLOCK;
+
+    sigaction(SIGTERM, &signew, &sigold);
+    sigaction(SIGHUP, &signew, &sigold);
+    sigaction(SIGPIPE, &signew, &sigold);
 #else
     old = sighold(SIGTERM);
 #endif

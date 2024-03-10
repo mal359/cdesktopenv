@@ -546,7 +546,7 @@ char *
 _DtDtsMMCacheName(int override)
 {
 	const char	*dsp = getenv("DISPLAY");
-	char	*results = NULL;
+	char		*results = NULL;
 
 	if(override && dsp)
 	{
@@ -555,7 +555,7 @@ _DtDtsMMCacheName(int override)
 				_DTDTSMMTEMPFILE,
 				dsp);
 				
-		char *c = strtok(results, ':');
+		char *c = strtok(results, ":");
 		if(c)
 		{
 			*c = '\0';

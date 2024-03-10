@@ -285,7 +285,7 @@ static void ErrorHandler(
                         Display *disp,
                         XErrorEvent *event) ;
 static void ToolkitErrorHandler(
-                        char *message) ;
+                        char *message) _X_NORETURN;
 static void Usage(
                         char **argv) ;
 static void RestrictModeUsage(

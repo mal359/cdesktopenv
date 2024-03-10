@@ -116,7 +116,7 @@ static int IOErrorHandler(
                         Display *disp ) ;
 
 static void ToolkitErrorHandler(
-                        char *message) ;
+                        char *message) _X_NORETURN;
 static void errParentMap( 
                         Widget w,
                         XtPointer client_data,

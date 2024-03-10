@@ -129,7 +129,7 @@ static void MyInsert( Widget w, XEvent *event, char **params,
 static void MyBackspace( Widget w, XEvent *event, char **params,
                         Cardinal *num_params) ;
 static int  ErrorHandler( Display *dpy, XErrorEvent *event) ;
-static void xtErrorHandler( String msg ) ;
+static void xtErrorHandler( String msg ) _X_NORETURN;
 static void xtWarningHandler( String msg ) ;
 static void MakeOptionsProc( XtPointer data, XtIntervalId *id) ;
 static SIGVAL Terminate( int arg ) ;

@@ -243,7 +243,7 @@ WmXIOErrorHandler (Display *display)
 } /* END OF FUNCTIONS WmXIOErrorHandler */
 
 
-
+
 /*************************************<->*************************************
  *
  *  WmXtErrorHandler (message)
@@ -270,7 +270,7 @@ WmXtErrorHandler (char *message)
 } /* END OF FUNCTION WmXtErrorHandler */
 
 
-
+
 /*************************************<->*************************************
  *
  *  WmXtWarningHandler (message)
@@ -297,7 +297,7 @@ WmXtWarningHandler (char *message)
 
 } /* END OF FUNCTIONS WmXtWarningHandler */
 
-
+
 /*************************************<->*************************************
  *
  *  Warning (message)
@@ -327,7 +327,7 @@ Warning (char *message)
 } /* END OF FUNCTION Warning */
 
 #ifdef DEBUGGER
-
+
 /******************************<->*************************************
  *
  *  PrintFormatted (format, message, message, ...)
