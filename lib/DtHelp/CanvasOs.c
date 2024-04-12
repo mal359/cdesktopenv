@@ -129,8 +129,9 @@ _DtCvRunInterp(
     /*
      * open a temporary file to write the data to.
      */
-    fileName = tempnam(NULL, NULL);
-    if (fileName == NULL)
+    char tempfile[] = "/tmp/DtHelpXXXXXX";
+    myFd = mkstemp(tempfile);
+    if (myFd == NULL)
       {
 	if (newData != data)
 	    free(newData);
