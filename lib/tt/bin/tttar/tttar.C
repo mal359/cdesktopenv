@@ -79,14 +79,16 @@ main(int argc, char **argv)
 	verbosity = tttar->verbosity();
 
 	if (tttar->should_tar()) {
-		char *tempnam_result;
+		char *_template = strdup("/tmp/tttardirXXXXXX");
+		int fd = mkstemp(_template);
 		/*
 		 * Create a temporary directory to which we can
 		 * chdir() in order to create or extract the
 		 * tttarfile for or from the tarfile.
 		 */
-		tttardir = tempnam_result = tempnam(NULL, "tttardir");
-		free(tempnam_result);
+		 close(fd);
+		tttardir = _template;
+		free(_template);
 		if (mkdir( (char *)tttardir, S_IRWXU ) == 0) {
 			tttarfile_name = tttardir.cat( "/tttarfile" );
 			should_tttar = TRUE;
