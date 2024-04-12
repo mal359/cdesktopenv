@@ -105,7 +105,7 @@ void            read_wordstr (struct or_hwordrec * glob_word, int vista_num)
 
     len = strlen (glob_word->or_hwordkey);
     if (len < sizeof (Swordbuf.or_swordkey)) {
-	RECREAD (PROGNAME "61", (const char *)&Swordbuf, vista_num);
+	RECREAD (PROGNAME "61", (char *)&Swordbuf, vista_num);
 	if (db_status != S_OKAY)
 	    return;
 	strncpy (glob_word->or_hwordkey, Swordbuf.or_swordkey,
@@ -116,7 +116,7 @@ void            read_wordstr (struct or_hwordrec * glob_word, int vista_num)
 	glob_word->or_hwaddrs =		ntohl (Swordbuf.or_swaddrs);
     }
     else if (len < sizeof (Lwordbuf.or_lwordkey)) {
-	RECREAD (PROGNAME "69", (const char *)&Lwordbuf, vista_num);
+	RECREAD (PROGNAME "69", (char *)&Lwordbuf, vista_num);
 	if (db_status != S_OKAY)
 	    return;
 	strncpy (glob_word->or_hwordkey, Lwordbuf.or_lwordkey,
@@ -127,7 +127,7 @@ void            read_wordstr (struct or_hwordrec * glob_word, int vista_num)
 	glob_word->or_hwaddrs =		ntohl (Lwordbuf.or_lwaddrs);
     }
     else {
-	RECREAD (PROGNAME "78", (const char *)glob_word, vista_num);
+	RECREAD (PROGNAME "78", (char *)glob_word, vista_num);
 	glob_word->or_hwordkey[DtSrMAXWIDTH_HWORD - 1] = 0;
 	NTOHL (glob_word->or_hwoffset);
 	NTOHL (glob_word->or_hwfree);

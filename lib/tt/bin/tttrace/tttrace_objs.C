@@ -37,6 +37,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <string.h>
 #include "tttrace_objs.h"
 #include "util/tt_trace.h"
 
@@ -222,12 +223,15 @@ _Tt_trace_optobj::getopts(int argc, char** argv)
 		// We need to set up a FIFO to stuff the output
 		// into, and give the FIFO name to the command/session
 				
-		_pipenm = tempnam(NULL, "trace");
-		if (mkfifo(_pipenm, S_IWUSR|S_IRUSR) == -1) {
-			fprintf(stderr, "tttrace: mkfifo(\"%s\"): %s\n",
-				(char *)_pipenm, strerror(errno));
-			exit(2);
-		}
+		char _template[] = "/tmp/traceXXXXXX";
+    		int fd = mkstemp(_template);
+    		if (fd == -1) {
+        	   fprintf(stderr, "tttrace: mkstemp(\"%s\"): %s\n",
+            		_template, strerror(errno));
+        	   exit(2);
+  		}
+    	close(fd);
+    	_pipenm = strdup(_template);
        	}
 
 	mkenvstr();

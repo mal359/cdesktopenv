@@ -2246,7 +2246,7 @@ int _DtXlateGetXlateEnv(
        ===========================*/
 
 #if !defined(OSMAJORVERSION) && !defined(OSMINORVERSION)
-#warning "OSMAJORVERSION and OSMINORVERSION not defined, assuming 99.0:
+#warning "OSMAJORVERSION and OSMINORVERSION not defined, assuming 99.0:"
 #define OSMAJORVERSION 99
 #define OSMINORVERSION 0
 #endif

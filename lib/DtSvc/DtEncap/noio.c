@@ -39,6 +39,8 @@
 #define XOS_USE_XT_LOCKING
 #include <X11/Xos_r.h>
 #include <limits.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include <SPC/spcP.h>
 #include "DtSvcLock.h"
@@ -220,6 +222,7 @@ SPC_Channel_Ptr open_noio_channel_object(SPC_Channel_Ptr channel,
   int i=0;
   SPC_Channel_Ptr result;
   XeString temp_dir_name = NULL;
+  char temp_template[] = "/tmp/SPCXXXXXX";
   
   call_parent_method(channel, open, (channel, iomode, hostname), result);
 
@@ -229,13 +232,28 @@ SPC_Channel_Ptr open_noio_channel_object(SPC_Channel_Ptr channel,
   if(IS_SPCIO_USE_LOGFILE(iomode)) {
 
     _DtSvcProcessLock();
-    /* Storage from tempnam() freed in remove_logfile_local_channel_object */
+    
     if (SPCD_Authentication_Dir != NULL)
-      channel->logfile=tempnam(SPCD_Authentication_Dir,"SPC");
+      channel->logfile = strdup(SPCD_Authentication_Dir);
     else {
-      temp_dir_name = get_tmp_dir ();
-      channel->logfile=tempnam(temp_dir_name,"SPC");
+      temp_dir_name = get_tmp_dir();
+      channel->logfile = strdup(temp_dir_name);
       free(temp_dir_name);
+    }
+    
+    char *temp_file_path = malloc(strlen(channel->logfile) + 5);
+            if (temp_file_path != NULL) {
+                sprintf(temp_file_path, "%s/SPC", channel->logfile);
+                int fd = mkstemp(temp_file_path);
+                if (fd != -1) {
+                    close(fd);
+                    free(channel->logfile);
+                    channel->logfile = strdup(temp_file_path);
+                } else {
+                    free(temp_file_path);
+                    SPC_Error(SPC_Out_Of_Memory);
+                    return SPC_ERROR;
+                }
     }
 
     /*
