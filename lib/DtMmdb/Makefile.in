@@ -134,6 +134,7 @@ am__uninstall_files_from_dir = { \
   }
 am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
+am__DEPENDENCIES_1 =
 libDtMmdb_la_DEPENDENCIES = HardCopy/libHardCopy.la \
 	StyleSheet/libStyleSheet.la api/libapi.la btree/libbtree.la \
 	btree_berkeley/libbtree_berkeley.la \
@@ -142,7 +143,8 @@ libDtMmdb_la_DEPENDENCIES = HardCopy/libHardCopy.la \
 	dynhash/libdynhash.la hmphf/libhmphf.la index/libindex.la \
 	mgrs/libmgrs.la misc/libmisc.la object/libobject.la \
 	oliasdb/liboliasdb.la schema/libschema.la \
-	storage/libstorage.la utility/libutility.la
+	storage/libstorage.la utility/libutility.la \
+	$(am__DEPENDENCIES_1)
 am_libDtMmdb_la_OBJECTS =
 libDtMmdb_la_OBJECTS = $(am_libDtMmdb_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -477,7 +479,7 @@ SUBDIRS = HardCopy \
 	  storage \
 	  utility
 
-lib_LTLIBRARIES = libDtMmdb.la
+lib_LTLIBRARIES = libDtMmdb.la $(XTOOLLIB)
 libDtMmdb_la_SOURCES = 
 libDtMmdb_la_LIBADD = HardCopy/libHardCopy.la \
 		      StyleSheet/libStyleSheet.la \
@@ -499,6 +501,7 @@ libDtMmdb_la_LIBADD = HardCopy/libHardCopy.la \
 		      schema/libschema.la \
 		      storage/libstorage.la \
 		      utility/libutility.la
+		      
 
 libDtMmdb_la_LDFLAGS = -version-info 2:1:0
 all: all-recursive
@@ -570,7 +573,7 @@ clean-libLTLIBRARIES:
 	}
 
 libDtMmdb.la: $(libDtMmdb_la_OBJECTS) $(libDtMmdb_la_DEPENDENCIES) $(EXTRA_libDtMmdb_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libDtMmdb_la_LINK) -rpath $(libdir) $(libDtMmdb_la_OBJECTS) $(libDtMmdb_la_LIBADD) $(LIBS)
+	$(AM_V_CCLD)$(libDtMmdb_la_LINK) -rpath $(libdir) $(libDtMmdb_la_OBJECTS) $(libDtMmdb_la_LIBADD) $(LIBS) -lstdc++
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
