@@ -8,7 +8,7 @@ AM_CFLAGS = $(DT_INCDIR) $(CSA_INCDIR) -I../../../lib/csa	\
 LDADD = ../libDtCmP/libDtCmP.a $(LIBCSA) $(DTCLIENTLIBS) $(XTOOLLIB)
 
 if FREEBSD
-LDADD += -lcompat
+LDADD += -lcompat -lutil
 endif
 
 if NETBSD
