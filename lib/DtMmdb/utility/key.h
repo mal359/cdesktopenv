@@ -45,8 +45,8 @@
 #ifndef _key_h
 #define _key_h 1
 
-#include "utility/ostring.h"
+#include <string>
 
-typedef ostring key_type;
+typedef std::string key_type;
 
 #endif

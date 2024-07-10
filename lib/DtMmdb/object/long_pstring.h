@@ -52,7 +52,6 @@
 #define _long_pstring_h 1
 
 #include "object/pstring.h"
-#include "utility/ostring.h"
 #include "storage/page_storage.h"
 #include "storage/chunks_index.h"
 

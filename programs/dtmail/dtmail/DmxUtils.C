@@ -243,7 +243,7 @@ phrase(char *name, int token, int comma)
 	if (name == NOSTR)
 		return(NOSTR);
 	if (strlen(name) >= (unsigned)LINESIZE)
-		nbufp = (char *)malloc(strlen(name));
+		nbufp = (char *)malloc(strlen(name) + 1);
 	else
 		nbufp = nbuf;
 	gotlt = 0;

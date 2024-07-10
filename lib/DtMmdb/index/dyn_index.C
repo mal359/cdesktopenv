@@ -81,7 +81,7 @@ if ( v_static_key.get() )
 MESSAGE(cerr, "************");
 */
 
-   return new data_t(v_static_key.get(), v_static_key.size());
+   return new data_t(v_static_key.c_str(), v_static_key.size());
 }
 
 Boolean 

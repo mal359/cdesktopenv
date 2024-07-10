@@ -150,13 +150,14 @@ debug(cerr, (void*)(v_mphf->operator->()));
    v_sz = (*v_mphf) -> keysetsize();
    (*v_inv_lists_hd) -> expand_space(v_sz);
    
-   key_type key(LBUFSIZ);
+   key_type key;
+   key.reserve(LBUFSIZ);
    
 #ifdef DEBUG
    int i = 0;
 #endif
 
-   while ( in >> key ) {
+   while (std::getline(in, key)) {
 
       oid_t key_id(c_code_t(0), 0);
    

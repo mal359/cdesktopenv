@@ -53,7 +53,6 @@
 #define _object_dict 1
 
 #include "dstr/bset.h"
-#include "utility/ostring.h"
 #include "object/handler.h"
 
 #include "mgrs/template_mgr.h"

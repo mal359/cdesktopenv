@@ -51,7 +51,6 @@
 #ifndef _oid_list_h
 #define _oid_list_h 1
 
-#include "utility/ostring.h"
 #include "dstr/dlist.h"
 #include "dstr/dlist_void_ptr_cell.h"
 #include "object/oid.h"
@@ -71,7 +70,7 @@ protected:
 
    union {
       mmdb_pos_t loc;
-      ostring* p;
+      string* p;
    } list_ptr;
 
 protected:

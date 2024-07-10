@@ -51,7 +51,8 @@
 #ifndef _code_h
 #define _code_h 1
 
-#include "utility/ostring.h"
+#include <string>
+
 ////////////////////////////////////////
 //
 ////////////////////////////////////////
@@ -61,17 +62,17 @@ class htr_node;
 class encoding_unit
 {
 public:
-   ostring* word;
+   std::string* word;
    int bits;
    unsigned int freq;
    unsigned int code;
    htr_node* leaf_htr_node;
 
 public:
-   encoding_unit(ostring* w, unsigned int freq);
+   encoding_unit(std::string* w, unsigned int freq);
    ~encoding_unit();
 
-   friend ostream& operator <<(ostream&, encoding_unit&);
+   friend std::ostream& operator <<(std::ostream&, encoding_unit&);
    
 };
 

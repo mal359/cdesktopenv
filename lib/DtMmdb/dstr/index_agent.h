@@ -53,7 +53,6 @@
 #define _index_agent_h 1
 
 #include  "utility/funcs.h"
-#include  "utility/ostring.h"
 #include  "dynhash/data_t.h"
 
 //**************************************************************

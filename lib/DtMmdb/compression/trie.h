@@ -130,7 +130,7 @@ protected:
 
 protected:
    void collect_freqs(trie_node* rt, int level);
-   ostring* get_word(trie_node_info* x);
+   string* get_word(trie_node_info* x);
 
    void _find_leaf(trie_node* z, int& j);
    void extend_alphabet();

@@ -221,7 +221,7 @@ void trie::add(unsigned char* word, int sz, int fq)
 encoding_unit* trie::add_to_alphabet(unsigned char* word, int sz, int fq)
 {
    extend_alphabet();
-   encoding_unit *x = new encoding_unit(new ostring((char*)word, sz), fq);
+   encoding_unit *x = new encoding_unit(new string((char*)word, sz), fq);
    alphabet[alphabet_sz++] = x;
    return x;
 }
@@ -240,7 +240,7 @@ cerr << "\n";
    static trie_node_info* y = 0;
 
    static char buf[1];
-   static ostring *z;
+   static string *z;
 
    if ( root == 0 )
       root = new trie_node(0);
@@ -261,7 +261,7 @@ cerr << "\n";
          y -> info.info_view.letter = j;
 
          buf[0] = char(j);
-         z = new ostring(buf, 1);
+         z = new string(buf, 1);
          y -> info.info_view.mark = 1;
 
          extend_alphabet();
@@ -292,7 +292,7 @@ void update_index(int ind, void* x)
 void trie::_find_leaf(trie_node* z, int& j)
 {
    trie_node_info* x = 0;
-   ostring *y;
+   string *y;
 
    for ( int i=0; i<LANG_ALPHABET_SZ; i++ ) {
 #ifdef C_API
@@ -322,7 +322,7 @@ encoding_unit** trie::get_alphabet(unsigned int& a_sz)
    return alphabet;
 }
 
-ostring* trie::get_word(trie_node_info* leaf)
+string* trie::get_word(trie_node_info* leaf)
 {
    static char buf[128];
    buf[127] = 0;
@@ -343,7 +343,7 @@ ostring* trie::get_word(trie_node_info* leaf)
    }
 
 //debug(cerr, buf+i);
-   return new ostring(buf+i, 127-i);
+   return new string(buf+i, 127-i);
 }
 
 Boolean trie::travers_to(char* str, int len, 

@@ -310,7 +310,7 @@ void huff::compress(const buffer& uncompressed, buffer& compressed)
 void huff::decompress(buffer& compressed, buffer& uncompressed)
 {
    char* buf_base = uncompressed.get_base();
-   char* str;
+   const char* str;
    int str_len;
 
    char rem_bits;
@@ -339,7 +339,7 @@ void huff::decompress(buffer& compressed, buffer& uncompressed)
 //}
 
             str_len = node_ptr -> eu -> word -> size();
-            str = node_ptr -> eu -> word -> get();
+            str = node_ptr -> eu -> word -> c_str();
 
             if ( str_len == 1 ) {
 
@@ -379,7 +379,7 @@ void huff::decompress(buffer& compressed, buffer& uncompressed)
    uncompressed.set_content_sz(buf_base-uncompressed.get_base());
 
    if ( rem_bits > 0 )
-      uncompressed.put( node_ptr -> eu -> word -> get(), 
+      uncompressed.put( node_ptr -> eu -> word -> c_str(), 
                         node_ptr -> eu -> word -> size() 
                       );
 }
@@ -422,7 +422,7 @@ io_status huff::cdrOut(buffer& buf)
          word_sz = e_units[i] -> word -> size();
          v_out_buf.put(char(word_sz));
    
-         v_out_buf.put(e_units[i] -> word -> get(), word_sz);
+         v_out_buf.put(e_units[i] -> word -> c_str(), word_sz);
          v_out_buf.put(e_units[i] -> freq);
       }
    

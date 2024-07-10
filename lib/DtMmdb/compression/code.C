@@ -48,9 +48,10 @@
  */
 
 
+#include "utility/debug.h"
 #include "compression/code.h"
 
-encoding_unit::encoding_unit(ostring* w, unsigned int f) :
+encoding_unit::encoding_unit(std::string* w, unsigned int f) :
    word(w), bits(0), freq(f), code(0), leaf_htr_node(NULL)
 {
 }
@@ -60,7 +61,7 @@ encoding_unit::~encoding_unit()
    delete word;
 }
 
-ostream& operator<<(ostream& out, encoding_unit& eu)
+std::ostream& operator<<(std::ostream& out, encoding_unit& eu)
 {
    debug(out, *eu.word);
    debug(out, eu.freq);

@@ -62,7 +62,7 @@ debug(cerr, y -> v_name);
 */
 
 
-   return ( x -> v_name.string_LS(y -> v_name) );
+   return ( x -> v_name.compare(y -> v_name) < 0 );
 }
 
 Boolean name_oid_eq(const void* o1, const void* o2)
@@ -75,7 +75,7 @@ MESSAGE(cerr, "in name_oid_eq");
 debug(cerr, x -> v_name);
 debug(cerr, y -> v_name);
 */
-   return ( x -> v_name.string_EQ(y -> v_name) );
+   return ( x -> v_name.compare(y -> v_name) == 0 );
 }
 
 Boolean oid_ls(const void* o1, const void* o2)
@@ -145,15 +145,14 @@ void delete_name_oid_rec_f(const void* name_oid_ptr)
 //
 // ***************************************************
 
-mark_t::mark_t(char* marks) : ostring(strlen(marks))
+mark_t::mark_t(char* marks) : string(marks)
 {
-   set(marks);
 }
 
 istream& operator >>(istream& in, mark_t& m)
 {
    char c ;
-   char* ptr = m.get();
+   const char* ptr = m.c_str();
    Boolean read_marks = false;
 
    while ( in && in.get(c) ) {
@@ -175,7 +174,7 @@ istream& operator >>(istream& in, mark_t& m)
 
 ostream& operator <<(ostream& out, mark_t& m)
 {
-   out << m.get();
+   out << m.c_str();
    return out ;
 }
 

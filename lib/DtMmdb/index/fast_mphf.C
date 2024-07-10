@@ -257,7 +257,7 @@ debug(cerr, k);
       throw(stringException("hash table empty"));
    }
 
-   i = v_tbl0 -> atoi(k.get(), k.size(), r, v_key_set_sz); // for halmphf
+   i = v_tbl0 -> atoi(k.c_str(), k.size(), r, v_key_set_sz); // for halmphf
 
 
    if ( i < v_p1 ) {
@@ -275,7 +275,7 @@ debug(cerr, k);
    //i = v_tbl1 -> atoi(k, c_bit+r+1) + gv;
 //debug(cerr, c_bit+r);
 
-   i = v_tbl1 -> atoi(k.get(), k.size(), c_bit+r+1, v_hash_tbl_sz) + gv; // for halmphf
+   i = v_tbl1 -> atoi(k.c_str(), k.size(), c_bit+r+1, v_hash_tbl_sz) + gv; // for halmphf
 
 
    return i % v_hash_tbl_sz;
@@ -422,7 +422,7 @@ fast_mphf::print_mapping(const char *key_file, int option)
 //debug(cerr, option);
    MESSAGE(cerr, "print_mapping()");
 
-   char string[LBUFSIZ];
+   char str[LBUFSIZ];
    fstream in(key_file, ios::in);
 
    if ( !in ) {
@@ -432,23 +432,24 @@ fast_mphf::print_mapping(const char *key_file, int option)
    char *hash_table = new char[v_hash_tbl_sz];
    for (unsigned int i = 0; i < v_hash_tbl_sz; hash_table[i++] = 0 );
 
-   ostring lbuf(LBUFSIZ);
+   string lbuf;
+   lbuf.reserve(LBUFSIZ);
 
 
-   while ( in.getline(string, LBUFSIZ, '\n') ) {
+   while ( in.getline(str, LBUFSIZ, '\n') ) {
 
-//     string[strlen(string)-1] = '\0';
+//     str[strlen(str)-1] = '\0';
 
-//debug(cerr, string);
-//debug(cerr, strlen(string));
+//debug(cerr, str);
+//debug(cerr, strlen(str));
 
-     lbuf.reset();
-     lbuf.set(string, strlen(string));
+     lbuf.clear();
+     lbuf.assign(str, strlen(str));
 
      int hash  = hashTo(lbuf) ;
 
      if ( option == 1 ) {
-        cout << " string = " << string;
+        cout << " string = " << str;
         cout  << ", hash = " << hash << "\n";
      }
 
@@ -457,7 +458,7 @@ fast_mphf::print_mapping(const char *key_file, int option)
      else
         hash_table[hash] = 1;
     
-    in.getline(string, LBUFSIZ, '\n'); 
+    in.getline(str, LBUFSIZ, '\n'); 
    }
   
    MESSAGE(cerr, "print_mapping() done");

@@ -52,7 +52,7 @@
 
 void oid_list::init_persistent_info(persistent_info* x)
 {
-   ostring* u = list_ptr.p; 
+   string* u = list_ptr.p; 
 
    root::init_persistent_info(x);
 
@@ -62,7 +62,7 @@ void oid_list::init_persistent_info(persistent_info* x)
 //debug(cerr, (void*)this);
 //debug(cerr, my_oid());
 
-     char* w = 0;
+     const char* w = 0;
      int   v= 0;
 
 //MESSAGE(cerr, "oid_list::init_persistent_info(), new object case");
@@ -70,7 +70,7 @@ void oid_list::init_persistent_info(persistent_info* x)
 //debug(cerr, (void*)list_ptr.p);
 
      if (u) {
-       w = u -> get();
+       w = u -> c_str();
        v = u -> size();
      } 
 
@@ -132,7 +132,7 @@ void oid_list::init_data_member(int leng)
    }
 
    list_ptr.loc = 0; // to please purify
-   list_ptr.p = new ostring(ptr, char_leng); 
+   list_ptr.p = new string(ptr, char_leng); 
 
 //MESSAGE(cerr, "oid_list::init_data_member(int leng)");
 //debug(cerr, (void*)this);
@@ -170,8 +170,6 @@ debug(cerr, int(list_ptr.loc));
 debug(cerr, int(&list_ptr.loc));
 */
 
-   Boolean ok;
-
    int extra_char_leng = extra_oids * OID_T_SZ;
 
    if ( get_mode(PERSISTENT) == true ) {
@@ -190,17 +188,15 @@ debug(cerr, int(&list_ptr.loc));
 
       delete [] ptr;
 
-      ok = true;
-
    } else {
-      ok = list_ptr.p -> expand( extra_char_leng );
+      list_ptr.p -> resize( extra_char_leng );
    }
 
    v_sz += extra_oids;
 
    set_mode(UPDATE, true);
 
-   return ok;
+   return true;
 }
 
 
@@ -275,7 +271,7 @@ debug(cerr, int(list_ptr.p));
       if ( list_ptr.p == 0 )
          throw(stringException("zero list_ptr.p value"));
 
-      memcpy(z, list_ptr.p -> get() + offset, OID_T_SZ);
+      memcpy(z, list_ptr.p -> c_str() + offset, OID_T_SZ);
 
    }
 //MESSAGE(cerr, "oid_list::operator() done");
@@ -363,7 +359,7 @@ oid_list::update_component(int index, const oid_t& new_oid)
       if ( list_ptr.p == 0 )
          throw(stringException("zero list_ptr.p value"));
 
-      list_ptr.p -> update(z, OID_T_SZ, (index-1)*OID_T_SZ);
+      list_ptr.p -> replace((index-1)*OID_T_SZ, OID_T_SZ, z);
 
    } 
 //MESSAGE(cerr, "oid_list::update_component() done");
@@ -435,8 +431,8 @@ io_status oid_list::asciiIn(istream& in)
 
    } else {
       delete list_ptr.p;
-      list_ptr.p = new ostring(0);
-      list_ptr.p -> set(oid_array, v_sz);
+      list_ptr.p = new string(0);
+      list_ptr.p -> assign(oid_array, v_sz);
    }
 
    delete [] oid_array;

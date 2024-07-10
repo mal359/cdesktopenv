@@ -52,7 +52,6 @@
 #define _misc_h
 
 #include "object/root.h"
-#include "utility/ostring.h"
 #include "storage/abs_storage.h"
 #include "object/handler.h"
 
@@ -71,7 +70,7 @@ class name_oid_t
 public:
    name_oid_t(const char* nm, abs_storage* store = 0) : v_store(store) 
    { 
-     v_name.set(nm);
+     v_name.assign(nm);
    }
    name_oid_t(const char* nm, const oid_t& id, abs_storage* store = 0) : 
       v_oid(id), v_store(store) 
@@ -82,14 +81,14 @@ public:
    ~name_oid_t() {};
 
 public:
-   ostring v_name;
+   string v_name;
    oid_t v_oid;
    abs_storage* v_store;
 };
 
 void delete_name_oid_rec_f(const void* name_oid_ptr);
 
-class mark_t : private ostring
+class mark_t : private string
 {
 public:
    mark_t(char* marks = (char*)"\t\n ");

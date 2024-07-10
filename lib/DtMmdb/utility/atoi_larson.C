@@ -73,7 +73,7 @@ atoi_larson::atoi(const char* str, int sz, int, int rang) const
 int 
 atoi_larson::atoi(const key_type& k, int) const
 {
-   char* string = k.get();
+   const char* string = k.c_str();
    int l = k.size();
 
    unsigned int sum = 0;

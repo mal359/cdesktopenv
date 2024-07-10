@@ -129,7 +129,7 @@ union u_tag {
 
 int atoi_pearson::atoi(const key_type& k, int offset) const
 {
-   char* string = k.get();
+   const char* string = k.c_str();
    int l = k.size();
    return atoi((const char*)string, l, offset, 0);
 }

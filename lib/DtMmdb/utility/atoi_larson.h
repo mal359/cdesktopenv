@@ -52,6 +52,7 @@
 #else
 #include <values.h>
 #endif
+#include <string.h>
 #include "key.h"
 
 // Based on Larson's algorithm presented in CACM ???.

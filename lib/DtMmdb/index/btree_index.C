@@ -80,7 +80,7 @@ size_t btree_index::handler_to_inv_idx(const handler& query)
 {
    get_key_string(query);
 
-   data_t k(v_static_key.get(), v_static_key.size());
+   data_t k(v_static_key.c_str(), v_static_key.size());
 
    if ( v_idx_agent_ptr -> member(k) == false )
      throw(stringException("first_of_invlist(): key is not in btree"));

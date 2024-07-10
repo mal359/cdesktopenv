@@ -54,7 +54,7 @@
 key_type* c_index::v_static_key_ptr;
 #define v_static_key (*v_static_key_ptr)
 #else
-key_type c_index::v_static_key(LBUFSIZ);
+key_type c_index::v_static_key;
 #endif
 
 void c_index::init_persistent_info(persistent_info* x)
@@ -66,6 +66,7 @@ void c_index::init_persistent_info(persistent_info* x)
 c_index::c_index(c_code_t c_cd) : composite(c_cd), v_inv_lists_hd(NULL)
 { 
    v_cmp_selector = 0;
+   v_static_key.reserve(LBUFSIZ);
 }
 
 oid_list_handler* c_index::operator()(int ind)
@@ -108,27 +109,21 @@ oid_t c_index::first_of_invlist(int ind)
 Boolean c_index::get_key_string(const handler& t) const
 {
    ostringstream out;
-   int len;
 
    ((handler&)t) -> asciiOut(out);
-   len = out.str().size();
-   v_static_key.set_size(len);
-   *((char *) memcpy(v_static_key.get(), out.str().c_str(), len) + len) = '\0';
+   v_static_key = out.str();
 
    return true;
 }
 
 Boolean c_index::get_key_string(const oid_t& t) const
 {
-   v_static_key.reset();
-   int len;
+   v_static_key.clear();
 
-   ostringstream out(v_static_key.get());
+   ostringstream out(v_static_key.c_str());
    t.asciiOut(out);
 
-   len = out.str().size();
-   v_static_key.set_size(len);
-   *((char *) memcpy(v_static_key.get(), out.str().c_str(), len) + len) = '\0';
+   v_static_key = out.str();
 
    return true;
 }
