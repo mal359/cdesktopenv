@@ -118,7 +118,7 @@ public:
    };
 
    void swap_order() {
-      ORDER_SWAP_LONG(fwd_ptr);
+      ORDER_SWAP_MMDB_POS_T(fwd_ptr);
       ORDER_SWAP_UINT(header.int_view);
       swapped = true;
    };

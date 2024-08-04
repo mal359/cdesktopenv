@@ -65,6 +65,7 @@ typedef unsigned short c_code_t;
 typedef mmdb_pos_t i_code_t;
 
 #define OID_T_SZ (sizeof(i_code_t))
+#define ORDER_SWAP_I_CODE_T(x) ORDER_SWAP(i_code_t, x)
 
 /*************************************
 // class code root

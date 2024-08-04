@@ -47,8 +47,10 @@
 #define _types_h 1
 
 #ifdef C_API
+#include <stdint.h>
 #include "utility/c_iostream.h"
 #else
+#include <cstdint>
 #include <iostream>
 using namespace std;
 #endif
@@ -60,15 +62,7 @@ typedef char Boolean;
 typedef void* voidPtr;
 typedef char* charPtr;
 
-typedef short 		s_int16;
-typedef unsigned short	u_int16;
-
-typedef int		s_int32;
-typedef unsigned int	u_int32;
-
-typedef long 		s_long32;
-
-typedef float 		s_float32;
+typedef intptr_t mmdb_pos_t;
 
 enum io_status { done, fail };
 
@@ -76,14 +70,5 @@ class root;
 typedef Boolean (*cmp_func_ptr_t)(const void*, const void*);
 typedef void (*app_func_ptr_t)(const void*);
 typedef void (*print_func_ptr_t)(ostream&, const void*);
-
-//enum Boolean { true, false };
-
-#if !defined(__linux__) && !defined(CSRG_BASED)
-typedef long mmdb_pos_t;
-#else
-typedef int mmdb_pos_t;
-#endif
-
 
 #endif

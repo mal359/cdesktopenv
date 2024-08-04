@@ -77,48 +77,19 @@
 
 /* little endian to/from big endian swap macros. */
 
-#define ORDER_SWAP_LONG(x) 			\
+#define ORDER_SWAP(type, value)			\
 { 						\
-   long tmp_long = x; 				\
-   ((unsigned char*)&x)[0] = ((unsigned char*)&tmp_long)[3];	\
-   ((unsigned char*)&x)[1] = ((unsigned char*)&tmp_long)[2];	\
-   ((unsigned char*)&x)[2] = ((unsigned char*)&tmp_long)[1];	\
-   ((unsigned char*)&x)[3] = ((unsigned char*)&tmp_long)[0];	\
+   type tmp = value; 				\
+   int n = sizeof(type) - 1;			\
+   for (int i = 0; i <= n; ++i)					\
+   	((uint8_t *)&value)[i] = ((uint8_t *)&tmp)[n - i];	\
 }
 
-#define ORDER_SWAP_FLOAT(x) 			\
-{ 						\
-   float tmp_float = x; 			\
-   ((unsigned char*)&x)[0] = ((unsigned char*)&tmp_float)[3];	\
-   ((unsigned char*)&x)[1] = ((unsigned char*)&tmp_float)[2];	\
-   ((unsigned char*)&x)[2] = ((unsigned char*)&tmp_float)[1];	\
-   ((unsigned char*)&x)[3] = ((unsigned char*)&tmp_float)[0];	\
-} 
-
-#define ORDER_SWAP_INT(x) 			\
-{ 						\
-   int tmp_uint = x; 				\
-   ((unsigned char*)&x)[0] = ((unsigned char*)&tmp_uint)[3];	\
-   ((unsigned char*)&x)[1] = ((unsigned char*)&tmp_uint)[2];	\
-   ((unsigned char*)&x)[2] = ((unsigned char*)&tmp_uint)[1];	\
-   ((unsigned char*)&x)[3] = ((unsigned char*)&tmp_uint)[0];	\
-} 
-
-#define ORDER_SWAP_UINT(x) 			\
-{ 						\
-   unsigned int tmp_uint = x; 			\
-   ((unsigned char*)&x)[0] = ((unsigned char*)&tmp_uint)[3];	\
-   ((unsigned char*)&x)[1] = ((unsigned char*)&tmp_uint)[2];	\
-   ((unsigned char*)&x)[2] = ((unsigned char*)&tmp_uint)[1];	\
-   ((unsigned char*)&x)[3] = ((unsigned char*)&tmp_uint)[0];	\
-} 
-
-#define ORDER_SWAP_USHORT(x) 			\
-{ 						\
-   unsigned short tmp_ushort = x;		\
-   ((unsigned char*)&x)[0] = ((unsigned char*)&tmp_ushort)[1];	\
-   ((unsigned char*)&x)[1] = ((unsigned char*)&tmp_ushort)[0];	\
-} 
+#define ORDER_SWAP_FLOAT(x) ORDER_SWAP(float, x)
+#define ORDER_SWAP_LONG(x) ORDER_SWAP(long, x)
+#define ORDER_SWAP_INT(x) ORDER_SWAP(int, x)
+#define ORDER_SWAP_UINT(x) ORDER_SWAP(unsigned int, x)
+#define ORDER_SWAP_USHORT(x) ORDER_SWAP(unsigned short, x)
+#define ORDER_SWAP_MMDB_POS_T(x) ORDER_SWAP(mmdb_pos_t, x)
 
 #endif
-
