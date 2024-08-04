@@ -314,7 +314,7 @@ struct display {
 
 	/* XDMCP state */
 	CARD32		sessionID;	/* ID of active session */
-	struct sockaddr	*peer;		/* sockaddr of display peer */
+	XdmcpNetaddr	*peer;		/* sockaddr of display peer */
 	int		peerlen;	/* length of peer name */
 	struct sockaddr	*from;		/* XDMCP port of display */
 	int		fromlen;
@@ -519,7 +519,7 @@ extern void ForEachChooserHost(
 #else
                         CARD16 connectionType,
 #endif /* NeedWidePrototypes */
-                        int (*function)(CARD16, ARRAY8Ptr, char *),
+                        void (*function)(CARD16, struct _ARRAY8 *, char *),
                         char *closure) ;
 extern int  ForEachMatchingIndirectHost( 
                         ARRAY8Ptr clientAddress,
@@ -528,7 +528,7 @@ extern int  ForEachMatchingIndirectHost(
 #else
                         CARD16 connectionType,
 #endif /* NeedWidePrototypes */
-                        int (*function)(CARD16,  struct _ARRAY8 *, char *),
+                        void (*function)(CARD16,  struct _ARRAY8 *, char *),
                         char *closure) ;
 extern int  ScanAccessDatabase( void ) ;
 extern int  UseChooser( 
@@ -703,7 +703,7 @@ extern Xauth * MitGetAuth(
 #endif /* NeedWidePrototypes */
                         char *name) ;
 
-extern int MitInitAuth( 
+extern void MitInitAuth( 
 #if NeedWidePrototypes
                         unsigned int name_len,
 #else

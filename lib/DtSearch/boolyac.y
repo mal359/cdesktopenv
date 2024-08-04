@@ -43,8 +43,8 @@
 #include <stdio.h>
 #include "boolpars.h"
 
-int yylex(void);
-int yyerror();
+void yyerror(char *);
++int yylex(void);
 %}
 
 %union {

@@ -329,17 +329,17 @@ int XdmCheckAuthentication (struct protoDisplay *pdpy, ARRAY8Ptr displayID,
 	return FALSE;
     if (authenticationData->length != 8)
 	return FALSE;
-    XdmcpUnwrap((unsigned char *)authenticationData->data, 
-               (unsigned char *)&pdpy->key, 
-	       (unsigned char *)authenticationData->data, 8);
+    XdmcpUnwrap(authenticationData->data, 
+                (unsigned char *)&pdpy->key, 
+	        authenticationData->data, 8);
     XdmPrintArray8Hex ("Request packet auth", authenticationData);
     if (!XdmcpCopyARRAY8(authenticationData, &pdpy->authenticationData))
 	return FALSE;
     incoming = (XdmAuthKeyPtr) authenticationData->data;
     XdmcpIncrementKey (incoming);
-    XdmcpWrap((unsigned char *)authenticationData->data, 
-    	     (unsigned char *)&pdpy->key, 
-	     (unsigned char *)authenticationData->data, 8);
+    XdmcpWrap(authenticationData->data, 
+    	      (unsigned char *)&pdpy->key, 
+	      authenticationData->data, 8);
     return TRUE;
 }
 

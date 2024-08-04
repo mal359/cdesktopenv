@@ -30,8 +30,6 @@
 #include "globdec.h"
 #include "proto.h"
 
-void m_mberr1(char *text, const char *arg);
-
 void assert_hometopic_exists(void)
 {
 static const char hometopic[] = "-HOMETOPIC";

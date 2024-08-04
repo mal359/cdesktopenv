@@ -210,7 +210,7 @@ dnd_ed_editor_init(
 {
     DndEditorSettings	dds = &dndEdInfo;
     Widget		item[10];
-    int			item_val[10];
+    XtArgVal		item_val[10];
     int			n = 0;
 
     /*

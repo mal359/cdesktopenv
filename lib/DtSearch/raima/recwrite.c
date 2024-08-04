@@ -53,7 +53,7 @@
 */
 int
 d_recwrite(
-const char *rec, /* ptr to record area */
+const void *rec, /* ptr to record area */
 int dbn
 )
 {

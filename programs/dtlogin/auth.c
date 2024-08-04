@@ -152,7 +152,7 @@ struct AuthProtocol {
     unsigned short  name_length;
     char	    *name;
 
-    int		    (*InitAuth)(
+    void	    (*InitAuth)(
 #if NeedWidePrototypes
 			unsigned int name_len,
 #else
@@ -168,7 +168,10 @@ struct AuthProtocol {
 #endif /* NeedWidePrototypes */
 			char *name) ;
 
-    void	    (*GetXdmcpAuth)();
+    void	    (*GetXdmcpAuth)(
+    			struct protoDisplay	*pdpy,
+			unsigned short		authorizationNameLen,
+			char			*authorizationName);
     int		    inited;
 };
 

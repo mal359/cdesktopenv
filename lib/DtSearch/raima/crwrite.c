@@ -53,7 +53,7 @@
 int
 d_crwrite(
 long field, /* field constant */
-char *data, /* data area to contain field contents */
+void *data, /* data area to contain field contents */
 int dbn     /* database number */
 )
 {

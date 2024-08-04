@@ -175,7 +175,7 @@ AnyWellKnownSockets (void)
 static XdmcpBuffer	buffer;
 
 /*ARGSUSED*/
-static int
+static void
 sendForward (CARD16 connectionType, ARRAY8Ptr address, char *closure)
 {
 #ifdef AF_INET
@@ -198,7 +198,7 @@ sendForward (CARD16 connectionType, ARRAY8Ptr address, char *closure)
 	in_addr.sin_family = AF_INET;
 	in_addr.sin_port = htons ((short) XDM_UDP_PORT);
 	if (address->length != 4)
-	    return 0;
+	    return;
 	memmove( (char *) &in_addr.sin_addr, address->data, address->length);
 	addrlen = sizeof (struct sockaddr_in);
 	break;
@@ -207,10 +207,10 @@ sendForward (CARD16 connectionType, ARRAY8Ptr address, char *closure)
     case FamilyDECnet:
 #endif
     default:
-	return 0;
+	return;
     }
     XdmcpFlush (xdmcpFd, &buffer, (XdmcpNetaddr)addr, addrlen);
-    return 0;
+    return;
 }
 
 extern char *NetaddrAddress();

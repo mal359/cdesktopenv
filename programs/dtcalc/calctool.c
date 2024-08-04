@@ -46,7 +46,6 @@
 #include "patchlevel.h"
 #include "calctool.h"
 #include "ds_common.h"
-#include "calctool.h"
 #include "text.h"
 
 static double max_fix[4] = {
@@ -1203,8 +1202,8 @@ make_number(int *MPnumber, BOOLEAN mkFix)
 
 /*ARGSUSED*/
 /* Default math library exception handling routine. */
-int
-matherr(struct exception *exc)
+void
+math_err(void)
 {
 #if 0
   char msg[100];
@@ -1232,7 +1231,6 @@ matherr(struct exception *exc)
 #endif
 
   doerr(vstrs[(int) V_ERROR]) ;
-  return(1) ;                     /* Value ignored. */
 }
 
 /* Convert string into an MP number. */

@@ -47,8 +47,6 @@ This product and information is proprietary of Tandem Computers Incorporated.
 #include "entity2.h"
 #include "sref.h"
 
-void m_mberr1(char *text, const char *arg);
-
 /* Actually read a character from an input stream */
 int m_actgetc(void)
   {

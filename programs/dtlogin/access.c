@@ -147,7 +147,7 @@ static int scanHostlist(
 #else
                         CARD16 connectionType,
 #endif /* NeedWidePrototypes */
-                        int (*function)(CARD16, ARRAY8Ptr, char *),
+                        void (*function)(CARD16, struct _ARRAY8 *, char *),
                         char *closure,
                         int depth,
                         int broadcast) ;
@@ -162,7 +162,7 @@ static int indirectAlias(
 #else
                         CARD16 connectionType,
 #endif /* NeedWidePrototypes */
-                        int (*function)(CARD16, ARRAY8Ptr, char *),
+                        void (*function)(CARD16, struct _ARRAY8 *, char *),
                         char *closure,
                         int depth,
                         int broadcast) ;
@@ -625,7 +625,7 @@ scanHostlist(
 #else
         CARD16 connectionType,
 #endif /* NeedWidePrototypes */
-        int (*function)(CARD16, ARRAY8Ptr, char *),
+        void (*function)(CARD16, struct _ARRAY8 *, char *),
         char *closure,
         int depth,
         int broadcast )
@@ -675,7 +675,7 @@ indirectAlias(
 #else
         CARD16 connectionType,
 #endif /* NeedWidePrototypes */
-        int (*function)(CARD16, ARRAY8Ptr, char *),
+        void (*function)(CARD16, struct _ARRAY8 *, char *),
         char *closure,
         int depth,
         int broadcast )
@@ -709,7 +709,7 @@ ForEachMatchingIndirectHost(
 #else
         CARD16 connectionType,
 #endif /* NeedWidePrototypes */
-        int (*function)(CARD16,  struct _ARRAY8 *, char *),
+        void (*function)(CARD16, struct _ARRAY8 *, char *),
         char *closure )
 {
     int		    haveLocalhost = 0;
@@ -828,7 +828,7 @@ ForEachChooserHost(
 #else
     CARD16 connectionType,
 #endif /* NeedWidePrototypes */
-    int (*function)(CARD16, ARRAY8Ptr, char *),
+    void (*function)(CARD16, struct _ARRAY8 *, char *),
     char *closure )
 {
     int		    haveLocalhost = 0;

@@ -333,7 +333,7 @@ GetRemoteAddress( struct display *d, int fd )
     d->peerlen = 0;
     if (len)
     {
-	d->peer = (struct sockaddr *) malloc (len);
+	d->peer = malloc (len);
 	if (d->peer)
 	{
 	    bcopy (buf, (char *) d->peer, len);

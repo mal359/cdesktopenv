@@ -189,10 +189,10 @@ int d_cmtype(int, int *, int); 	/* cmtype.c */
 int d_connect(int, int);			/* connect.c */
 int d_cotype(int, int *, int); 	/* cotype.c */
 int d_crget(DB_ADDR *, int);		/* crget.c */
-int d_crread(long, char *, int); 	/* crread.c */
+int d_crread(long, void *, int); 	/* crread.c */
 int d_crset(DB_ADDR *, int);		/* crset.c */
 int d_crtype(int *, int);		/* crtype.c */
-int d_crwrite(long, char *, int); 	/* crwrite.c */
+int d_crwrite(long, void *, int); 	/* crwrite.c */
 int d_csmget(int, DB_ADDR *, int); 	/* csmget.c */
 int d_csmread(int, long, char *, int); 
 								/* csmread.c */
@@ -217,7 +217,7 @@ int d_recnext(int);				/* recnext.c */
 int d_recprev(int);				/* recprev.c */
 int d_destroy(const char *);		/* destroy.c */
 int d_discon(int, int);			/* discon.c */
-int d_fillnew(int, const char *, int); /* fillnew.c */
+int d_fillnew(int, const void *, int); /* fillnew.c */
 int d_findco(int, int);			/* findco.c */
 int d_findfm(int, int);			/* findfm.c */
 int d_findlm(int, int);			/* findlm.c */
@@ -258,9 +258,9 @@ int d_reclast(int, int);			/* reclast.c */
 int d_reclock(int, char *, int); 	/* dblfcns.c */
 int d_reclstat(int, char *, int); 	/* dblfcns.c */
 int d_recover(const char *);		/* recover.c */
-int d_recread(char *, int);		/* recread.c */
+int d_recread(void *, int);		/* recread.c */
 int d_recset(int, int);   			/* recset.c */
-int d_recwrite(const char *, int); 	/* recwrite.c */
+int d_recwrite(const void *, int); 	/* recwrite.c */
 int d_renfile(const char *dbn, FILE_NO fno, const char *fnm); 		/* renfile.c */
 int d_retries(int);				/* dblfcns.c */
 int d_rlbclr(void);				/* dblfcns.c */

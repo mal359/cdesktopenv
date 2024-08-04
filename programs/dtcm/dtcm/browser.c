@@ -1323,7 +1323,7 @@ mb_clear_selected_calendar(
         if (geditor_showing(e))
                	remove_from_gaccess_list(name, e);
 	mb_deregister_names(name, c);
-        mb_refresh_canvas((Browser *)c->browser, c);
+        mb_refresh_canvas(b, c);
 }
 
 extern void

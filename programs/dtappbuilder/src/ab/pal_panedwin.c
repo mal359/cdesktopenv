@@ -218,7 +218,7 @@ panedwin_prop_init(
     DtbRevolvPropDialogInfo     rpd = &(dtb_revolv_prop_dialog);
     PropPanedWinSettingsRec   	*pws = &(prop_pw_settings_rec[type]);
     Widget                      item[2];
-    int                         item_val[2];
+    XtArgVal                    item_val[2];
     int				n = 0;
 
     if (type == AB_PROP_REVOLVING)

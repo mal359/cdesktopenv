@@ -53,7 +53,7 @@
 */
 int
 d_recread(
-char *rec, /* ptr to record area */
+void *rec, /* ptr to record area */
 int dbn
 )
 {

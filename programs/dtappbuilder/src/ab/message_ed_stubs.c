@@ -360,7 +360,7 @@ msg_editor_init(
 {
     MsgEditorSettingsRec	*mes = &msg_editor_settings_rec;
     Widget                      item[6];
-    int                         item_val[6];
+    XtArgVal                    item_val[6];
     int                         i, n;
  
     /*

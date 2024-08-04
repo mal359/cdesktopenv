@@ -21,6 +21,8 @@
  * Floor, Boston, MA 02110-1301 USA
  */
 /* $XConsortium: proto.h /main/3 1995/11/08 10:24:42 rswiston $ */
+void chksnb(void);
+
 int m_actgetc(void);
 
 void m_adjuststate(void);
@@ -171,6 +173,8 @@ LOGICAL m_lookent(M_WCHAR *name, unsigned char *type, M_WCHAR **content,
 int main(int argc, char **argv);
 
 void *m_malloc(int size, char *msg);
+
+void m_mberr1(const char *text, const char *arg);
 
 void m_missingtagc(int c, M_HOLDTYPE dchar, LOGICAL start);
 

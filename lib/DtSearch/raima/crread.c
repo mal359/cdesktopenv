@@ -53,7 +53,7 @@
 int
 d_crread(
 long field, /* Field constant */
-char *data, /* Data area to contain field contents */
+void *data, /* Data area to contain field contents */
 int dbn     /* database number */
 )
 {

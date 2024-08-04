@@ -21,6 +21,8 @@
  * Floor, Boston, MA 02110-1301 USA
  */
 /* $XConsortium: proto.h /main/3 1995/11/08 09:42:21 rswiston $ */
+void chksnb(void);
+
 int m_actgetc(void);
 
 void m_adjuststate(void);
@@ -30,6 +32,8 @@ LOGICAL m_allwhite(const M_WCHAR *string);
 void m_attval(M_WCHAR *string);
 
 LOGICAL m_attvonly(M_WCHAR *string);
+
+void m_mberr1(const char *text, const char *arg);
 
 int m_checkstart(M_ELEMENT val);
 

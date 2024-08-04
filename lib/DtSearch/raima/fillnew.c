@@ -57,7 +57,7 @@
 int
 d_fillnew(
 int nrec,       /* record number */
-const char *recval, /* record value */
+const void *recval, /* record value */
 int dbn       /* database number */
 )
 {

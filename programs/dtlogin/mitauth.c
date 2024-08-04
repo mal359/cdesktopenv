@@ -95,16 +95,15 @@ static int	auth_name_len;
 void GenerateAuthData (char *auth, int len); // genauth.c
 
 #if NeedWidePrototypes
-int MitInitAuth (unsigned int name_len, char *name)
+void MitInitAuth (unsigned int name_len, char *name)
 #else
-int MitInitAuth (unsigned short name_len, char *name)
+void MitInitAuth (unsigned short name_len, char *name)
 #endif /* NeedWidePrototypes */
 {
     if (name_len > 256)
 	name_len = 256;
     auth_name_len = name_len;
     memmove( auth_name, name, name_len);
-    return(0);
 }
 
 #if NeedWidePrototypes

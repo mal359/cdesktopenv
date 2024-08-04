@@ -54,7 +54,7 @@ void OpenTag(LOGICAL hasAttributes,
 
 void CloseTag(LOGICAL newlineOK);
 
-void ImpliedlAttribute(char    *name,
+void ImpliedAttribute(char    *name,
   M_WCHAR *value);
 
 void RequiredAttribute(char    *name,

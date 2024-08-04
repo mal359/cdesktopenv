@@ -636,6 +636,7 @@ void make_items(void);
 void make_modewin(void);
 void make_fin_registers(void);
 void make_registers(int);
+void math_err(void);
 void MPstr_to_num(char *, enum base_type, int *);
 void paren_disp(char);
 void process_event(int);

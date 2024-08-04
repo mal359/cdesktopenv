@@ -172,6 +172,8 @@ void main(int argc, char **argv);
 
 void *m_malloc(int size, char *msg);
 
+void m_mberr1(const char *text, const char *arg);
+
 void m_missingtagc(int c, M_HOLDTYPE dchar, LOGICAL start);
 
 LOGICAL m_nextand(M_OPENFSA *thisfsa, M_ELEMENT label);

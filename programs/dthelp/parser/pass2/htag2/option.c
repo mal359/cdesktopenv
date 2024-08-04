@@ -31,9 +31,6 @@
 #include <stdlib.h>
 #endif
 
-void m_mberr1(char *text, const char *arg);
-
-
 /* Interpret options from command line and specified files */
 #define OPTLEN 512 /* If OPTLEN changes, change fscanf call below */
 #define TAGDOTOPT "helptag.opt"

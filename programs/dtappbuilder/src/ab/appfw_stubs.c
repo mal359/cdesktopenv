@@ -166,7 +166,7 @@ appfw_editor_init(
 )
 {
     Widget                      item[10];
-    int                         item_val[10];
+    XtArgVal                    item_val[10];
     int			   	n;
 
     /*
