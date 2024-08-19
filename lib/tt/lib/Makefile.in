@@ -468,7 +468,7 @@ libtt_la_SOURCES =
 nodist_EXTRA_libtt_la_SOURCES = dummy.cxx
 libtt_la_LIBADD = api/c/libapi.la api/dnd/libdnd.la db/libdb.la \
 	mp/libmp.la util/libutil.la tttk/libtttk.la $(am__append_1) \
-	$(am__append_2) $(XTOOLLIB)
+	$(am__append_2)
 @BSD_FALSE@libtt_la_LDFLAGS = -version-info 3:0:1
 
 # in order to try to keep lib versions the same across platforms, (2.1.0)

@@ -461,7 +461,7 @@ lib_LTLIBRARIES = libDtTerm.la
 libDtTerm_la_SOURCES = 
 libDtTerm_la_LIBADD = Term/libTerm.la TermPrim/libTermPrim.la \
 	TermView/libTermView.la $(am__append_1) $(am__append_2) \
-	$(am__append_3) $(am__append_4) $(XTOOLLIB)
+	$(am__append_3) $(am__append_4)
 @BSD_FALSE@libDtTerm_la_LDFLAGS = -version-info 3:0:1
 
 # in order to try to keep lib versions the same across platforms, (2.1.0)

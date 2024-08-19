@@ -108,12 +108,12 @@ CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libutility_la_LIBADD =
 am_libutility_la_OBJECTS = libutility_la-funcs.lo \
-	libutility_la-ostring.lo libutility_la-pm_random.lo \
-	libutility_la-atoi_pearson.lo libutility_la-xtime.lo \
-	libutility_la-buffer.lo libutility_la-atoi_larson.lo \
-	libutility_la-atomic_lock.lo libutility_la-rw_lock.lo \
-	libutility_la-atoi_fast.lo libutility_la-filter.lo \
-	libutility_la-mmdb_exception.lo libutility_la-randomize.lo
+	libutility_la-pm_random.lo libutility_la-atoi_pearson.lo \
+	libutility_la-xtime.lo libutility_la-buffer.lo \
+	libutility_la-atoi_larson.lo libutility_la-atomic_lock.lo \
+	libutility_la-rw_lock.lo libutility_la-atoi_fast.lo \
+	libutility_la-filter.lo libutility_la-mmdb_exception.lo \
+	libutility_la-randomize.lo
 libutility_la_OBJECTS = $(am_libutility_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -146,7 +146,6 @@ am__depfiles_remade = ./$(DEPDIR)/libutility_la-atoi_fast.Plo \
 	./$(DEPDIR)/libutility_la-filter.Plo \
 	./$(DEPDIR)/libutility_la-funcs.Plo \
 	./$(DEPDIR)/libutility_la-mmdb_exception.Plo \
-	./$(DEPDIR)/libutility_la-ostring.Plo \
 	./$(DEPDIR)/libutility_la-pm_random.Plo \
 	./$(DEPDIR)/libutility_la-randomize.Plo \
 	./$(DEPDIR)/libutility_la-rw_lock.Plo \
@@ -403,7 +402,7 @@ top_srcdir = @top_srcdir@
 MAINTAINERCLEANFILES = Makefile.in
 noinst_LTLIBRARIES = libutility.la
 libutility_la_CXXFLAGS = -DPORTABLE_DB -I..
-libutility_la_SOURCES = funcs.C         ostring.C       pm_random.C \
+libutility_la_SOURCES = funcs.C		pm_random.C \
 			atoi_pearson.C 	xtime.C         buffer.C \
 		        atoi_larson.C   atomic_lock.C 	rw_lock.C \
 		        atoi_fast.C     filter.C        mmdb_exception.C \
@@ -471,7 +470,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libutility_la-filter.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libutility_la-funcs.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libutility_la-mmdb_exception.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libutility_la-ostring.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libutility_la-pm_random.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libutility_la-randomize.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libutility_la-rw_lock.Plo@am__quote@ # am--include-marker
@@ -513,13 +511,6 @@ libutility_la-funcs.lo: funcs.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='funcs.C' object='libutility_la-funcs.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libutility_la_CXXFLAGS) $(CXXFLAGS) -c -o libutility_la-funcs.lo `test -f 'funcs.C' || echo '$(srcdir)/'`funcs.C
-
-libutility_la-ostring.lo: ostring.C
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libutility_la_CXXFLAGS) $(CXXFLAGS) -MT libutility_la-ostring.lo -MD -MP -MF $(DEPDIR)/libutility_la-ostring.Tpo -c -o libutility_la-ostring.lo `test -f 'ostring.C' || echo '$(srcdir)/'`ostring.C
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libutility_la-ostring.Tpo $(DEPDIR)/libutility_la-ostring.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='ostring.C' object='libutility_la-ostring.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libutility_la_CXXFLAGS) $(CXXFLAGS) -c -o libutility_la-ostring.lo `test -f 'ostring.C' || echo '$(srcdir)/'`ostring.C
 
 libutility_la-pm_random.lo: pm_random.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libutility_la_CXXFLAGS) $(CXXFLAGS) -MT libutility_la-pm_random.lo -MD -MP -MF $(DEPDIR)/libutility_la-pm_random.Tpo -c -o libutility_la-pm_random.lo `test -f 'pm_random.C' || echo '$(srcdir)/'`pm_random.C
@@ -737,7 +728,6 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/libutility_la-filter.Plo
 	-rm -f ./$(DEPDIR)/libutility_la-funcs.Plo
 	-rm -f ./$(DEPDIR)/libutility_la-mmdb_exception.Plo
-	-rm -f ./$(DEPDIR)/libutility_la-ostring.Plo
 	-rm -f ./$(DEPDIR)/libutility_la-pm_random.Plo
 	-rm -f ./$(DEPDIR)/libutility_la-randomize.Plo
 	-rm -f ./$(DEPDIR)/libutility_la-rw_lock.Plo
@@ -795,7 +785,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/libutility_la-filter.Plo
 	-rm -f ./$(DEPDIR)/libutility_la-funcs.Plo
 	-rm -f ./$(DEPDIR)/libutility_la-mmdb_exception.Plo
-	-rm -f ./$(DEPDIR)/libutility_la-ostring.Plo
 	-rm -f ./$(DEPDIR)/libutility_la-pm_random.Plo
 	-rm -f ./$(DEPDIR)/libutility_la-randomize.Plo
 	-rm -f ./$(DEPDIR)/libutility_la-rw_lock.Plo

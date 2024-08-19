@@ -165,8 +165,8 @@
   m_free(wc_2,"wide character string");
   }
 #else
-  m_piaction("UNDEFINED MACHINE",
-	     "m-machine",
+  m_piaction((M_WCHAR *) "UNDEFINED MACHINE",
+	     (M_WCHAR *) "m-machine",
 	     M_SDATA) ;
 #endif
   </CODE>

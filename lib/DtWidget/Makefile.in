@@ -526,7 +526,7 @@ clean-libLTLIBRARIES:
 	}
 
 libDtWidget.la: $(libDtWidget_la_OBJECTS) $(libDtWidget_la_DEPENDENCIES) $(EXTRA_libDtWidget_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libDtWidget_la_LINK) -rpath $(libdir) $(libDtWidget_la_OBJECTS) $(libDtWidget_la_LIBADD) $(LIBS) $(LIBSVC) $(XTOOLLIB)
+	$(AM_V_CCLD)$(libDtWidget_la_LINK) -rpath $(libdir) $(libDtWidget_la_OBJECTS) $(libDtWidget_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
